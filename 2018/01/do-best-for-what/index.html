@@ -1,28 +1,42 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
 <html lang="en-us">
   <head>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.34-DEV with theme Tranquilpeak 0.4.3-BETA">
-    <title>jdlau&#39;s blog</title>
+    <title>Do best for what</title>
     <meta name="author" content="jd lau">
     <meta name="keywords" content=", jdlau&#39;s blog, jdlau, jd">
 
     <link rel="icon" href="https://www.jdscript.com/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.jdscript.com/index.xml">
-    
 
     
-    <meta name="description" content="jdlau&#39;s blog">
-    <meta property="og:description" content="jdlau&#39;s blog">
+    <meta name="description" content="do best for what 努力是为了什么，为了得到别人认可？不，为了满足自己的渴望。 当我儿子成长的时候，我会告诉他，你要努力从里面找到乐趣，而不是为了完成任务。">
+    <meta property="og:description" content="do best for what 努力是为了什么，为了得到别人认可？不，为了满足自己的渴望。 当我儿子成长的时候，我会告诉他，你要努力从里面找到乐趣，而不是为了完成任务。">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="jdlau&#39;s blog">
-    <meta property="og:url" content="/">
+    <meta property="og:title" content="Do best for what">
+    <meta property="og:url" content="/2018/01/do-best-for-what/">
     <meta property="og:site_name" content="jdlau&#39;s blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="jdlau&#39;s blog">
-    <meta name="twitter:description" content="jdlau&#39;s blog">
+    <meta name="twitter:description" content="do best for what 努力是为了什么，为了得到别人认可？不，为了满足自己的渴望。 当我儿子成长的时候，我会告诉他，你要努力从里面找到乐趣，而不是为了完成任务。">
     
     
 
@@ -67,7 +81,7 @@ ga('send', 'pageview');
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://www.jdscript.com/">jdlau&#39;s blog</a>
@@ -87,7 +101,7 @@ ga('send', 'pageview');
   
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="4">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -187,305 +201,127 @@ ga('send', 'pageview');
 
       
 
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="4"
         class="
                hasCoverMetaIn
                ">
-        <section class="postShorten-group main-content-wrap">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
           
-            
+            <div class="post-header main-content-wrap text-left">
   
-    
-      
-        
-      
-    
+    <h1 class="post-title" itemprop="headline">
+      Do best for what
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/">
-          Mariadb 主从配置
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-02-06T10:15:58&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-01-26T08:57:02&#43;08:00">
         
-  February 6, 2018
+  January 26, 2018
 
       </time>
     
     
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/db">db</a>, 
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/mariadb">mariadb</a>
-    
-  
-
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      环境：
-vbox 里跑两台 ubuntu 16.04 虚拟机，分别为 v1，v2，其中 v1 为 Master，v2 为 Slave mariadb 10.3.4  步骤：
-删除系统上已有的数据库(这步可以跳过) sudo apt remove mysql-* dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P sudo rm -rf /etc/mysql/ 然后重新安装，参考 install.md v1 上： 修改配置文件 /etc/mysql/my.cnf，添加以下内容 # Master Settings log-bin server_id=1 replicate-do-db=important # 指定一个数据库，这里是 important 并把 bind-address 那行注释掉 修改配置后记得重启 登录数据库 mysql -uroot -p 建立一个可以访问该数据库的用户(slave 连接时使用)，这里是 slaveuser，密码是 slavepwd GRANT REPLICATION SLAVE ON *.* TO 'slaveuser'@'%' IDENTIFIED BY 'slavepwd'; FLUSH PRIVILEGES; 我这里库是还没建立的，如果该库已存在，请将其上锁 FLUSH TABLES WITH READ LOCK; UNLOCK TABLES; # 导出完成后记得解锁 获取关键属性值 SHOW MASTER STATUS # 拿到 MASTER_LOG_FILE 和 MASTER_LOG_POS 注意：要确保拿到的 MASTER_LOG_POS 和下面的 test.
-      <p>
-        <a href="https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
+</div>
           
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h1 id="do-best-for-what">do best for what</h1>
+
+<p>努力是为了什么，为了得到别人认可？不，为了满足自己的渴望。
+当我儿子成长的时候，我会告诉他，你要努力从里面找到乐趣，而不是为了完成任务。</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
             
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://www.jdscript.com/2018/01/postgresql-row-lock/">
-          postgresql row lock
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-01-22T14:28:26&#43;08:00">
-        
-  January 22, 2018
-
-      </time>
-    
-    
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/db">db</a>, 
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/postgresql">postgresql</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      锁 行锁 1 FOR UPDATE &ndash; 排它锁
-行被锁定，阻止它们被其他事务锁定、修改或者删除，一直到当前事务结束 当行已被锁定，事务将等待已经在相同行上运行以上这些命令的并发事务，并且接着锁定并且返回被更新的行 自动获得该锁的命令： 任何在一行上的DELETE命令 在某些列上(那些具有能用于外键的唯一索引的列)修改值的UPDATE也会获得该锁模式 显示声明的命令： SELECT ... FOR UPDATE  2 FOR NO KEY UPDATE &ndash; 排它锁
-比 FOR UPDATE 弱 将不会阻塞尝试在相同行上获得锁的SELECT FOR KEY SHARE命令 自动获取： 任何不获取FOR UPDATE锁的UPDATE 显示声明的命令： SELECT ... FOR NO KEY UPDATE  3 FOR SHARE &ndash; 共享锁
-行为与FOR NO KEY UPDATE类似 会阻塞其他事务在这些行上执行UPDATE、DELETE、SELECT FOR UPDATE或者SELECT FOR NO KEY UPDATE，但是它不会阻止它们执行SELECT FOR SHARE或者SELECT FOR KEY SHARE 自动获取： 无 显示声明的命令： SELECT .
-      <p>
-        <a href="https://www.jdscript.com/2018/01/postgresql-row-lock/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-    <a href="https://www.jdscript.com/2018/01/postgresql-row-lock/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="//avatars0.githubusercontent.com/u/5707519?s=460&amp;v=4"/>
-      </div>
-    </a>
-  
-</article>
-
-          
+              
             
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://www.jdscript.com/2018/01/go-timer/">
-          Go timer
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-01-20T14:54:03&#43;08:00">
-        
-  January 20, 2018
-
-      </time>
-    
-    
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/go">Go</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      Go 实现的定时器  timer.gotimer.go     1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-      <p>
-        <a href="https://www.jdscript.com/2018/01/go-timer/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
             
-  
-    
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.jdscript.com/2018/01/postgresql-row-lock/" data-tooltip="postgresql row lock">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
       
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://www.jdscript.com/2018/01/do-best-for-what/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://www.jdscript.com/2018/01/do-best-for-what/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://www.jdscript.com/2018/01/do-best-for-what/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
         
       
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://www.jdscript.com/2018/01/%E8%87%AA%E5%BB%BA-git-%E6%9C%8D%E5%8A%A1/">
-          自建 git 服务
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
         </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-01-19T16:49:51&#43;08:00">
-        
-  January 19, 2018
-
-      </time>
-    
-    
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/git">git</a>
-    
-  
-
+      </li>
+    </ul>
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      自建 git 服务 1 在服务器上
-安装 git sudo apt install git 添加用户 git sudo useradd git 设置用户密码 sudo passwd git 修改用户 shell vim /etc/passwd /bin/bash -&gt; /usr/bin/git-shell 创建用户目录 sudo mkdir /home/git 并在/home/git 目录里创建 .ssh 目录 在 .ssh 目录里新建文件 authorized_keys 将 /home/git 目录转给 git sudo chown -R git:git /home/git 到任意目录 创建仓库 sudo git init --bare shark.git 并将拥有者改为 git sudo chown -R git:git shark.git 否则客户机将无法获取/更新仓库  2 在本地机上
-修改 /etc/ssh/ssh_config 将 port 的值改为服务器 /etc/ssh/sshd_config 文件里暴露的 port 值 将本地的 ~/.
-      <p>
-        <a href="https://www.jdscript.com/2018/01/%E8%87%AA%E5%BB%BA-git-%E6%9C%8D%E5%8A%A1/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
 
-          
-          
-
-        </section>
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2018 jd lau. All Rights Reserved
@@ -493,6 +329,102 @@ vbox 里跑两台 ubuntu 16.04 虚拟机，分别为 v1，v2，其中 v1 为 Mas
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.jdscript.com/2018/01/postgresql-row-lock/" data-tooltip="postgresql row lock">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://www.jdscript.com/2018/01/do-best-for-what/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://www.jdscript.com/2018/01/do-best-for-what/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://www.jdscript.com/2018/01/do-best-for-what/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.jdscript.com%2F2018%2F01%2Fdo-best-for-what%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fwww.jdscript.com%2F2018%2F01%2Fdo-best-for-what%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fwww.jdscript.com%2F2018%2F01%2Fdo-best-for-what%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -546,17 +478,15 @@ vbox 里跑两台 ubuntu 16.04 虚拟机，分别为 v1，v2，其中 v1 为 Mas
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/">
-                <h3 class="media-heading">Mariadb 主从配置</h3>
+              <a class="link-unstyled" href="https://www.jdscript.com/2018/01/do-best-for-what/">
+                <h3 class="media-heading">Do best for what</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Feb 2, 2018
+                  Jan 1, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">环境：
-vbox 里跑两台 ubuntu 16.04 虚拟机，分别为 v1，v2，其中 v1 为 Master，v2 为 Slave mariadb 10.3.4  步骤：
-删除系统上已有的数据库(这步可以跳过) sudo apt remove mysql-* dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P sudo rm -rf /etc/mysql/ 然后重新安装，参考 install.md v1 上： 修改配置文件 /etc/mysql/my.cnf，添加以下内容 # Master Settings log-bin server_id=1 replicate-do-db=important # 指定一个数据库，这里是 important 并把 bind-address 那行注释掉 修改配置后记得重启 登录数据库 mysql -uroot -p 建立一个可以访问该数据库的用户(slave 连接时使用)，这里是 slaveuser，密码是 slavepwd GRANT REPLICATION SLAVE ON *.* TO 'slaveuser'@'%' IDENTIFIED BY 'slavepwd'; FLUSH PRIVILEGES; 我这里库是还没建立的，如果该库已存在，请将其上锁 FLUSH TABLES WITH READ LOCK; UNLOCK TABLES; # 导出完成后记得解锁 获取关键属性值 SHOW MASTER STATUS # 拿到 MASTER_LOG_FILE 和 MASTER_LOG_POS 注意：要确保拿到的 MASTER_LOG_POS 和下面的 test.</div>
+              <div class="media-content hide-xs font-merryweather">do best for what 努力是为了什么，为了得到别人认可？不，为了满足自己的渴望。 当我儿子成长的时候，我会告诉他，你要努力从里面找到乐趣，而不是为了完成任务。</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -726,8 +656,35 @@ $(document).ready(function() {
 </script>
 
 
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/www.jdscript.com\/2018\/01\/do-best-for-what\/';
+          
+            this.page.identifier = '\/2018\/01\/do-best-for-what\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'jdscript';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
 
 
     
   </body>
 </html>
+

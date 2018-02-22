@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on jdlau&#39;s blog</title>
+    <link>https://www.jdscript.com/categories/</link>
+    <description>Recent content in Categories on jdlau&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://www.jdscript.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Db</title>
+      <link>https://www.jdscript.com/categories/db/</link>
+      <pubDate>Tue, 06 Feb 2018 10:15:58 +0800</pubDate>
+      
+      <guid>https://www.jdscript.com/categories/db/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>https://www.jdscript.com/categories/git/</link>
+      <pubDate>Fri, 19 Jan 2018 16:49:51 +0800</pubDate>
+      
+      <guid>https://www.jdscript.com/categories/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://www.jdscript.com/categories/go/</link>
+      <pubDate>Sat, 20 Jan 2018 14:54:03 +0800</pubDate>
+      
+      <guid>https://www.jdscript.com/categories/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mariadb</title>
+      <link>https://www.jdscript.com/categories/mariadb/</link>
+      <pubDate>Tue, 06 Feb 2018 10:15:58 +0800</pubDate>
+      
+      <guid>https://www.jdscript.com/categories/mariadb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Postgresql</title>
+      <link>https://www.jdscript.com/categories/postgresql/</link>
+      <pubDate>Mon, 22 Jan 2018 14:28:26 +0800</pubDate>
+      
+      <guid>https://www.jdscript.com/categories/postgresql/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/2018/01/postgresql-row-lock/</loc>
+    <lastmod>2018-01-22T14:28:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/2018/01/go-timer/</loc>
+    <lastmod>2018-01-20T14:54:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/2018/01/%E8%87%AA%E5%BB%BA-git-%E6%9C%8D%E5%8A%A1/</loc>
+    <lastmod>2018-01-19T16:49:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/db/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/categories/db/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/git/</loc>
+    <lastmod>2018-01-19T16:49:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/categories/git/</loc>
+    <lastmod>2018-01-19T16:49:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/go/</loc>
+    <lastmod>2018-01-20T14:54:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/categories/go/</loc>
+    <lastmod>2018-01-20T14:54:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/mariadb/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/categories/mariadb/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/postgresql/</loc>
+    <lastmod>2018-01-22T14:28:26+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/categories/postgresql/</loc>
+    <lastmod>2018-01-22T14:28:26+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/post/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/tags/timer/</loc>
+    <lastmod>2018-01-20T14:54:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.jdscript.com/</loc>
+    <lastmod>2018-02-06T10:15:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
