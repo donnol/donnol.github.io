@@ -1,575 +1,248 @@
-
-
-
-  
-
-
-
-
-
-  
-
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.34-DEV with theme Tranquilpeak 0.4.3-BETA">
-    <title>Go</title>
-    <meta name="author" content="jd lau">
-    <meta name="keywords" content=", jdlau&#39;s blog, jdlau, jd">
-
-    <link rel="icon" href="https://www.jdscript.com/favicon.png">
-    
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.jdscript.com/tags/go/index.xml">
-    
-
-    
-    <meta name="description" content="jdlau&#39;s blog">
-    <meta property="og:description" content="jdlau&#39;s blog">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="Go">
-    <meta property="og:url" content="/tags/go/">
-    <meta property="og:site_name" content="jdlau&#39;s blog">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="jdlau&#39;s blog">
-    <meta name="twitter:description" content="jdlau&#39;s blog">
-    
-    
-
-    
-    
-
-    
-      <meta property="og:image" content="https://avatars0.githubusercontent.com/u/5707519?s=460&v=4">
-    
-
-    
-    
-    
-
-    
-
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
-    
-    
-    <link rel="stylesheet" href="https://www.jdscript.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
-    
-    
-
-    
-      
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-112993300-1', 'auto');
-ga('send', 'pageview');
-</script>
-
-    
-    
-  </head>
-
-  <body>
-    <div id="blog">
-      <header id="header" data-behavior="1">
-  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-  <div class="header-title">
-    <a class="header-title-link" href="https://www.jdscript.com/">jdlau&#39;s blog</a>
-  </div>
-  
-    
-      <a class="header-right-picture "
-         href="https://www.jdscript.com/#about">
-    
-    
-    
-      
-        <img class="header-picture" src="https://avatars0.githubusercontent.com/u/5707519?s=460&amp;v=4" alt="Author&#39;s picture" />
-      
-    
-    </a>
-  
-</header>
-
-      <nav id="sidebar" data-behavior="1">
-  <div class="sidebar-container">
-    
-      <div class="sidebar-profile">
-        <a href="https://www.jdscript.com/#about">
-          <img class="sidebar-profile-picture" src="https://avatars0.githubusercontent.com/u/5707519?s=460&amp;v=4" alt="Author&#39;s picture" />
-        </a>
-        <h4 class="sidebar-profile-name">jd lau</h4>
-        
-          <h5 class="sidebar-profile-bio"><strong>我只会变得更好</strong></h5>
-        
-      </div>
-    
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://www.jdscript.com/">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-      
-      <span class="sidebar-button-desc">Home</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://www.jdscript.com/categories">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-      
-      <span class="sidebar-button-desc">Categories</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://www.jdscript.com/tags">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-      
-      <span class="sidebar-button-desc">Tags</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://www.jdscript.com/archives">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-      
-      <span class="sidebar-button-desc">Archives</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://www.jdscript.com/#about">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-      
-      <span class="sidebar-button-desc">About</span>
-    </a>
-  </li>
-
-
-    </ul>
-    <ul class="sidebar-buttons">
-      
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://github.com/donnol" target="_blank" rel="noopener">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-      
-      <span class="sidebar-button-desc">GitHub</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://stackoverflow.com/users/2527107/don-nol" target="_blank" rel="noopener">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
-      
-      <span class="sidebar-button-desc">Stack Overflow</span>
-    </a>
-  </li>
-
-
-    </ul>
-    <ul class="sidebar-buttons">
-      
-
-    </ul>
-  </div>
+<!doctype html><html lang=en dir=ltr>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content>
+<meta name=theme-color content="#FFFFFF">
+<meta name=color-scheme content="light dark"><meta property="og:title" content="go">
+<meta property="og:description" content>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.jdscript.com/tags/go/">
+<title>go | 我的简单博客</title>
+<link rel=manifest href=/manifest.json>
+<link rel=icon href=/favicon.png type=image/x-icon>
+<link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
+<script defer src=/flexsearch.min.js></script>
+<script defer src=/en.search.min.5ab74da7416858da5156b1cecd4d17c7a74b56ac2ebacffb72153fc4d4465e2d.js integrity="sha256-WrdNp0FoWNpRVrHOzU0Xx6dLVqwuus/7chU/xNRGXi0=" crossorigin=anonymous></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
+<link rel=alternate type=application/rss+xml href=https://blog.jdscript.com/tags/go/index.xml title=我的简单博客>
+</head>
+<body dir=ltr>
+<input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control>
+<main class="container flex">
+<aside class=book-menu>
+<div class=book-menu-content>
+<nav>
+<h2 class=book-brand>
+<a class="flex align-center" href=/><span>我的简单博客</span>
+</a>
+</h2>
+<div class=book-search>
+<input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/>
+<div class="book-search-spinner hidden"></div>
+<ul id=book-search-results></ul>
+</div>
+<ul>
+<li>
+<input type=checkbox id=section-71121fe02c394c786aa5fdaffc9e5412 class=toggle>
+<label for=section-71121fe02c394c786aa5fdaffc9e5412 class="flex justify-between">
+<a role=button>2021</a>
+</label>
+<ul>
+<li>
+<input type=checkbox id=section-3b66512bb507cbdaa9cef9549f229fc1 class=toggle>
+<label for=section-3b66512bb507cbdaa9cef9549f229fc1 class="flex justify-between">
+<a role=button>01</a>
+</label>
+<ul>
+<li>
+<a href=https://blog.jdscript.com/posts/2021/01/proxy-between-layer/>go实现AOP</a>
+</li>
+<li>
+<a href=https://blog.jdscript.com/posts/2021/01/hugo-blog/>hugo搭建博客</a>
+</li>
+<li>
+<a href=https://blog.jdscript.com/posts/2021/01/pstree/>pstree进程树及说明</a>
+</li>
+</ul>
+</li>
+<li>
+<input type=checkbox id=section-b59662e33ca9ad77b7d385cbee7785fe class=toggle>
+<label for=section-b59662e33ca9ad77b7d385cbee7785fe class="flex justify-between">
+<a role=button>07</a>
+</label>
+<ul>
+<li>
+<a href=https://blog.jdscript.com/posts/2021/07/linux-epoll/>Linux Epoll</a>
+</li>
+</ul>
+</li>
+<li>
+<input type=checkbox id=section-393d931b698132759df1a7089df0fcc8 class=toggle>
+<label for=section-393d931b698132759df1a7089df0fcc8 class="flex justify-between">
+<a role=button>12</a>
+</label>
+<ul>
+<li>
+<a href=https://blog.jdscript.com/posts/2021/12/etcd/>Etcd</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<input type=checkbox id=section-6f89cc6c76d5375fc02e3f7e596280b9 class=toggle>
+<label for=section-6f89cc6c76d5375fc02e3f7e596280b9 class="flex justify-between">
+<a role=button>2020</a>
+</label>
+<ul>
+<li>
+<input type=checkbox id=section-03db05476b76e7f4afe06dfa3e1b675b class=toggle>
+<label for=section-03db05476b76e7f4afe06dfa3e1b675b class="flex justify-between">
+<a role=button>12</a>
+</label>
+<ul>
+<li>
+<a href=https://blog.jdscript.com/posts/2020/12/go-ctx/>go ctx</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<a href=https://github.com/donnol/blog target=_blank rel=noopener>
+Github
+</a>
+</li>
+<li>
+<a href=https://themes.gohugo.io/hugo-book/ target=_blank rel=noopener>
+Hugo Themes
+</a>
+</li>
+</ul>
 </nav>
-
-      
-        
-
-      
-      <div id="main" data-behavior="1"
-        class="
-               hasCoverMetaIn
-               ">
-        
-          <section class="postShorten-group main-content-wrap">
-            
-            
-              
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://www.jdscript.com/2018/01/go-timer/">
-          Go timer
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-01-20T14:54:03&#43;08:00">
-        
-  January 20, 2018
-
-      </time>
-    
-    
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://www.jdscript.com/categories/go">Go</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      Go 实现的定时器  timer.gotimer.go     1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-      <p>
-        <a href="https://www.jdscript.com/2018/01/go-timer/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
+<script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div>
+</aside>
+<div class=book-page>
+<header class=book-header>
+<div class="flex align-center justify-between">
+<label for=menu-control>
+<img src=/svg/menu.svg class=book-icon alt=Menu>
+</label>
+<strong>go</strong>
+<label for=toc-control>
+<img src=/svg/toc.svg class=book-icon alt="Table of Contents">
+</label>
+</div>
+<aside class="hidden clearfix">
+<nav>
+<ul>
+<li class=book-section-flat>
+<strong>Categories</strong>
+<ul>
+<li class="flex justify-between">
+<a href=/categories/go/>go</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/ctx/>ctx</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/linux/>linux</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/tools/>tools</a>
+<span>1</span>
+</li>
+</ul>
+</li>
+<li class=book-section-flat>
+<strong>Tags</strong>
+<ul>
+<li class="flex justify-between">
+<a href=/tags/aop/>aop</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/go/>go</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/pstree/>pstree</a>
+<span>1</span>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+</header>
+<article class="markdown book-post">
+<h2>
+<a href=/posts/2020/12/go-ctx/>go ctx</a>
+</h2>
+<h5>December 18, 2020</h5>
+<div>
+<a href=/categories/ctx/>ctx</a>
+</div>
+<div>
+<a href=/tags/go/>go</a>
+</div>
+<p>ctx # 1.why
+goroutine号称百万之众，互相之间盘根错节，难以管理控制。为此，必须提供一种机制来管理控制它们。
+各自为战 # package main import ( "fmt" "time" ) func main() { // start first go func() { fmt.Println(1) }() // start second go func() { fmt.Println(2) }() time.Sleep(time.Second) } 万法归一 # package main import ( "fmt" "sync" ) func main() { wg := new(sync.WaitGroup) // start first wg.Add(1) go func() { defer wg.Done() fmt.Println(1) }() // start second wg.
+<a href=/posts/2020/12/go-ctx/>...</a>
+</p>
 </article>
-
-            
-            
-
-          </section>
-        
-        <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
-    &copy; 2019 jd lau. All Rights Reserved
-  </span>
+<footer class=book-footer>
+<div class="flex flex-wrap justify-between">
+</div>
+<script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
 </footer>
-
-      </div>
-    </div>
-    
-    <div id="about">
-  <div id="about-card">
-    <div id="about-btn-close">
-      <i class="fa fa-remove"></i>
-    </div>
-    
-      <img id="about-card-picture" src="https://avatars0.githubusercontent.com/u/5707519?s=460&amp;v=4" alt="Author&#39;s picture" />
-    
-    <h4 id="about-card-name">jd lau</h4>
-    
-      <div id="about-card-bio"><strong>我只会变得更好</strong></div>
-    
-    
-      <div id="about-card-job">
-        <i class="fa fa-briefcase"></i>
-        <br/>
-        little engineer
-      </div>
-    
-    
-      <div id="about-card-location">
-        <i class="fa fa-map-marker"></i>
-        <br/>
-        China
-      </div>
-    
-  </div>
+<label for=menu-control class="hidden book-menu-overlay"></label>
 </div>
-
-    <div id="algolia-search-modal" class="modal-container">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="close-button"><i class="fa fa-close"></i></span>
-      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
-        <span class="searchby-algolia-text text-color-light text-small">by</span>
-        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
-      </a>
-      <i class="search-icon fa fa-search"></i>
-      <form id="algolia-search-form">
-        <input type="text" id="algolia-search-input" name="search"
-          class="form-control input--large search-input" placeholder="Search" />
-      </form>
-    </div>
-    <div class="modal-body">
-      <div class="no-result text-color-light text-center">no post found</div>
-      <div class="results">
-        
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/">
-                <h3 class="media-heading">Mariadb 主从配置</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Feb 2, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">环境：
-vbox 里跑两台 ubuntu 16.04 虚拟机，分别为 v1，v2，其中 v1 为 Master，v2 为 Slave mariadb 10.3.4  步骤：
-删除系统上已有的数据库(这步可以跳过) sudo apt remove mysql-* dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P sudo rm -rf /etc/mysql/ 然后重新安装，参考 install.md v1 上： 修改配置文件 /etc/mysql/my.cnf，添加以下内容 # Master Settings log-bin server_id=1 replicate-do-db=important # 指定一个数据库，这里是 important 并把 bind-address 那行注释掉 修改配置后记得重启 登录数据库 mysql -uroot -p 建立一个可以访问该数据库的用户(slave 连接时使用)，这里是 slaveuser，密码是 slavepwd GRANT REPLICATION SLAVE ON *.* TO 'slaveuser'@'%' IDENTIFIED BY 'slavepwd'; FLUSH PRIVILEGES; 我这里库是还没建立的，如果该库已存在，请将其上锁 FLUSH TABLES WITH READ LOCK; UNLOCK TABLES; # 导出完成后记得解锁 获取关键属性值 SHOW MASTER STATUS # 拿到 MASTER_LOG_FILE 和 MASTER_LOG_POS 注意：要确保拿到的 MASTER_LOG_POS 和下面的 test.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://www.jdscript.com/2018/01/postgresql-row-lock/">
-                <h3 class="media-heading">postgresql row lock</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">锁 行锁 1 FOR UPDATE &ndash; 排它锁
-行被锁定，阻止它们被其他事务锁定、修改或者删除，一直到当前事务结束 当行已被锁定，事务将等待已经在相同行上运行以上这些命令的并发事务，并且接着锁定并且返回被更新的行 自动获得该锁的命令： 任何在一行上的DELETE命令 在某些列上(那些具有能用于外键的唯一索引的列)修改值的UPDATE也会获得该锁模式 显示声明的命令： SELECT ... FOR UPDATE  2 FOR NO KEY UPDATE &ndash; 排它锁
-比 FOR UPDATE 弱 将不会阻塞尝试在相同行上获得锁的SELECT FOR KEY SHARE命令 自动获取： 任何不获取FOR UPDATE锁的UPDATE 显示声明的命令： SELECT ... FOR NO KEY UPDATE  3 FOR SHARE &ndash; 共享锁
-行为与FOR NO KEY UPDATE类似 会阻塞其他事务在这些行上执行UPDATE、DELETE、SELECT FOR UPDATE或者SELECT FOR NO KEY UPDATE，但是它不会阻止它们执行SELECT FOR SHARE或者SELECT FOR KEY SHARE 自动获取： 无 显示声明的命令： SELECT .</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://www.jdscript.com/2018/01/go-timer/">
-                <h3 class="media-heading">Go timer</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Go 实现的定时器  timer.gotimer.go     1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://www.jdscript.com/2018/01/%E8%87%AA%E5%BB%BA-git-%E6%9C%8D%E5%8A%A1/">
-                <h3 class="media-heading">自建 git 服务</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">自建 git 服务 1 在服务器上
-安装 git sudo apt install git 添加用户 git sudo useradd git 设置用户密码 sudo passwd git 修改用户 shell vim /etc/passwd /bin/bash -&gt; /usr/bin/git-shell 创建用户目录 sudo mkdir /home/git 并在/home/git 目录里创建 .ssh 目录 在 .ssh 目录里新建文件 authorized_keys 将 /home/git 目录转给 git sudo chown -R git:git /home/git 到任意目录 创建仓库 sudo git init --bare shark.git 并将拥有者改为 git sudo chown -R git:git shark.git 否则客户机将无法获取/更新仓库  2 在本地机上
-修改 /etc/ssh/ssh_config 将 port 的值改为服务器 /etc/ssh/sshd_config 文件里暴露的 port 值 将本地的 ~/.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-      </div>
-    </div>
-    <div class="modal-footer">
-      <p class="results-count text-medium"
-         data-message-zero="no post found"
-         data-message-one="1 post found"
-         data-message-other="{n} posts found">
-         4 posts found
-      </p>
-    </div>
-  </div>
+<aside class=book-toc>
+<div class=book-toc-content>
+<nav>
+<ul>
+<li class=book-section-flat>
+<strong>Categories</strong>
+<ul>
+<li class="flex justify-between">
+<a href=/categories/go/>go</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/ctx/>ctx</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/linux/>linux</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/tools/>tools</a>
+<span>1</span>
+</li>
+</ul>
+</li>
+<li class=book-section-flat>
+<strong>Tags</strong>
+<ul>
+<li class="flex justify-between">
+<a href=/tags/aop/>aop</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/go/>go</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/pstree/>pstree</a>
+<span>1</span>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
 </div>
-    
-  
-    
-    <div id="cover" style="background-image:url('https://www.jdscript.com/images/cover.jpg');"></div>
-  
-
-
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
-
-
-<script src="https://www.jdscript.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
-
-
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
-  
-
-
-<script>
-$(document).ready(function() {
-  hljs.configure({ classPrefix: '', useBR: false });
-  $('pre.code-highlight > code, pre > code').each(function(i, block) {
-    if (!$(this).hasClass('codeblock')) {
-      $(this).addClass('codeblock');
-    }
-    hljs.highlightBlock(block);
-  });
-});
-</script>
-
-
-
-
-    
-  </body>
+</aside>
+</main>
+</body>
 </html>
-

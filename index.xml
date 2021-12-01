@@ -1,118 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>jdlau&#39;s blog</title>
-    <link>https://www.jdscript.com/</link>
-    <description>Recent content on jdlau&#39;s blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 06 Feb 2018 10:15:58 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.jdscript.com/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Mariadb 主从配置</title>
-      <link>https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/</link>
-      <pubDate>Tue, 06 Feb 2018 10:15:58 +0800</pubDate>
-      
-      <guid>https://www.jdscript.com/2018/02/mariadb-%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE/</guid>
-      <description>环境：
-vbox 里跑两台 ubuntu 16.04 虚拟机，分别为 v1，v2，其中 v1 为 Master，v2 为 Slave mariadb 10.3.4  步骤：
-删除系统上已有的数据库(这步可以跳过) sudo apt remove mysql-* dpkg -l |grep ^rc|awk &#39;{print $2}&#39; |sudo xargs dpkg -P sudo rm -rf /etc/mysql/ 然后重新安装，参考 install.md v1 上： 修改配置文件 /etc/mysql/my.cnf，添加以下内容 # Master Settings log-bin server_id=1 replicate-do-db=important # 指定一个数据库，这里是 important 并把 bind-address 那行注释掉 修改配置后记得重启 登录数据库 mysql -uroot -p 建立一个可以访问该数据库的用户(slave 连接时使用)，这里是 slaveuser，密码是 slavepwd GRANT REPLICATION SLAVE ON *.* TO &#39;slaveuser&#39;@&#39;%&#39; IDENTIFIED BY &#39;slavepwd&#39;; FLUSH PRIVILEGES; 我这里库是还没建立的，如果该库已存在，请将其上锁 FLUSH TABLES WITH READ LOCK; UNLOCK TABLES; # 导出完成后记得解锁 获取关键属性值 SHOW MASTER STATUS # 拿到 MASTER_LOG_FILE 和 MASTER_LOG_POS 注意：要确保拿到的 MASTER_LOG_POS 和下面的 test.</description>
-    </item>
-    
-    <item>
-      <title>postgresql row lock</title>
-      <link>https://www.jdscript.com/2018/01/postgresql-row-lock/</link>
-      <pubDate>Mon, 22 Jan 2018 14:28:26 +0800</pubDate>
-      
-      <guid>https://www.jdscript.com/2018/01/postgresql-row-lock/</guid>
-      <description>锁 行锁 1 FOR UPDATE &amp;ndash; 排它锁
-行被锁定，阻止它们被其他事务锁定、修改或者删除，一直到当前事务结束 当行已被锁定，事务将等待已经在相同行上运行以上这些命令的并发事务，并且接着锁定并且返回被更新的行 自动获得该锁的命令： 任何在一行上的DELETE命令 在某些列上(那些具有能用于外键的唯一索引的列)修改值的UPDATE也会获得该锁模式 显示声明的命令： SELECT ... FOR UPDATE  2 FOR NO KEY UPDATE &amp;ndash; 排它锁
-比 FOR UPDATE 弱 将不会阻塞尝试在相同行上获得锁的SELECT FOR KEY SHARE命令 自动获取： 任何不获取FOR UPDATE锁的UPDATE 显示声明的命令： SELECT ... FOR NO KEY UPDATE  3 FOR SHARE &amp;ndash; 共享锁
-行为与FOR NO KEY UPDATE类似 会阻塞其他事务在这些行上执行UPDATE、DELETE、SELECT FOR UPDATE或者SELECT FOR NO KEY UPDATE，但是它不会阻止它们执行SELECT FOR SHARE或者SELECT FOR KEY SHARE 自动获取： 无 显示声明的命令： SELECT .</description>
-    </item>
-    
-    <item>
-      <title>Go timer</title>
-      <link>https://www.jdscript.com/2018/01/go-timer/</link>
-      <pubDate>Sat, 20 Jan 2018 14:54:03 +0800</pubDate>
-      
-      <guid>https://www.jdscript.com/2018/01/go-timer/</guid>
-      <description>Go 实现的定时器  timer.gotimer.go     1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61</description>
-    </item>
-    
-    <item>
-      <title>自建 git 服务</title>
-      <link>https://www.jdscript.com/2018/01/%E8%87%AA%E5%BB%BA-git-%E6%9C%8D%E5%8A%A1/</link>
-      <pubDate>Fri, 19 Jan 2018 16:49:51 +0800</pubDate>
-      
-      <guid>https://www.jdscript.com/2018/01/%E8%87%AA%E5%BB%BA-git-%E6%9C%8D%E5%8A%A1/</guid>
-      <description>自建 git 服务 1 在服务器上
-安装 git sudo apt install git 添加用户 git sudo useradd git 设置用户密码 sudo passwd git 修改用户 shell vim /etc/passwd /bin/bash -&amp;gt; /usr/bin/git-shell 创建用户目录 sudo mkdir /home/git 并在/home/git 目录里创建 .ssh 目录 在 .ssh 目录里新建文件 authorized_keys 将 /home/git 目录转给 git sudo chown -R git:git /home/git 到任意目录 创建仓库 sudo git init --bare shark.git 并将拥有者改为 git sudo chown -R git:git shark.git 否则客户机将无法获取/更新仓库  2 在本地机上
-修改 /etc/ssh/ssh_config 将 port 的值改为服务器 /etc/ssh/sshd_config 文件里暴露的 port 值 将本地的 ~/.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>简单博客 on 我的简单博客</title><link>https://blog.jdscript.com/</link><description>Recent content in 简单博客 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 17 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.jdscript.com/index.xml" rel="self" type="application/rss+xml"/><item><title>go实现AOP</title><link>https://blog.jdscript.com/posts/2021/01/proxy-between-layer/</link><pubDate>Sun, 17 Jan 2021 00:00:00 +0000</pubDate><guid>https://blog.jdscript.com/posts/2021/01/proxy-between-layer/</guid><description>go实现AOP # 假设有store，从数据库获取数据，其中有方法IUserStore.GetByID，传入id参数，返回用户信息:
+type IUserStore interface { GetByID(ctx context.Context, id int) (User, error) } 另外有service，刚好有用户id并且需要拿到用户信息，于是依赖了上述IUserStore：
+type IUserSrv interface { CheckUser(ctx context.Context, id int) error // 获取用户信息，然后检查用户某些属性 } type userImpl struct { userStore IUserStore } func (impl userImpl) CheckUser(ctx context.Context, id int) error { user, err := impl.userStore.GetByID(ctx, id) if err != nil { return err } // 使用user数据做一些操作 _ = user } 上面所描述的是一个最简单的情况，如果我们要在userImpl.CheckUser里对impl.userStore.GetByID方法调用添加耗时统计，依然十分简单。
+func (impl userImpl) CheckUser(ctx context.Context, id int) error { begin := time.</description></item><item><title>hugo搭建博客</title><link>https://blog.jdscript.com/posts/2021/01/hugo-blog/</link><pubDate>Sun, 17 Jan 2021 00:00:00 +0000</pubDate><guid>https://blog.jdscript.com/posts/2021/01/hugo-blog/</guid><description>操作 # 安装hugo。
+使用hugo新建项目
+添加主题
+启动博客</description></item><item><title>go ctx</title><link>https://blog.jdscript.com/posts/2020/12/go-ctx/</link><pubDate>Fri, 18 Dec 2020 00:00:00 +0000</pubDate><guid>https://blog.jdscript.com/posts/2020/12/go-ctx/</guid><description>ctx # 1.why
+goroutine号称百万之众，互相之间盘根错节，难以管理控制。为此，必须提供一种机制来管理控制它们。
+各自为战 # package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { // start first go func() { fmt.Println(1) }() // start second go func() { fmt.Println(2) }() time.Sleep(time.Second) } 万法归一 # package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; ) func main() { wg := new(sync.WaitGroup) // start first wg.Add(1) go func() { defer wg.Done() fmt.Println(1) }() // start second wg.</description></item><item><title>pstree进程树及说明</title><link>https://blog.jdscript.com/posts/2021/01/pstree/</link><pubDate>Fri, 18 Dec 2020 00:00:00 +0000</pubDate><guid>https://blog.jdscript.com/posts/2021/01/pstree/</guid><description>pstree进程树及说明 #</description></item><item><title/><link>https://blog.jdscript.com/posts/2021/07/linux-epoll/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.jdscript.com/posts/2021/07/linux-epoll/</guid><description>linux epoll # wiki
+手册
+why # what # Linux内核的可扩展I/O事件通知机制。
+于Linux 2.5.44首度登场，它设计目的旨在取代既有POSIX select(2)与poll(2)系统函数，让需要大量操作文件描述符的程序得以发挥更优异的性能（举例来说：旧有的系统函数所花费的时间复杂度为O(n)，epoll的时间复杂度O(log n)）。epoll 实现的功能与 poll 类似，都是监听多个文件描述符上的事件。
+how # epoll 通过使用红黑树(RB-tree)搜索被监控的文件描述符(file descriptor)。
+在 epoll 实例上注册事件时，epoll 会将该事件添加到 epoll 实例的红黑树上并注册一个回调函数，当事件发生时会将事件添加到就绪链表中。
+int epoll_create(int size); 在内核中创建epoll实例并返回一个epoll文件描述符。
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event); 向 epfd 对应的内核epoll 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 EPOLL_CTL_ADD, EPOLL_CTL_MOD, EPOLL_CTL_DEL 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 EPOLLET flag，那么监听该事件的方式是边缘触发。
+int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout); 当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</description></item><item><title/><link>https://blog.jdscript.com/posts/2021/12/etcd/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.jdscript.com/posts/2021/12/etcd/</guid><description>etcd # raft # 实现 # 使用 #</description></item></channel></rss>
