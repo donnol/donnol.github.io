@@ -11,7 +11,7 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 goroutine号称百万之众，互相之间盘根错节，难以管理控制。为此，必须提供一种机制来管理控制它们。
 各自为战 #  package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { // start first  go func() { fmt.Println(1) }() // start second  go func() { fmt.Println(2) }() time.Sleep(time.Second) } 万法归一 #  package main import ( &#34;fmt&#34; &#34;sync&#34; ) func main() { wg := new(sync.WaitGroup) // start first  wg.Add(1) go func() { defer wg.Done() fmt.Println(1) }() // start second  wg.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://blog.jdscript.com/posts/2020/12/go-ctx/"><meta property="article:section" content="posts">
+<meta property="og:url" content="https://donnol.github.io/posts/2020/12/go-ctx/"><meta property="article:section" content="posts">
 <meta property="article:published_time" content="2020-12-18T00:00:00+00:00">
 <meta property="article:modified_time" content="2020-12-18T00:00:00+00:00">
 <title>go ctx | 我的简单博客</title>
@@ -52,13 +52,13 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 </label>
 <ul>
 <li>
-<a href=https://blog.jdscript.com/posts/2021/01/proxy-between-layer/>go实现AOP</a>
+<a href=https://donnol.github.io/posts/2021/01/proxy-between-layer/>go实现AOP</a>
 </li>
 <li>
-<a href=https://blog.jdscript.com/posts/2021/01/hugo-blog/>hugo搭建博客</a>
+<a href=https://donnol.github.io/posts/2021/01/hugo-blog/>hugo搭建博客</a>
 </li>
 <li>
-<a href=https://blog.jdscript.com/posts/2021/01/pstree/>pstree进程树及说明</a>
+<a href=https://donnol.github.io/posts/2021/01/pstree/>pstree进程树及说明</a>
 </li>
 </ul>
 </li>
@@ -69,7 +69,7 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 </label>
 <ul>
 <li>
-<a href=https://blog.jdscript.com/posts/2021/07/linux-epoll/>Linux Epoll</a>
+<a href=https://donnol.github.io/posts/2021/07/linux-epoll/>Linux Epoll</a>
 </li>
 </ul>
 </li>
@@ -80,7 +80,7 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 </label>
 <ul>
 <li>
-<a href=https://blog.jdscript.com/posts/2021/12/etcd/>Etcd</a>
+<a href=https://donnol.github.io/posts/2021/12/etcd/>Etcd</a>
 </li>
 </ul>
 </li>
@@ -99,7 +99,7 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 </label>
 <ul>
 <li>
-<a href=https://blog.jdscript.com/posts/2020/12/go-ctx/ class=active>go ctx</a>
+<a href=https://donnol.github.io/posts/2020/12/go-ctx/ class=active>go ctx</a>
 </li>
 </ul>
 </li>
