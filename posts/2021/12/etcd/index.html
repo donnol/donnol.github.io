@@ -2,10 +2,40 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="etcd #  raft #  message type #  // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用；  // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 	MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号  // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers 	MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据；  // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）；  // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点；  // 发给candidate的话，它们直接丢弃该消息  // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 	MsgProp MessageType = 2 // 包含了要复制的日志条目  // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息；  // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。  // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 	MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 	MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票；  // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。  // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。  // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。  // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， 	MsgVote MessageType = 5 // 投票响应；  // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower 	MsgVoteResp MessageType = 6 // 请求安装一个快照消息；  // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过&#34;MsgSnap&#34;消息请求快照。 	MsgSnap MessageType = 7 // leader发送心跳；  // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。  // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id 	MsgHeartbeat MessageType = 8 // 心跳响应；  // leader收到后就知道有哪些follower响应了。  // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 	MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付；  // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） 	MsgUnreachable MessageType = 10 // 表明快照安装消息的结果  // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?">
+<meta name=description content="etcd #  raft #  介绍 #   由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
+状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
+ 插曲 #  人、联系、共识
+人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。
+当两个人面对面时，就某个想法达成一致或不一致，非常容易。
+如果两个人不是面对面呢？
+如果不只两个人，同坐在祠堂里呢？
+如果不止两个人，还分散在不同地点呢？
+那么，为什么要达成共识呢？
+因为有些事必须达成共识才能执行，比如，两个人双向奔赴。
+如果彼此异心，一个向东，一个往南，事情就办不成了。
+所以，共识是大伙成事的前提。
+共识，除了就某件事所要达成的结果，也要考虑所使用的方法。
+有可能是步步为营，走一步算一步，也就是每走一步再就下一步达成共识。
+也有可能是，一次性就接下来的几步均达成共识，然后各自执行。
+message type #  // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用；  // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 	MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号  // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers 	MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据；  // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）；  // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点；  // 发给candidate的话，它们直接丢弃该消息  // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 	MsgProp MessageType = 2 // 包含了要复制的日志条目  // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息；  // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。  // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 	MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 	MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票；  // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。  // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。  // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。  // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， 	MsgVote MessageType = 5 // 投票响应；  // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower 	MsgVoteResp MessageType = 6 // 请求安装一个快照消息；  // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过&#34;MsgSnap&#34;消息请求快照。 	MsgSnap MessageType = 7 // leader发送心跳；  // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。  // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id 	MsgHeartbeat MessageType = 8 // 心跳响应；  // leader收到后就知道有哪些follower响应了。  // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 	MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付；  // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） 	MsgUnreachable MessageType = 10 // 表明快照安装消息的结果  // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?">
 <meta name=theme-color content="#FFFFFF">
 <meta name=color-scheme content="light dark"><meta property="og:title" content>
-<meta property="og:description" content="etcd #  raft #  message type #  // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用；  // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 	MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号  // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers 	MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据；  // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）；  // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点；  // 发给candidate的话，它们直接丢弃该消息  // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 	MsgProp MessageType = 2 // 包含了要复制的日志条目  // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息；  // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。  // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 	MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 	MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票；  // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。  // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。  // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。  // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， 	MsgVote MessageType = 5 // 投票响应；  // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower 	MsgVoteResp MessageType = 6 // 请求安装一个快照消息；  // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过&#34;MsgSnap&#34;消息请求快照。 	MsgSnap MessageType = 7 // leader发送心跳；  // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。  // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id 	MsgHeartbeat MessageType = 8 // 心跳响应；  // leader收到后就知道有哪些follower响应了。  // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 	MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付；  // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） 	MsgUnreachable MessageType = 10 // 表明快照安装消息的结果  // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?">
+<meta property="og:description" content="etcd #  raft #  介绍 #   由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
+状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
+ 插曲 #  人、联系、共识
+人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。
+当两个人面对面时，就某个想法达成一致或不一致，非常容易。
+如果两个人不是面对面呢？
+如果不只两个人，同坐在祠堂里呢？
+如果不止两个人，还分散在不同地点呢？
+那么，为什么要达成共识呢？
+因为有些事必须达成共识才能执行，比如，两个人双向奔赴。
+如果彼此异心，一个向东，一个往南，事情就办不成了。
+所以，共识是大伙成事的前提。
+共识，除了就某件事所要达成的结果，也要考虑所使用的方法。
+有可能是步步为营，走一步算一步，也就是每走一步再就下一步达成共识。
+也有可能是，一次性就接下来的几步均达成共识，然后各自执行。
+message type #  // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用；  // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 	MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号  // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers 	MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据；  // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）；  // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点；  // 发给candidate的话，它们直接丢弃该消息  // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 	MsgProp MessageType = 2 // 包含了要复制的日志条目  // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息；  // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。  // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 	MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 	MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票；  // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。  // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。  // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。  // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， 	MsgVote MessageType = 5 // 投票响应；  // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower 	MsgVoteResp MessageType = 6 // 请求安装一个快照消息；  // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过&#34;MsgSnap&#34;消息请求快照。 	MsgSnap MessageType = 7 // leader发送心跳；  // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。  // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id 	MsgHeartbeat MessageType = 8 // 心跳响应；  // leader收到后就知道有哪些follower响应了。  // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 	MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付；  // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） 	MsgUnreachable MessageType = 10 // 表明快照安装消息的结果  // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://donnol.github.io/posts/2021/12/etcd/"><meta property="article:section" content="posts">
 <title>Etcd | 我的简单博客</title>
@@ -13,7 +43,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.e2868464aac2d048311622fbd8c19bb43c4743dc4a916658c150b962e36bb49b.js integrity="sha256-4oaEZKrC0EgxFiL72MGbtDxHQ9xKkWZYwVC5YuNrtJs=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.17f45bacb206f559848bae7167d05f72ba3fbbe54880de2d83ed5f438aa589e4.js integrity="sha256-F/RbrLIG9VmEi65xZ9Bfcro/u+VIgN4tg+1fQ4qlieQ=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 </head>
 <body dir=ltr>
@@ -140,7 +170,10 @@ Hugo Themes
 <ul>
 <li><a href=#raft>raft</a>
 <ul>
+<li><a href=#介绍httpspkggodevgoetcdioetcdraftv3section-readme><a href=https://pkg.go.dev/go.etcd.io/etcd/raft/v3#section-readme>介绍</a></a></li>
+<li><a href=#插曲>插曲</a></li>
 <li><a href=#message-type>message type</a></li>
+<li><a href=#raft-node-and-rawnode>raft, Node and RawNode</a></li>
 </ul>
 </li>
 <li><a href=#实现>实现</a></li>
@@ -163,6 +196,32 @@ etcd
 raft
 <a class=anchor href=#raft>#</a>
 </h2>
+<h3 id=介绍httpspkggodevgoetcdioetcdraftv3section-readme>
+<a href=https://pkg.go.dev/go.etcd.io/etcd/raft/v3#section-readme>介绍</a>
+<a class=anchor href=#%e4%bb%8b%e7%bb%8dhttpspkggodevgoetcdioetcdraftv3section-readme>#</a>
+</h3>
+<blockquote>
+<p>由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。
+<a href=https://raft.github.io/raft.pdf>可理解的共识算法</a></p>
+<p>状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：<code>[]Messages, []LogEntries, NextState</code>，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。</p>
+</blockquote>
+<h3 id=插曲>
+插曲
+<a class=anchor href=#%e6%8f%92%e6%9b%b2>#</a>
+</h3>
+<p>人、联系、共识</p>
+<p>人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。</p>
+<p>当两个人面对面时，就某个想法达成一致或不一致，非常容易。</p>
+<p>如果两个人不是面对面呢？</p>
+<p>如果不只两个人，同坐在祠堂里呢？</p>
+<p>如果不止两个人，还分散在不同地点呢？</p>
+<p>那么，为什么要达成共识呢？</p>
+<p>因为有些事必须达成共识才能执行，比如，两个人双向奔赴。</p>
+<p>如果彼此异心，一个向东，一个往南，事情就办不成了。</p>
+<p>所以，共识是大伙成事的前提。</p>
+<p>共识，除了就某件事所要达成的结果，也要考虑所使用的方法。</p>
+<p>有可能是步步为营，走一步算一步，也就是每走一步再就下一步达成共识。</p>
+<p>也有可能是，一次性就接下来的几步均达成共识，然后各自执行。</p>
 <h3 id=message-type>
 message type
 <a class=anchor href=#message-type>#</a>
@@ -229,6 +288,47 @@ message type
 </span><span style=color:#75715e></span>	<span style=color:#a6e22e>MsgPreVote</span>        <span style=color:#a6e22e>MessageType</span> = <span style=color:#ae81ff>17</span>
 	<span style=color:#a6e22e>MsgPreVoteResp</span>    <span style=color:#a6e22e>MessageType</span> = <span style=color:#ae81ff>18</span>
 )
+</code></pre></div><h3 id=raft-node-and-rawnode>
+raft, Node and RawNode
+<a class=anchor href=#raft-node-and-rawnode>#</a>
+</h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Node</span> <span style=color:#66d9ef>interface</span> {
+    <span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>StartNode</span>(<span style=color:#f92672>...</span>) <span style=color:#a6e22e>Node</span> {
+    <span style=color:#a6e22e>rn</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewRawNode</span>(<span style=color:#f92672>...</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		panic(<span style=color:#a6e22e>err</span>)
+	}
+
+    <span style=color:#a6e22e>n</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>newNode</span>(<span style=color:#a6e22e>rn</span>)
+    <span style=color:#66d9ef>go</span> <span style=color:#a6e22e>n</span>.<span style=color:#a6e22e>run</span>()
+    <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>n</span>
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewRawNode</span>(<span style=color:#a6e22e>config</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Config</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>RawNode</span>, <span style=color:#66d9ef>error</span>) {
+    <span style=color:#a6e22e>r</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>newRaft</span>(<span style=color:#a6e22e>config</span>)
+    <span style=color:#a6e22e>rn</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>RawNode</span>{
+        <span style=color:#a6e22e>raft</span>: <span style=color:#a6e22e>r</span>,
+    }
+
+    <span style=color:#f92672>...</span>
+
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>rn</span>, <span style=color:#66d9ef>nil</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>node</span> <span style=color:#66d9ef>struct</span> { <span style=color:#75715e>// impl Node interface
+</span><span style=color:#75715e></span>    <span style=color:#f92672>...</span>
+
+    <span style=color:#a6e22e>rn</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>RawNode</span>
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newNode</span>(<span style=color:#a6e22e>rn</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>RawNode</span>) <span style=color:#a6e22e>node</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>node</span>{
+        <span style=color:#f92672>...</span>
+    }
+}
 </code></pre></div><h2 id=实现>
 实现
 <a class=anchor href=#%e5%ae%9e%e7%8e%b0>#</a>
@@ -259,7 +359,10 @@ message type
 <ul>
 <li><a href=#raft>raft</a>
 <ul>
+<li><a href=#介绍httpspkggodevgoetcdioetcdraftv3section-readme><a href=https://pkg.go.dev/go.etcd.io/etcd/raft/v3#section-readme>介绍</a></a></li>
+<li><a href=#插曲>插曲</a></li>
 <li><a href=#message-type>message type</a></li>
+<li><a href=#raft-node-and-rawnode>raft, Node and RawNode</a></li>
 </ul>
 </li>
 <li><a href=#实现>实现</a></li>
