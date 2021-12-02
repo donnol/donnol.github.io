@@ -14,7 +14,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.5ab74da7416858da5156b1cecd4d17c7a74b56ac2ebacffb72153fc4d4465e2d.js integrity="sha256-WrdNp0FoWNpRVrHOzU0Xx6dLVqwuus/7chU/xNRGXi0=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.fc9b3d63455873ea39167da860b3663f0a4685b4998ce9b7f814093b67a6ce2c.js integrity="sha256-/Js9Y0VYc+o5Fn2oYLNmPwpGhbSZjOm3+BQJO2emziw=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/index.xml title=我的简单博客>
 </head>
@@ -42,6 +42,20 @@
 </label>
 <ul>
 <li>
+<input type=checkbox id=section-393d931b698132759df1a7089df0fcc8 class=toggle>
+<label for=section-393d931b698132759df1a7089df0fcc8 class="flex justify-between">
+<a role=button>12</a>
+</label>
+<ul>
+<li>
+<a href=https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/>github action deploy hugo blog</a>
+</li>
+<li>
+<a href=https://donnol.github.io/posts/2021/12/etcd/>Etcd</a>
+</li>
+</ul>
+</li>
+<li>
 <input type=checkbox id=section-3b66512bb507cbdaa9cef9549f229fc1 class=toggle>
 <label for=section-3b66512bb507cbdaa9cef9549f229fc1 class="flex justify-between">
 <a role=button>01</a>
@@ -66,17 +80,6 @@
 <ul>
 <li>
 <a href=https://donnol.github.io/posts/2021/07/linux-epoll/>Linux Epoll</a>
-</li>
-</ul>
-</li>
-<li>
-<input type=checkbox id=section-393d931b698132759df1a7089df0fcc8 class=toggle>
-<label for=section-393d931b698132759df1a7089df0fcc8 class="flex justify-between">
-<a role=button>12</a>
-</label>
-<ul>
-<li>
-<a href=https://donnol.github.io/posts/2021/12/etcd/>Etcd</a>
 </li>
 </ul>
 </li>
@@ -174,6 +177,22 @@ Hugo Themes
 </nav>
 </aside>
 </header>
+<article class="markdown book-post">
+<h2>
+<a href=/posts/2021/12/github_action_deploy_hugo_blog/>github action deploy hugo blog</a>
+</h2>
+<h5>December 2, 2021</h5>
+<p>why # 为了将视线保持在文章上，减少构建和发布的时间占用。
+what # github action是GitHub推出的持续集成/持续部署工具，只需要在项目中添加workflow.yml配置文件，在其中配置好任务、工作、步骤等，即可在指定动作发生时自动触发编排好的动作。换言之，如果我们在我们的博客仓库里配置了自动将内容打包和发布的workflow.yml，那我们就可以把精力集中在文章的编写，然后轻轻地提交推送，即可完成博客地打包和发布，very easy and smooth。
+how # 在github准备一个blog仓库，用于存放原始信息；再准备一个github page仓库，用于存放打包数据。
+其中github page仓库已开启page，可以通过github page设置的域名访问。
+我的blog仓库
+我的github page仓库
+workflow # 这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件
+name: blog # 做什么都好，别忘了先起个平凡（kuxuan）的名字 on: # 指定触发动作 push: # 动作是：git push branches: - main # 指定分支： main jobs: build-deploy: runs-on: ubuntu-latest # 基于ubuntu steps: - uses: actions/checkout@v2 # 切换分支：git checkout with: submodules: recursive # Fetch Hugo themes (true OR recursive) fetch-depth: 0 # Fetch all history for .
+<a href=/posts/2021/12/github_action_deploy_hugo_blog/>...</a>
+</p>
+</article>
 <article class="markdown book-post">
 <h2>
 <a href=/posts/2021/01/proxy-between-layer/>go实现AOP</a>
