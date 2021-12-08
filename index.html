@@ -14,7 +14,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.56c33b0438a007bf3865ea47ce6b511bd44174fffaa59954f59df5cd544bed2d.js integrity="sha256-VsM7BDigB784ZepHzmtRG9RBdP/6pZlU9Z31zVRL7S0=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.ace3e1adb859a0703964cd29d209471b2ee78ad25f01dbb69b5c141ef9e2450b.js integrity="sha256-rOPhrbhZoHA5ZM0p0glHGy7nitJfAdu2m1wUHvniRQs=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/index.xml title=我的简单博客>
 </head>
@@ -188,7 +188,11 @@ Hugo Themes
 <a href=/posts/2021/12/domain/>Domain-oriented development</a>
 </h2>
 <h5>December 8, 2021</h5>
-<p>DDD 尝试 # order.go:
+<p>面向领域开发。
+将业务复杂度和技术复杂度分开，逐个击破。
+分离领域，各司其职。
+降低复杂度，容易测试。
+DDD 尝试 # order.go:
 package domain import ( "crypto/rand" "math/big" "github.com/pkg/errors" ) // 关键词：用户、店铺、商品、订单 // // 场景描述：店铺展示商品，其价格为P、库存为N，用户（余额为Y）看到商品觉得合适，于是下单购买B个；购买前，用户余额Y必须不小于P，商品库存N不小于B；购买后，用户余额减少P，库存减少B； // // 先不考虑并发情况，建立此时的领域模型 type User struct { name string // 名称 phone string // 电话 balance Money // 余额 } type Shop struct { name string // 名称 addr string // 地址 } type Product struct { name string // 名称 price Money // 价格 stock int // 库存 ownShop *Shop // 所属商铺 } type Order struct { name string // 名称 user *User // 用户 product *Product // 商品 } type Money int func NewUser(name, phone string, bal Money) *User { return &User{ name: name, phone: phone, balance: bal, } } func (u *User) Balance() Money { return u.
 <a href=/posts/2021/12/domain/>...</a>
 </p>
