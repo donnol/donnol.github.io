@@ -13,7 +13,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.d3eb6dcb2500e0681d0f8e48c9ff0fbbef69b534a1ffd378cc6fbc6627d86203.js integrity="sha256-0+ttyyUA4GgdD45Iyf8Pu+9ptTSh/9N4zG+8ZifYYgM=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.f2ed85e1b74422866305ccabb7c09b0ba849cf0b78f172419003068c51f286fa.js integrity="sha256-8u2F4bdEIoZjBcyrt8CbC6hJzwt48XJBkAMGjFHyhvo=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/posts/2021/12/index.xml title=我的简单博客>
 </head>
@@ -48,6 +48,9 @@
 <ul>
 <li>
 <a href=https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/>burn cpu use golang</a>
+</li>
+<li>
+<a href=https://donnol.github.io/posts/2021/12/docker_compose_extra_host/>docker compose使用extra host让容器访问主机服务</a>
 </li>
 <li>
 <a href=https://donnol.github.io/posts/2021/12/dbeaver/>数据库管理工具之dbeaver</a>
@@ -195,6 +198,23 @@ Hugo Themes
 <h5>December 9, 2021</h5>
 <p>虚假的 burn # package main func fakeBurn() { for { } } 真正的 burn # package main import ( "flag" "fmt" "runtime" "time" ) var ( numBurn int updateInterval int ) func cpuBurn() { for { for i := 0; i &lt; 2147483647; i++ { } // Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically. // Gosched让当前goroutine让出处理器，从而使得其它goroutine可以运行。它不会挂起/暂停当前的goroutine，它会自动恢复执行。 runtime.
 <a href=/posts/2021/12/burn_cpu_use_golang/>...</a>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/posts/2021/12/docker_compose_extra_host/>docker compose使用extra host让容器访问主机服务</a>
+</h2>
+<h5>December 9, 2021</h5>
+<p>docker compose 如何访问主机服务 # docker compose 里面的容器怎么访问主机自身起的服务呢？
+20.10.0 版本在 linux 新增 host.docker.internal 支持： docker run -it --add-host=host.docker.internal:host-gateway alpine cat /etc/hosts
+127.0.0.1 localhost ::1 localhost ip6-localhost ip6-loopback fe00::0 ip6-localnet ff00::0 ip6-mcastprefix ff02::1 ip6-allnodes ff02::2 ip6-allrouters 172.17.0.1 host.docker.internal # --add-host的作用就是添加了这行到/etc/hosts 172.17.0.3 cb0565ceea26 相关提交
+这个 add-host 的意思是告诉容器，容器对域名 host.docker.internal 的访问都将转发到 host-gateway 去。
+也就是容器内部访问这个域名 host.docker.internal 时，就会访问到对应的主机上的 host-gateway 地址。
+从而达到容器访问主机上服务的效果。
+那么，这个 add-host 怎么用在 compose 上呢？
+在 build 里使用 extra_hosts
+version: "2.3" # 因为某个bug的存在，只能用version2，不能用version3 services: tmp: build: context: .
+<a href=/posts/2021/12/docker_compose_extra_host/>...</a>
 </p>
 </article>
 <article class="markdown book-post">
