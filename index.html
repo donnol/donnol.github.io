@@ -14,7 +14,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.28bf50785bc9bbe1c1f6ed7cfaeb064b397cc816e15f39970aac6808c4f765cb.js integrity="sha256-KL9QeFvJu+HB9u18+usGSzl8yBbhXzmXCqxoCMT3Zcs=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.d3eb6dcb2500e0681d0f8e48c9ff0fbbef69b534a1ffd378cc6fbc6627d86203.js integrity="sha256-0+ttyyUA4GgdD45Iyf8Pu+9ptTSh/9N4zG+8ZifYYgM=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/index.xml title=我的简单博客>
 </head>
@@ -47,6 +47,9 @@
 <a role=button>12</a>
 </label>
 <ul>
+<li>
+<a href=https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/>burn cpu use golang</a>
+</li>
 <li>
 <a href=https://donnol.github.io/posts/2021/12/dbeaver/>数据库管理工具之dbeaver</a>
 </li>
@@ -186,6 +189,15 @@ Hugo Themes
 </nav>
 </aside>
 </header>
+<article class="markdown book-post">
+<h2>
+<a href=/posts/2021/12/burn_cpu_use_golang/>burn cpu use golang</a>
+</h2>
+<h5>December 9, 2021</h5>
+<p>虚假的 burn # package main func fakeBurn() { for { } } 真正的 burn # package main import ( "flag" "fmt" "runtime" "time" ) var ( numBurn int updateInterval int ) func cpuBurn() { for { for i := 0; i &lt; 2147483647; i++ { } // Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically. // Gosched让当前goroutine让出处理器，从而使得其它goroutine可以运行。它不会挂起/暂停当前的goroutine，它会自动恢复执行。 runtime.
+<a href=/posts/2021/12/burn_cpu_use_golang/>...</a>
+</p>
+</article>
 <article class="markdown book-post">
 <h2>
 <a href=/posts/2021/12/dbeaver/>数据库管理工具之dbeaver</a>
@@ -329,16 +341,26 @@ message type # // For description of different message types, see: // https://pk
 <a href=/posts/2021/12/etcd/>...</a>
 </p>
 </article>
-<article class="markdown book-post">
-<h2>
-<a href=/posts/aboutme/about-me/>About Me</a>
-</h2>
-<p>一名默默无闻的打工仔，做着后端开发里的一点微末工作。
-当然怀抱着一夜暴富的乐观想法，希望每天平安快乐。
-也对一些事情无比憎恶，时刻提醒自己适可宜止。
-竟然也对各种球类运动感冒，偶尔踢出一片天地或抽出一道弧线。
-</p>
-</article>
+<ul class="pagination pagination-default">
+<li class="page-item disabled">
+<a href=# aria-disabled=true aria-label=First class=page-link role=button tabindex=-1><span aria-hidden=true>&#171;&#171;</span></a>
+</li>
+<li class="page-item disabled">
+<a href=# aria-disabled=true aria-label=Previous class=page-link role=button tabindex=-1><span aria-hidden=true>&#171;</span></a>
+</li>
+<li class="page-item active">
+<a href=# aria-current=page aria-label="Page 1" class=page-link role=button>1</a>
+</li>
+<li class=page-item>
+<a href=/page/2/ aria-label="Page 2" class=page-link role=button>2</a>
+</li>
+<li class=page-item>
+<a href=/page/2/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+</li>
+<li class=page-item>
+<a href=/page/2/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+</li>
+</ul>
 <footer class=book-footer>
 <div class="flex flex-wrap justify-between">
 </div>
