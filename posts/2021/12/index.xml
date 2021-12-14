@@ -1,4 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2021/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 13 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2021/12/index.xml" rel="self" type="application/rss+xml"/><item><title>redis sds</title><link>https://donnol.github.io/posts/2021/12/redis_sds/</link><pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/redis_sds/</guid><description>简单动态字符串 # 结构：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2021/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 14 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2021/12/index.xml" rel="self" type="application/rss+xml"/><item><title>mqtt</title><link>https://donnol.github.io/posts/2021/12/mqtt/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/mqtt/</guid><description>物联网消息标准 # 官网
+It is designed as an extremely lightweight publish/subscribe messaging transport that is ideal for connecting remote devices with a small code footprint and minimal network bandwidth.
+极其轻量的发布/订阅消息传输，使用小量代码脚本和极小网络带宽来连接远程设备。
+轻量 高效 双向 大规模（百万设备） 可靠 支持不可靠网络 安全 多个mqtt客户端连接到broker(译为：中间商)，围绕topic来实现发布/订阅操作，某些客户端向topic发布消息，某些客户端订阅topic上的消息，当broker接收到某个topic上的消息时，它会将消息转发到订阅了该topic的客户端。
+mqtt 5.0
+QoS # Quality of Service
+control traffic and ensure the performance of critical applications with limited network capacity
+控制交通，确保有限网络容量下的应用性能。
+QoS（Quality of Service，服务质量）指一个网络能够利用各种基础技术，为指定的网络通信提供更好的服务能力，是网络的一种安全机制， 是用来解决网络延迟和阻塞等问题的一种技术。QoS 的保证对于容量有限的网络来说是十分重要的，特别是对于流多媒体应用，例如 VoIP 和 IPTV 等，因为这些应用常常需要固定的传输率，对延时也比较敏感。</description></item><item><title>redis sds</title><link>https://donnol.github.io/posts/2021/12/redis_sds/</link><pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/redis_sds/</guid><description>简单动态字符串 # 结构：
 len alloc flag buf 长度(已使用空间大小) 分配(总共空间大小：buf 的大小减 1 &amp;ndash; &amp;lsquo;\0&amp;rsquo;字符占用了 1) 标记(sdshdr 的类型) 真正存储字符串的地方 文件：
 sds.h, sdsalloc.h, sds.c.
 定义：
