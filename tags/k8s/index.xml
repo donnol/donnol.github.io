@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>k8s on 我的简单博客</title><link>https://donnol.github.io/tags/k8s/</link><description>Recent content in k8s on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 10 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/k8s/index.xml" rel="self" type="application/rss+xml"/><item><title>k8s</title><link>https://donnol.github.io/posts/2021/12/k8s/</link><pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/k8s/</guid><description>What # docker 带来容器之风，以致容器多不胜数。如何编排和管理众多容器，使得它们同心协力办好事情，即成为了当下最大的课题。
+为此，k8s 应运而生。
+容器，通讯，存储，配置。
+Why # 为编排和管理数量众多的容器。
+How # Install # k8s: 集群搭建所需资源 # One or more machines running one of:
+Ubuntu 16.04+
+Debian 9+
+CentOS 7+
+Red Hat Enterprise Linux (RHEL) 7+
+Fedora 25+
+HypriotOS v1.0.1+
+Flatcar Container Linux (tested with 2512.3.0)
+2 GB or more of RAM per machine (any less will leave little room for your apps).</description></item></channel></rss>

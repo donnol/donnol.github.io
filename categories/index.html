@@ -13,7 +13,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.ceda9658429372c1292319f1e228531f1a807aef054f5dafadedb8a73190fd83.js integrity="sha256-ztqWWEKTcsEpIxnx4ihTHxqAeu8FT12vre24pzGQ/YM=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.a5d5fdf989e4724852d5365381c7b285e390b1e95faf751e4055acb5443fa113.js integrity="sha256-pdX9+YnkckhS1TZTgceyheOQselfr3UeQFWstUQ/oRM=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/categories/index.xml title=我的简单博客>
 </head>
@@ -47,6 +47,9 @@
 </label>
 <ul>
 <li>
+<a href=https://donnol.github.io/posts/2021/12/etcd/>etcd</a>
+</li>
+<li>
 <a href=https://donnol.github.io/posts/2021/12/vscode-go-module/>vscode-go在go.mod在非根目录情况下失效的问题</a>
 </li>
 <li>
@@ -76,8 +79,16 @@
 <li>
 <a href=https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/>github action deploy hugo blog</a>
 </li>
+</ul>
+</li>
 <li>
-<a href=https://donnol.github.io/posts/2021/12/etcd/>Etcd</a>
+<input type=checkbox id=section-b59662e33ca9ad77b7d385cbee7785fe class=toggle>
+<label for=section-b59662e33ca9ad77b7d385cbee7785fe class="flex justify-between">
+<a role=button>07</a>
+</label>
+<ul>
+<li>
+<a href=https://donnol.github.io/posts/2021/07/linux-epoll/>linux epoll</a>
 </li>
 </ul>
 </li>
@@ -95,17 +106,6 @@
 </li>
 <li>
 <a href=https://donnol.github.io/posts/2021/01/pstree/>pstree进程树及说明</a>
-</li>
-</ul>
-</li>
-<li>
-<input type=checkbox id=section-b59662e33ca9ad77b7d385cbee7785fe class=toggle>
-<label for=section-b59662e33ca9ad77b7d385cbee7785fe class="flex justify-between">
-<a role=button>07</a>
-</label>
-<ul>
-<li>
-<a href=https://donnol.github.io/posts/2021/07/linux-epoll/>Linux Epoll</a>
 </li>
 </ul>
 </li>
@@ -168,16 +168,52 @@ Hugo Themes
 <strong>Categories</strong>
 <ul>
 <li class="flex justify-between">
-<a href=/categories/go/>go</a>
+<a href=/categories/etcd/>etcd</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/categories/ctx/>ctx</a>
+<a href=/categories/vscode-go/>vscode-go</a>
 <span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/message-queue/>message queue</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/redis/>redis</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/book/>book</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/k8s/>k8s</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/dbmanager/>dbmanager</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/docker/>docker</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/go/>go</a>
+<span>3</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/ddd/>ddd</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/blog/>blog</a>
+<span>2</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/linux/>linux</a>
-<span>1</span>
+<span>2</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/tools/>tools</a>
@@ -189,11 +225,63 @@ Hugo Themes
 <strong>Tags</strong>
 <ul>
 <li class="flex justify-between">
+<a href=/tags/gomod/>gomod</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/raft/>raft</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/mqtt/>mqtt</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/sds/>sds</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/ddia/>ddia</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/k8s/>k8s</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/compose/>compose</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/cpu/>cpu</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/dbeaver/>dbeaver</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/domain/>domain</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/deploy/>deploy</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/epoll/>epoll</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
 <a href=/tags/aop/>aop</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/tags/go/>go</a>
+<a href=/tags/hugo/>hugo</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/ctx/>ctx</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
@@ -208,36 +296,104 @@ Hugo Themes
 </header>
 <article class="markdown book-post">
 <h2>
+<a href=/categories/etcd/>etcd</a>
+</h2>
+<h5>December 20, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/vscode-go/>vscode-go</a>
+</h2>
+<h5>December 20, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/message-queue/>message queue</a>
+</h2>
+<h5>December 14, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/redis/>redis</a>
+</h2>
+<h5>December 13, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/book/>book</a>
+</h2>
+<h5>December 10, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/k8s/>k8s</a>
+</h2>
+<h5>December 10, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/dbmanager/>dbmanager</a>
+</h2>
+<h5>December 9, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
+<a href=/categories/docker/>docker</a>
+</h2>
+<h5>December 9, 2021</h5>
+<p>
+</p>
+</article>
+<article class="markdown book-post">
+<h2>
 <a href=/categories/go/>go</a>
 </h2>
-<h5>January 17, 2021</h5>
+<h5>December 9, 2021</h5>
 <p>
 </p>
 </article>
 <article class="markdown book-post">
 <h2>
-<a href=/categories/ctx/>ctx</a>
+<a href=/categories/ddd/>ddd</a>
 </h2>
-<h5>December 18, 2020</h5>
+<h5>December 8, 2021</h5>
 <p>
 </p>
 </article>
-<article class="markdown book-post">
-<h2>
-<a href=/categories/linux/>linux</a>
-</h2>
-<h5>December 18, 2020</h5>
-<p>
-</p>
-</article>
-<article class="markdown book-post">
-<h2>
-<a href=/categories/tools/>tools</a>
-</h2>
-<h5>December 18, 2020</h5>
-<p>
-</p>
-</article>
+<ul class="pagination pagination-default">
+<li class="page-item disabled">
+<a aria-disabled=true aria-label=First class=page-link role=button tabindex=-1><span aria-hidden=true>&#171;&#171;</span></a>
+</li>
+<li class="page-item disabled">
+<a aria-disabled=true aria-label=Previous class=page-link role=button tabindex=-1><span aria-hidden=true>&#171;</span></a>
+</li>
+<li class="page-item active">
+<a aria-current=page aria-label="Page 1" class=page-link role=button>1</a>
+</li>
+<li class=page-item>
+<a href=/categories/page/2/ aria-label="Page 2" class=page-link role=button>2</a>
+</li>
+<li class=page-item>
+<a href=/categories/page/2/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+</li>
+<li class=page-item>
+<a href=/categories/page/2/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+</li>
+</ul>
 <footer class=book-footer>
 <div class="flex flex-wrap justify-between">
 </div>
@@ -253,16 +409,52 @@ Hugo Themes
 <strong>Categories</strong>
 <ul>
 <li class="flex justify-between">
-<a href=/categories/go/>go</a>
+<a href=/categories/etcd/>etcd</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/categories/ctx/>ctx</a>
+<a href=/categories/vscode-go/>vscode-go</a>
 <span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/message-queue/>message queue</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/redis/>redis</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/book/>book</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/k8s/>k8s</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/dbmanager/>dbmanager</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/docker/>docker</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/go/>go</a>
+<span>3</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/ddd/>ddd</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/blog/>blog</a>
+<span>2</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/linux/>linux</a>
-<span>1</span>
+<span>2</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/tools/>tools</a>
@@ -274,11 +466,63 @@ Hugo Themes
 <strong>Tags</strong>
 <ul>
 <li class="flex justify-between">
+<a href=/tags/gomod/>gomod</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/raft/>raft</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/mqtt/>mqtt</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/sds/>sds</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/ddia/>ddia</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/k8s/>k8s</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/compose/>compose</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/cpu/>cpu</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/dbeaver/>dbeaver</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/domain/>domain</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/deploy/>deploy</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/epoll/>epoll</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
 <a href=/tags/aop/>aop</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/tags/go/>go</a>
+<a href=/tags/hugo/>hugo</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/tags/ctx/>ctx</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
