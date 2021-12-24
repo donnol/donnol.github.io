@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2021/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2021/12/index.xml" rel="self" type="application/rss+xml"/><item><title>时间和文字</title><link>https://donnol.github.io/posts/2021/12/time_wenzi/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/time_wenzi/</guid><description>带领，今天突然用到这个“带”字时，觉得它不是我印象中的“带”字，这是为什么呢？
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2021/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2021/12/index.xml" rel="self" type="application/rss+xml"/><item><title>ebpf</title><link>https://donnol.github.io/posts/2021/12/ebpf/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/ebpf/</guid><description>ebpf: 扩展伯克利包过滤器。
+下面的内容主要来源于 译文。
+用处 # 目前，主要有两大组触发器。
+第一组用于处理网络数据包和管理网络流量。它们是 XDP、流量控制事件及其他几个事件。
+以下情况需要用到这些事件：
+创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。
+创建更智能、更有针对性、但性能更好的防火墙——这些防火墙可以检查通过的流量是否符合公司的规则、是否存在漏洞模式等。例如，Facebook 在内部进行这种审计，而一些项目则对外销售这类产品。
+创建智能负载均衡器。最突出的例子就是 Cilium 项目，它最常被用作 K8s 集群中的网格网络。Cilium 对流量进行管理、均衡、重定向和分析。所有这些都是在内核运行的小型 BPF 程序的帮助下完成的，以响应这个或那个与网络数据包或套接字相关的事件。
+这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。
+这组的触发器有如下几个：
+perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。
+跟踪点（tracepoints）——内核源代码中的静态（由开发人员定义）位置，通过附加到这些位置，你可以从中提取静态信息（开发人员先前准备的信息）。在这种情况下，静态似乎是一件坏事，因为我说过，日志的缺点之一就是它们只包含了程序员最初放在那里的内容。从某种意义上说，这是正确的，但跟踪点有三个重要的优势：
+有相当多的跟踪点散落在内核中最有趣的地方
+当它们不“开启”时，它们不使用任何资源
+它们是 API 的一部分，它们是稳定的，不会改变。这非常重要，因为我们将提到的其他触发器缺少稳定的 API。
+例如，假设有一个关于显示的实用程序，内核出于某种原因没有给它时间执行。你坐着纳闷为什么它这么慢，而 pprof 却没有显示任何什么有趣的东西。
+USDT——与跟踪点相同，但是它适用于用户空间的程序。也就是说，作为程序员，你可以将这些位置添加到你的程序中。并且许多大型且知名的程序和编程语言都已经采用了这些跟踪方法：例如 MySQL、或者 PHP 和 Python 语言。通常，它们的默认设置为“关闭”，如果要打开它们，需要使用 enable-dtrace 参数或类似的参数来重新构建解释器。是的，我们还可以在 Go 中注册这种类跟踪。你可能已经识别出参数名称中的单词 DTrace。关键在于，这些类型的静态跟踪是由 Solaris) 操作系统中诞生的同名系统所推广的。例如，想象一下，何时创建新线程、何时启动 GC 或与特定语言或系统相关的其他内容，我们都能够知道是怎样的一种场景。</description></item><item><title>时间和文字</title><link>https://donnol.github.io/posts/2021/12/time_wenzi/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/time_wenzi/</guid><description>带领，今天突然用到这个“带”字时，觉得它不是我印象中的“带”字，这是为什么呢？
 很重的一种陌生感迎面而来，这真的是曾经伴随我历经千测万考的字吗？
 这种突然觉得某个曾经很熟悉的字很陌生的感觉，真的很奇怪。</description></item><item><title>etcd</title><link>https://donnol.github.io/posts/2021/12/etcd/</link><pubDate>Mon, 20 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/etcd/</guid><description>etcd # raft # 介绍 # 由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
 状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
