@@ -47,7 +47,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.99a79a308c329ef69e176cce3e0aa41987fdb54dc3ec310b66bc2221adce09c4.js integrity="sha256-maeaMIwynvaeF2zOPgqkGYf9tU3D7DELZrwiIa3OCcQ=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.eeb1b742914949adf3a447b7a21057de0ea4bcb05a9a5b8b5286dc923915e025.js integrity="sha256-7rG3QpFJSa3zpEe3ohBX3g6kvLBamluLUobckjkV4CU=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 </head>
 <body dir=ltr>
@@ -273,7 +273,112 @@ Hugo Themes
 使用
 <a class=anchor href=#%e4%bd%bf%e7%94%a8>#</a>
 </h2>
-<p>一个 BPF 程序，如果它通过验证，就会被加载到内核中。在那里，它将被 JIT 编译器<strong>编译成机器码</strong>，并在内核模式下运行，这时附加的触发器将会被激活。</p>
+<p>先用<code>man bpf</code>看下它是怎么被定义的：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>NAME
+    bpf <span style=color:#f92672>-</span> perform a command on an extended BPF map or program
+	<span style=color:#f92672>--</span> <span style=color:#960050;background-color:#1e0010>在</span>bpf map或程序里执行一个命令
+
+SYNOPSIS
+    <span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;linux/bpf.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span>
+    <span style=color:#66d9ef>int</span> bpf(<span style=color:#66d9ef>int</span> cmd, <span style=color:#66d9ef>union</span> bpf_attr <span style=color:#f92672>*</span>attr, <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>int</span> size);
+	<span style=color:#f92672>--</span> bpf_attr里有些什么呢<span style=color:#960050;background-color:#1e0010>？</span>
+
+DESCRIPTION
+    The  bpf() system call performs a range of operations related to extended Berkeley Packet
+    Filters.  Extended BPF (or eBPF) is similar to the original (<span style=color:#e6db74>&#34;classic&#34;</span>) BPF  (cBPF)  used
+    to  filter  network packets.  For both cBPF and eBPF programs, the kernel statically ana<span style=color:#960050;background-color:#1e0010>‐</span>
+    lyzes the programs before loading them, in order to ensure that they cannot harm the run<span style=color:#960050;background-color:#1e0010>‐</span>
+    ning system.
+	<span style=color:#f92672>--</span> <span style=color:#960050;background-color:#1e0010>在程序被加载之前分析它，确保它们不会伤害到运行中的系统。</span>
+
+    eBPF  extends cBPF in multiple ways, including the ability to call a fixed set of in<span style=color:#f92672>-</span>ker<span style=color:#960050;background-color:#1e0010>‐</span>
+    nel helper functions (via the BPF_CALL opcode extension  provided  by  eBPF)  and  access
+    shared data structures such as eBPF maps.
+	<span style=color:#f92672>--</span> ebpf在很多方面扩展了cbpf<span style=color:#960050;background-color:#1e0010>，包括可以调用固定的钩子函数的能力，可以访问共享的数据结构（如：</span>ebpf maps<span style=color:#960050;background-color:#1e0010>）。</span>
+
+Extended BPF Design<span style=color:#f92672>/</span>Architecture
+	eBPF  maps  are a generic data structure <span style=color:#66d9ef>for</span> storage of different data types.  Data types
+	are generally treated as binary blobs, so a user just specifies the size of the  key  and
+	the  size of the value at map<span style=color:#f92672>-</span>creation time.  In other words, a key<span style=color:#f92672>/</span>value <span style=color:#66d9ef>for</span> a given map
+	can have an arbitrary structure.
+
+	A user process can create multiple maps (with key<span style=color:#f92672>/</span>value<span style=color:#f92672>-</span>pairs being opaque bytes of data)
+	and  access  them via file descriptors.  Different eBPF programs can access the same maps
+	in parallel.  It<span style=color:#960050;background-color:#1e0010>&#39;</span>s up to the user process and eBPF program to decide what they store  in<span style=color:#960050;background-color:#1e0010>‐</span>
+	side maps.
+	<span style=color:#f92672>--</span> <span style=color:#960050;background-color:#1e0010>一个用户进程可以创建多个</span>maps<span style=color:#960050;background-color:#1e0010>，然后通过文件描述符访问它们。不同的</span>ebpf程序可以并行访问同一个maps<span style=color:#960050;background-color:#1e0010>。由用户进程和</span>ebpf程序决定存储内容<span style=color:#960050;background-color:#1e0010>。</span>
+
+	There<span style=color:#960050;background-color:#1e0010>&#39;</span>s  one  special map type, called a program array.  This type of map stores file de<span style=color:#960050;background-color:#1e0010>‐</span>
+	scriptors referring to other eBPF programs.  When a lookup in the map is  performed,  the
+	program flow is redirected in<span style=color:#f92672>-</span>place to the beginning of another eBPF program and does not
+	<span style=color:#66d9ef>return</span> back to the calling program.  The level of nesting has a fixed  limit  of  <span style=color:#ae81ff>32</span>,  so
+	that  infinite loops cannot be crafted.  At run time, the program file descriptors stored
+	in the map can be modified, so program functionality can be altered based on specific re<span style=color:#960050;background-color:#1e0010>‐</span>
+	quirements.   All  programs  referred to in a program<span style=color:#f92672>-</span>array map must have been previously
+	loaded into the kernel via bpf().  If a map lookup fails, the current  program  continues
+	its execution.  See BPF_MAP_TYPE_PROG_ARRAY below <span style=color:#66d9ef>for</span> further details.
+	<span style=color:#f92672>--</span> <span style=color:#960050;background-color:#1e0010>有一类特殊的</span>map类型<span style=color:#960050;background-color:#1e0010>，称为程序数组。这种类型的</span>map存储指向其它ebpf程序的文件描述符<span style=color:#960050;background-color:#1e0010>。当在</span>map里执行lookup时<span style=color:#960050;background-color:#1e0010>，程序流被重定向到另外的</span>ebpf程序的开头<span style=color:#960050;background-color:#1e0010>，并且不会返回到当前的</span>ebpf程序<span style=color:#960050;background-color:#1e0010>（调走之后就不回来了）。内嵌的最大层数限制为</span><span style=color:#ae81ff>32</span><span style=color:#960050;background-color:#1e0010>，因此不会出现无限循环。在运行时，程序储存在</span>map的文件描述符可以被修改<span style=color:#960050;background-color:#1e0010>，因此可以根据特定要求更改程序功能。在这种程序数组</span>map里的程序必须在之前已经用bpf()<span style=color:#960050;background-color:#1e0010>加载了进来。如果</span>lookup失败了<span style=color:#960050;background-color:#1e0010>，当前程序会继续执行。</span>
+
+	Generally,  eBPF  programs are loaded by the user process and automatically unloaded when
+	the process exits.  In some cases, <span style=color:#66d9ef>for</span> example, tc<span style=color:#f92672>-</span>bpf(<span style=color:#ae81ff>8</span>), the program will  <span style=color:#66d9ef>continue</span>  to
+	stay  alive  inside  the kernel even after the process that loaded the program exits.  In
+	that <span style=color:#66d9ef>case</span>, the tc subsystem holds a reference to the eBPF program after the file descrip<span style=color:#960050;background-color:#1e0010>‐</span>
+	tor  has been closed by the user<span style=color:#f92672>-</span>space program.  Thus, whether a specific program contin<span style=color:#960050;background-color:#1e0010>‐</span>
+	ues to live inside the kernel depends on how it is further attached  to  a  given  kernel
+	subsystem after it was loaded via bpf().
+	<span style=color:#f92672>--</span> <span style=color:#960050;background-color:#1e0010>一般地，</span>ebpf程序被用户进程加载<span style=color:#960050;background-color:#1e0010>，并随用户进程离开而自动卸载。不过有些特别的例子，比如：</span>tc<span style=color:#f92672>-</span>bpf<span style=color:#960050;background-color:#1e0010>，它在加载它的程序退出之后还会继续存活。</span>tc子系统会持有该ebpf程序的引用<span style=color:#960050;background-color:#1e0010>。</span>
+
+	Each  eBPF program is a set of instructions that is safe to run until its completion.  An
+	in<span style=color:#f92672>-</span>kernel verifier statically determines that the eBPF program terminates and is safe  to
+	execute.   During  verification,  the  kernel increments reference counts <span style=color:#66d9ef>for</span> each of the
+	maps that the eBPF program uses, so that the attached maps can<span style=color:#960050;background-color:#1e0010>&#39;</span>t  be  removed  until  the
+	program is unloaded.
+	<span style=color:#f92672>--</span> <span style=color:#960050;background-color:#1e0010>每个</span>ebpf程序都是一个指令集合<span style=color:#960050;background-color:#1e0010>，安全地执行直到完成。在程序验证期间，内核增加</span>ebpf使用的每个map的引用计数<span style=color:#960050;background-color:#1e0010>，使得</span>map不会被移除直到程序被卸载<span style=color:#960050;background-color:#1e0010>。</span>
+
+	eBPF  programs  can  be attached to different events.  These events can be the arrival of
+	network packets, tracing events, classification events by network  queueing   disciplines
+	(<span style=color:#66d9ef>for</span>  eBPF programs attached to a tc(<span style=color:#ae81ff>8</span>) classifier), and other types that may be added in
+	the future.  A new event triggers execution of the eBPF program, which may store informa<span style=color:#960050;background-color:#1e0010>‐</span>
+	tion  about  the event in eBPF maps.  Beyond storing data, eBPF programs may call a fixed
+	set of in<span style=color:#f92672>-</span>kernel helper functions.
+	<span style=color:#f92672>--</span> ebpf程序可以附加到不同的事件上<span style=color:#960050;background-color:#1e0010>。这些事件可以是网络包到达，事件追踪，按网络排队规则对事件进行分类，和其它未来将被加进来的事件。一个新的事件触发</span>ebpf程序的执行<span style=color:#960050;background-color:#1e0010>，可以存储事件的信息到</span>ebpf maps里<span style=color:#960050;background-color:#1e0010>。除了存储数据之外，</span>ebpf程序可以调用一系列固定的内核钩子函数<span style=color:#960050;background-color:#1e0010>。</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>// union 多选一
+</span><span style=color:#75715e></span><span style=color:#66d9ef>union</span> bpf_attr {
+	<span style=color:#66d9ef>struct</span> {    <span style=color:#75715e>/* Used by BPF_MAP_CREATE */</span>
+		__u32         map_type;
+		__u32         key_size;    <span style=color:#75715e>/* size of key in bytes */</span>
+		__u32         value_size;  <span style=color:#75715e>/* size of value in bytes */</span>
+		__u32         max_entries; <span style=color:#75715e>/* maximum number of entries
+</span><span style=color:#75715e>										in a map */</span>
+	};
+
+	<span style=color:#66d9ef>struct</span> {    <span style=color:#75715e>/* Used by BPF_MAP_*_ELEM and BPF_MAP_GET_NEXT_KEY
+</span><span style=color:#75715e>					commands */</span>
+		__u32         map_fd;
+		__aligned_u64 key;
+		<span style=color:#66d9ef>union</span> {
+			__aligned_u64 value;
+			__aligned_u64 next_key;
+		};
+		__u64         flags;
+	};
+
+	<span style=color:#66d9ef>struct</span> {    <span style=color:#75715e>/* Used by BPF_PROG_LOAD */</span>
+		__u32         prog_type;
+		__u32         insn_cnt;
+		__aligned_u64 insns;      <span style=color:#75715e>/* &#39;const struct bpf_insn *&#39; */</span>
+		__aligned_u64 license;    <span style=color:#75715e>/* &#39;const char *&#39; */</span>
+		__u32         log_level;  <span style=color:#75715e>/* verbosity level of verifier */</span>
+		__u32         log_size;   <span style=color:#75715e>/* size of user buffer */</span>
+		__aligned_u64 log_buf;    <span style=color:#75715e>/* user supplied &#39;char *&#39;
+</span><span style=color:#75715e>									buffer */</span>
+		__u32         kern_version;
+									<span style=color:#75715e>/* checked when prog_type=kprobe
+</span><span style=color:#75715e>									(since Linux 4.1) */</span>
+	};
+} __attribute__((aligned(<span style=color:#ae81ff>8</span>)));
+</code></pre></div><p>一个 BPF 程序，如果它通过验证，就会被加载到内核中。在那里，它将被 JIT 编译器<strong>编译成机器码</strong>，并在内核模式下运行，这时附加的触发器将会被激活。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>LOAD -&gt; READ -&gt; WRITE
 </code></pre></div><p>循环缓冲区：内核写入，用户空间程序可以从中读取</p>
 <p>BCC, bpftrace</p>
@@ -288,6 +393,8 @@ Go
 <p>BCC 允许你用 Python 编写这一部分，而 Python 是该工具的主要语言。同时，在主库中，BCC 还支持 Lua 和 C++，并且在辅库中，它还支持 Go。</p>
 <p>除了 iovisor/gobpf 之外，我还发现了其他三个最新的项目，它们允许你在 Go 中编写用户空间（userland）部分。</p>
 <ul>
+<li>
+<a href=https://github.com/golang/net/tree/master/bpf>https://github.com/golang/net/tree/master/bpf</a></li>
 <li>
 <a href=https://github.com/dropbox/goebpf>https://github.com/dropbox/goebpf</a></li>
 <li>
