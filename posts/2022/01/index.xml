@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>01 on 我的简单博客</title><link>https://donnol.github.io/posts/2022/01/</link><description>Recent content in 01 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 11 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2022/01/index.xml" rel="self" type="application/rss+xml"/><item><title>红黑树</title><link>https://donnol.github.io/posts/2022/01/red_black_tree/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/red_black_tree/</guid><description>树，保持高效在于平衡，高度低。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>01 on 我的简单博客</title><link>https://donnol.github.io/posts/2022/01/</link><description>Recent content in 01 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 17 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2022/01/index.xml" rel="self" type="application/rss+xml"/><item><title>consensus</title><link>https://donnol.github.io/posts/2022/01/consensus/</link><pubDate>Mon, 17 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/consensus/</guid><description>在中文里，共表示共同（至少两个人？一个人行不行？），识表示认识，组合一起成为共识，共同的认识，引申出共同的想法、共同的行为。
+在英语里，con是一个词根&amp;ndash;表示&amp;quot;共同&amp;quot;，sensus表示感觉，加在一起组成consensus。
+人类社会的发展催生了交易，交易的前提是双方达成共识，比如油换盐，比如钱换粮。如果你不承认我的油，不愿意与我交易，那就没办法了。
+人与人之间的共识是非常难以达成的，不像歌里唱的：我说一，你说一。很多时候，我说一，他也承诺他会说一，但他没说&amp;ndash;可能因为一些事忘了说，可能因为他突然不想说了，也有可能他被胁迫了不能说。反正就是不一而足的情况导致了意见/行为不一。
+在日常生活中，特别是集市上，往往都是一手交钱、一手交货，交易完成就完成了，如果后面出现了问题&amp;ndash;比如货不对版、钱有真伪，那就是另外的问题了。
+那如果我们分别在不同的地方，没法面对面交易呢；又或者交易的东西不方便马上拿到面前来交易呢；又或者交易之后发现货不对版不想要了呢？
+这时候，为了解决这些问题，某种机构应运而生。结合现在网购流行的社会，大家不难发现有哪些这类的机构。
+目前的社会除了网购流行之外，是不是机器也很流行呢。那机器又是什么呢？机器能做什么，从而在这个社会如此流行呢？机器又能不能充当某类机构来完成某些事呢？
+共识要素 # 某件事，事的主体，事的具体。比如购物，买卖双方、以钱易物。
+机器共识 # 拜占庭将军问题 # wiki
+拜占庭将军问题（Byzantine Generals Problem），是由莱斯利·兰波特在其同名论文中提出的分布式对等网络通信容错问题。
+在分布式计算中，不同的计算机通过通讯交换信息达成共识而按照同一套协作策略行动。但有时候，系统中的成员计算机可能出错而发送错误的信息，用于传递信息的通讯网络也可能导致信息损坏，使得网络中不同的成员关于全体协作的策略得出不同结论，从而破坏系统一致性。拜占庭将军问题被认为是容错性问题中最难的问题类型之一。
+关键词：分布式对等、通信容错、不同计算机通过通讯交换信息从而达成共识、共识达成失败会导致系统一致性被破坏。
+问题描述：
+一组拜占庭将军分别各率领一支军队共同围困一座城市。
+为了简化问题，将各支军队的行动策略限定为进攻或撤离两种。
+因为部分军队进攻部分军队撤离可能会造成灾难性后果，因此各位将军必须通过投票来达成一致策略，即所有军队一起进攻或所有军队一起撤离。
+因为各位将军分处城市不同方向，他们只能通过信使互相联系。
+在投票过程中每位将军都将自己投票给进攻还是撤退的信息通过信使分别通知其他所有将军，这样一来每位将军根据自己的投票和其他所有将军送来的信息就可以知道共同的投票结果而决定行动策略。
+面临问题：
+系统的问题在于，可能将军中出现叛徒，他们不仅可能向较为糟糕的策略投票，还可能选择性地发送投票信息。&amp;ndash; 出现叛徒，半真半假，选择性投票，（一人投两票） &amp;ndash; 控制投票时间，只要不在其他人都投完之后再投，他就没法知道别人投的什么票；一人投一票，投票之后不能再投；
+假设有9位将军投票，其中1名叛徒。8名忠诚的将军中出现了4人投进攻，4人投撤离的情况。这时候叛徒可能故意给4名投进攻的将领送信表示投票进攻，而给4名投撤离的将领送信表示投撤离。这样一来在4名投进攻的将领看来，投票结果是5人投进攻，从而发起进攻；而在4名投撤离的将军看来则是5人投撤离。这样各支军队的一致协同就遭到了破坏。
+由于将军之间需要通过信使通讯，叛变将军可能通过伪造信件来以其他将军的身份发送假投票。而即使在保证所有将军忠诚的情况下，也不能排除信使被敌人截杀，甚至被敌人间谍替换等情况。因此很难通过保证人员可靠性及通讯可靠性来解决问题。
+人可能是假的，信可能是假，空气都可能是假的；
+假使那些忠诚（或是没有出错）的将军仍然能通过多数决定来决定他们的战略，便称达到了拜占庭容错。在此，票都会有一个默认值，若消息（票）没有被收到，则使用此默认值来投票。
+应用：
+在点对点式数字货币系统比特币里，比特币网络的运作是平行的（parallel）。各节点与终端都运算著区块链来达成工作量证明（PoW）。工作量证明的链接是解决比特币系统中拜占庭问题的关键，避免有问题的节点（即前文提到的“反叛的将军”）破坏数字货币系统里交易帐的正确性，是对整个系统的运行状态有着重要的意义。
+在一些飞行器（如波音777）的系统中也有使用拜占庭容错。而且由于是即时系统，容错的功能也要能尽快回复，比如即使系统中有错误发生，容错系统也只能做出一微秒以内的延迟。
+一些航天飞机的飞行系统甚至将容错功能放到整个系统的设计之中。
+拜占庭容错机制是将收到的消息（或是收到的消息的签名）转交到其他的接收者。这类机制都假设它们转交的消息都可能念有拜占庭问题。在高度安全要求的系统中，这些假设甚至要求证明错误能在一个合理的等级下被排除。当然，要证明这点，首先遇到的问题就是如何有效的找出所有可能的、应能被容错的错误。这时候会试着在系统中加入错误插入器。
+eth共识 # Beacon # Beacon：信标
+eth2将要升级的共识机制，即将使用的基于eth1和PoS算法的共识。
+信标链不支持叔块了。
+信标链和经典链在校验header时的不同：
+(a) The following fields are expected to be constants:</description></item><item><title>红黑树</title><link>https://donnol.github.io/posts/2022/01/red_black_tree/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/red_black_tree/</guid><description>树，保持高效在于平衡，高度低。
 红黑树如何做到的呢？
 定义 # wiki # 红黑树（英语：Red–black tree）是一种自平衡二叉查找树，是在计算机科学中用到的一种数据结构，典型用途是实现关联数组。它在1972年由鲁道夫·贝尔发明，被称为&amp;quot;对称二叉B树&amp;quot;，它现代的名字源于Leo J. Guibas和罗伯特·塞奇威克于1978年写的一篇论文。红黑树的结构复杂，但它的操作有着良好的最坏情况运行时间，并且在实践中高效：它可以在O(log n)时间内完成查找、插入和删除，这里的n是树中元素的数目。
 性质 # 红黑树是每个节点都带有颜色属性的二叉查找树，颜色为红色或黑色。在二叉查找树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求：
