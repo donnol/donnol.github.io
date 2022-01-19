@@ -83,7 +83,7 @@ eth2将要升级的共识机制，即将使用的基于eth1和PoS算法的共识
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.0106558e6c081ea0fe02dfac48a39ad8988b6c946f1761e20913e8f28449920d.js integrity="sha256-AQZVjmwIHqD+At+sSKOa2JiLbJRvF2HiCRPo8oRJkg0=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.d6b7307ae583cddef2b1292b0c99b9ccfcdc6675a3c2b11e8480dd6abe17f16b.js integrity="sha256-1rcweuWDzd7ysSkrDJm5zPzcZnWjwrEehIDdar4X8Ws=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 </head>
 <body dir=ltr>
@@ -529,8 +529,149 @@ filecoin
 <p>PoST</p>
 <p>
 <a href=https://new.qq.com/omn/20210116/20210116A06N5600.html>关键过程：P1, P2, C1 C2</a></p>
-<p>调度程序</p>
 <p>
+<a href=https://github.com/filecoin-project/specs-storage>密封接口定义</a></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Sealer</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>SealPreCommit1</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>ticket</span> <span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SealRandomness</span>, <span style=color:#a6e22e>pieces</span> []<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>PieceInfo</span>) (<span style=color:#a6e22e>PreCommit1Out</span>, <span style=color:#66d9ef>error</span>)
+	<span style=color:#a6e22e>SealPreCommit2</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>pc1o</span> <span style=color:#a6e22e>PreCommit1Out</span>) (<span style=color:#a6e22e>SectorCids</span>, <span style=color:#66d9ef>error</span>)
+
+	<span style=color:#a6e22e>SealCommit1</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>ticket</span> <span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SealRandomness</span>, <span style=color:#a6e22e>seed</span> <span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>InteractiveSealRandomness</span>, <span style=color:#a6e22e>pieces</span> []<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>PieceInfo</span>, <span style=color:#a6e22e>cids</span> <span style=color:#a6e22e>SectorCids</span>) (<span style=color:#a6e22e>Commit1Out</span>, <span style=color:#66d9ef>error</span>)
+	<span style=color:#a6e22e>SealCommit2</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>c1o</span> <span style=color:#a6e22e>Commit1Out</span>) (<span style=color:#a6e22e>Proof</span>, <span style=color:#66d9ef>error</span>)
+
+	<span style=color:#a6e22e>FinalizeSector</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>keepUnsealed</span> []<span style=color:#a6e22e>Range</span>) <span style=color:#66d9ef>error</span>
+
+	<span style=color:#75715e>// ReleaseUnsealed marks parts of the unsealed sector file as safe to drop
+</span><span style=color:#75715e></span>	<span style=color:#75715e>//  (called by the fsm on restart, allows storage to keep no persistent
+</span><span style=color:#75715e></span>	<span style=color:#75715e>//   state about unsealed fast-retrieval copies)
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>ReleaseUnsealed</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>safeToFree</span> []<span style=color:#a6e22e>Range</span>) <span style=color:#66d9ef>error</span>
+	<span style=color:#a6e22e>ReleaseSectorKey</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>) <span style=color:#66d9ef>error</span>
+	<span style=color:#a6e22e>ReleaseReplicaUpgrade</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>) <span style=color:#66d9ef>error</span>
+
+	<span style=color:#75715e>// Removes all data associated with the specified sector
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Remove</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>) <span style=color:#66d9ef>error</span>
+
+	<span style=color:#75715e>// Generate snap deals replica update
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>ReplicaUpdate</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>pieces</span> []<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>PieceInfo</span>) (<span style=color:#a6e22e>ReplicaUpdateOut</span>, <span style=color:#66d9ef>error</span>)
+
+	<span style=color:#75715e>// Prove that snap deals replica was done correctly
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>ProveReplicaUpdate1</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>sectorKey</span>, <span style=color:#a6e22e>newSealed</span>, <span style=color:#a6e22e>newUnsealed</span> <span style=color:#a6e22e>cid</span>.<span style=color:#a6e22e>Cid</span>) (<span style=color:#a6e22e>ReplicaVanillaProofs</span>, <span style=color:#66d9ef>error</span>)
+	<span style=color:#a6e22e>ProveReplicaUpdate2</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>sectorKey</span>, <span style=color:#a6e22e>newSealed</span>, <span style=color:#a6e22e>newUnsealed</span> <span style=color:#a6e22e>cid</span>.<span style=color:#a6e22e>Cid</span>, <span style=color:#a6e22e>vanillaProofs</span> <span style=color:#a6e22e>ReplicaVanillaProofs</span>) (<span style=color:#a6e22e>ReplicaUpdateProof</span>, <span style=color:#66d9ef>error</span>)
+
+	<span style=color:#75715e>// GenerateSectorKeyFromData computes sector key given unsealed data and updated replica
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>GenerateSectorKeyFromData</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>sector</span> <span style=color:#a6e22e>SectorRef</span>, <span style=color:#a6e22e>unsealed</span> <span style=color:#a6e22e>cid</span>.<span style=color:#a6e22e>Cid</span>) <span style=color:#66d9ef>error</span>
+}
+</code></pre></div><p>
+<a href=https://github.com/filecoin-project/lotus/tree/master/extern/sector-storage>密封接口实现</a></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Manager</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>ls</span>         <span style=color:#a6e22e>stores</span>.<span style=color:#a6e22e>LocalStorage</span>
+	<span style=color:#a6e22e>storage</span>    <span style=color:#f92672>*</span><span style=color:#a6e22e>stores</span>.<span style=color:#a6e22e>Remote</span>
+	<span style=color:#a6e22e>localStore</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>stores</span>.<span style=color:#a6e22e>Local</span>
+	<span style=color:#a6e22e>remoteHnd</span>  <span style=color:#f92672>*</span><span style=color:#a6e22e>stores</span>.<span style=color:#a6e22e>FetchHandler</span>
+	<span style=color:#a6e22e>index</span>      <span style=color:#a6e22e>stores</span>.<span style=color:#a6e22e>SectorIndex</span>
+
+	<span style=color:#a6e22e>sched</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>scheduler</span>
+
+	<span style=color:#a6e22e>storage</span>.<span style=color:#a6e22e>Prover</span>
+
+	<span style=color:#a6e22e>workLk</span> <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Mutex</span>
+	<span style=color:#a6e22e>work</span>   <span style=color:#f92672>*</span><span style=color:#a6e22e>statestore</span>.<span style=color:#a6e22e>StateStore</span>
+
+	<span style=color:#a6e22e>callToWork</span> <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>storiface</span>.<span style=color:#a6e22e>CallID</span>]<span style=color:#a6e22e>WorkID</span>
+	<span style=color:#75715e>// used when we get an early return and there&#39;s no callToWork mapping
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>callRes</span> <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>storiface</span>.<span style=color:#a6e22e>CallID</span>]<span style=color:#66d9ef>chan</span> <span style=color:#a6e22e>result</span>
+
+	<span style=color:#a6e22e>results</span> <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>WorkID</span>]<span style=color:#a6e22e>result</span>
+	<span style=color:#a6e22e>waitRes</span> <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>WorkID</span>]<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{}
+}
+<span style=color:#75715e>// Manager实现了以下两个接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> (
+	<span style=color:#a6e22e>_</span> <span style=color:#a6e22e>storage</span>.<span style=color:#a6e22e>Sealer</span> = (<span style=color:#f92672>*</span><span style=color:#a6e22e>Manager</span>)(<span style=color:#66d9ef>nil</span>)
+	<span style=color:#a6e22e>_</span> <span style=color:#a6e22e>SectorManager</span> = (<span style=color:#f92672>*</span><span style=color:#a6e22e>Manager</span>)(<span style=color:#66d9ef>nil</span>)
+)
+</code></pre></div><p>
+<a href=https://github.com/filecoin-project/lotus/tree/master/extern/storage-sealing>有限状态机FSM</a></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Sealing</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Api</span>      <span style=color:#a6e22e>SealingAPI</span>
+	<span style=color:#a6e22e>DealInfo</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>CurrentDealInfoManager</span>
+
+	<span style=color:#a6e22e>feeCfg</span> <span style=color:#a6e22e>config</span>.<span style=color:#a6e22e>MinerFeeConfig</span>
+	<span style=color:#a6e22e>events</span> <span style=color:#a6e22e>Events</span>
+
+	<span style=color:#a6e22e>startupWait</span> <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>WaitGroup</span>
+
+	<span style=color:#a6e22e>maddr</span> <span style=color:#a6e22e>address</span>.<span style=color:#a6e22e>Address</span>
+
+	<span style=color:#a6e22e>sealer</span>  <span style=color:#a6e22e>sectorstorage</span>.<span style=color:#a6e22e>SectorManager</span> <span style=color:#75715e>// 上述Manager实现了SectorManager接口
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>sectors</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>statemachine</span>.<span style=color:#a6e22e>StateGroup</span>
+	<span style=color:#a6e22e>sc</span>      <span style=color:#a6e22e>SectorIDCounter</span>
+	<span style=color:#a6e22e>verif</span>   <span style=color:#a6e22e>ffiwrapper</span>.<span style=color:#a6e22e>Verifier</span>
+	<span style=color:#a6e22e>pcp</span>     <span style=color:#a6e22e>PreCommitPolicy</span>
+
+	<span style=color:#a6e22e>inputLk</span>        <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Mutex</span>
+	<span style=color:#a6e22e>openSectors</span>    <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SectorID</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>openSector</span>
+	<span style=color:#a6e22e>sectorTimers</span>   <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SectorID</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Timer</span>
+	<span style=color:#a6e22e>pendingPieces</span>  <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>cid</span>.<span style=color:#a6e22e>Cid</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>pendingPiece</span>
+	<span style=color:#a6e22e>assignedPieces</span> <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SectorID</span>][]<span style=color:#a6e22e>cid</span>.<span style=color:#a6e22e>Cid</span>
+	<span style=color:#a6e22e>creating</span>       <span style=color:#f92672>*</span><span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SectorNumber</span> <span style=color:#75715e>// used to prevent a race where we could create a new sector more than once
+</span><span style=color:#75715e></span>
+	<span style=color:#a6e22e>upgradeLk</span> <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Mutex</span>
+	<span style=color:#a6e22e>toUpgrade</span> <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>abi</span>.<span style=color:#a6e22e>SectorNumber</span>]<span style=color:#66d9ef>struct</span>{}
+
+	<span style=color:#a6e22e>notifee</span> <span style=color:#a6e22e>SectorStateNotifee</span>
+	<span style=color:#a6e22e>addrSel</span> <span style=color:#a6e22e>AddrSel</span>
+
+	<span style=color:#a6e22e>stats</span> <span style=color:#a6e22e>SectorStats</span>
+
+	<span style=color:#a6e22e>terminator</span>  <span style=color:#f92672>*</span><span style=color:#a6e22e>TerminateBatcher</span>
+	<span style=color:#a6e22e>precommiter</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>PreCommitBatcher</span>
+	<span style=color:#a6e22e>commiter</span>    <span style=color:#f92672>*</span><span style=color:#a6e22e>CommitBatcher</span>
+
+	<span style=color:#a6e22e>getConfig</span> <span style=color:#a6e22e>GetSealingConfigFunc</span>
+}
+
+<span style=color:#75715e>// 有限状态机规则
+</span><span style=color:#75715e>// 
+</span><span style=color:#75715e>// 一个map，key是状态，value是一个函数，函数接受一系列事件和当前的扇区信息，对扇区执行指定操作，最后返回
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>fsmPlanners</span> = <span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>SectorState</span>]<span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>events</span> []<span style=color:#a6e22e>statemachine</span>.<span style=color:#a6e22e>Event</span>, <span style=color:#a6e22e>state</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>SectorInfo</span>) (<span style=color:#66d9ef>uint64</span>, <span style=color:#66d9ef>error</span>) {
+	<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>}
+
+<span style=color:#75715e>// Sealing实现了go-statemachine包里的StateHandler接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Sealing</span>) <span style=color:#a6e22e>Plan</span>(<span style=color:#a6e22e>events</span> []<span style=color:#a6e22e>statemachine</span>.<span style=color:#a6e22e>Event</span>, <span style=color:#a6e22e>user</span> <span style=color:#66d9ef>interface</span>{}) (<span style=color:#66d9ef>interface</span>{}, <span style=color:#66d9ef>uint64</span>, <span style=color:#66d9ef>error</span>) 
+
+<span style=color:#75715e>// 根据上面定义的有限状态转换规则执行
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Sealing</span>) <span style=color:#a6e22e>plan</span>(<span style=color:#a6e22e>events</span> []<span style=color:#a6e22e>statemachine</span>.<span style=color:#a6e22e>Event</span>, <span style=color:#a6e22e>state</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>SectorInfo</span>) (<span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>statemachine</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>SectorInfo</span>) <span style=color:#66d9ef>error</span>, <span style=color:#66d9ef>uint64</span>, <span style=color:#66d9ef>error</span>) {
+	<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>}
+</code></pre></div><p>
+<a href=github.com/filecoin-project/go-statemachine>go-statemachine</a></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>StateHandler</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#75715e>// returns
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Plan</span>(<span style=color:#a6e22e>events</span> []<span style=color:#a6e22e>Event</span>, <span style=color:#a6e22e>user</span> <span style=color:#66d9ef>interface</span>{}) (<span style=color:#66d9ef>interface</span>{}, <span style=color:#66d9ef>uint64</span>, <span style=color:#66d9ef>error</span>)
+}
+
+<span style=color:#75715e>// StateGroup 返回StateMachine
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>StateGroup</span>) <span style=color:#a6e22e>loadOrCreate</span>(<span style=color:#a6e22e>name</span> <span style=color:#66d9ef>interface</span>{}, <span style=color:#a6e22e>userState</span> <span style=color:#66d9ef>interface</span>{}) (<span style=color:#f92672>*</span><span style=color:#a6e22e>StateMachine</span>, <span style=color:#66d9ef>error</span>) {
+	<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>
+	<span style=color:#a6e22e>res</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>StateMachine</span>{
+		<span style=color:#a6e22e>planner</span>:  <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>hnd</span>.<span style=color:#a6e22e>Plan</span>,
+		<span style=color:#a6e22e>eventsIn</span>: make(<span style=color:#66d9ef>chan</span> <span style=color:#a6e22e>Event</span>),
+
+		<span style=color:#a6e22e>name</span>:      <span style=color:#a6e22e>name</span>,
+		<span style=color:#a6e22e>st</span>:        <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>sts</span>.<span style=color:#a6e22e>Get</span>(<span style=color:#a6e22e>name</span>),
+		<span style=color:#a6e22e>stateType</span>: <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>stateType</span>,
+
+		<span style=color:#a6e22e>stageDone</span>: make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{}),
+		<span style=color:#a6e22e>closing</span>:   make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{}),
+		<span style=color:#a6e22e>closed</span>:    make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{}),
+	}
+
+	<span style=color:#66d9ef>go</span> <span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>run</span>() <span style=color:#75715e>// 启动状态机
+</span><span style=color:#75715e></span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>res</span>, <span style=color:#66d9ef>nil</span>
+}
+</code></pre></div><p>
 <a href=https://github.com/filecoin-project/rust-fil-proofs>共识库： rust-fil-proofs</a></p>
 <blockquote>
 <p>Storage Proofs (storage-proofs) A library for constructing storage proofs – including non-circuit proofs, corresponding SNARK circuits, and a method of combining them.</p>
@@ -538,9 +679,9 @@ filecoin
 <p>Storage Proofs PoRep (storage-proofs-porep) storage-proofs-porep is intended to serve as a reference implementation for Proof-of-Replication (PoRep), while also performing the heavy lifting for filecoin-proofs.</p>
 <p>Primary Components:</p>
 <blockquote>
-<p>PoR (Proof-of-Retrievability: Merkle inclusion proof)
-DrgPoRep (Depth Robust Graph Proof-of-Replication)
-StackedDrgPoRep</p>
+<p>PoR (Proof-of-Retrievability: Merkle inclusion proof)</p>
+<p>DrgPoRep (Depth Robust Graph Proof-of-Replication)</p>
+<p>StackedDrgPoRep</p>
 </blockquote>
 <p>Storage Proofs PoSt (storage-proofs-post) storage-proofs-post is intended to serve as a reference implementation for Proof-of-Space-time (PoSt), for filecoin-proofs.</p>
 <p>Primary Components:</p>
