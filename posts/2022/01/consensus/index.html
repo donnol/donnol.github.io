@@ -83,7 +83,7 @@ eth2将要升级的共识机制，即将使用的基于eth1和PoS算法的共识
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.2b555848a0b0e701b605be58ff5112e76c752f857cdccef1e53db8fca6e4e414.js integrity="sha256-K1VYSKCw5wG2Bb5Y/1ES52x1L4V83M7x5T24/Kbk5BQ=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.3229b532fbdc47bfe0819417ae6a2a4f501da10dbaa40a83ed64a81593fb4a80.js integrity="sha256-Mim1MvvcR7/ggZQXrmoqT1AdoQ26pAqD7WSoFZP7SoA=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 </head>
 <body dir=ltr>
@@ -740,7 +740,49 @@ filecoin
 		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>cborutil</span>.<span style=color:#a6e22e>Dump</span>(<span style=color:#a6e22e>state</span>.<span style=color:#a6e22e>Interface</span>())
 	}
 }
-</code></pre></div><p>
+</code></pre></div><h4 id=lotus是如何通过cgo调用rust库的呢>
+lotus是如何通过cgo调用rust库的呢？
+<a class=anchor href=#lotus%e6%98%af%e5%a6%82%e4%bd%95%e9%80%9a%e8%bf%87cgo%e8%b0%83%e7%94%a8rust%e5%ba%93%e7%9a%84%e5%91%a2>#</a>
+</h4>
+<p>
+<a href=https://github.com/xlab/c-for-go>c-go绑定库生成工具</a></p>
+<blockquote>
+<p>此库作为cgo绑定代码生成工具</p>
+<p>automatically creating c-go bindings for a given set of C headers and the manifest file.</p>
+</blockquote>
+<p>
+<a href=https://github.com/eqrion/cbindgen>c-rust: generating C bindings from Rust code </a></p>
+<blockquote>
+<p>用来生成rust代码的c绑定库</p>
+<p>cargo install &ndash;force cbindgen</p>
+<p>cbindgen &ndash;config cbindgen.toml &ndash;lang c &ndash;crate my_rust_library &ndash;output my_header.h</p>
+</blockquote>
+<p>
+<a href=http://senlinzhan.github.io/2017/12/31/valgrind/>valgrind: 检测c/c++内存泄漏的工具</a></p>
+<blockquote>
+<p>Valgrind 可以用来检测程序是否有非法使用内存的问题，例如访问未初始化的内存、访问数组时越界、忘记释放动态内存等问题。</p>
+<p>报错： valgrind: the &lsquo;impossible&rsquo; happened: Unsupported arch_prctl option</p>
+<p>需要安装最新的valgrind： manual compile the latest version of valgrind fix the problems</p>
+</blockquote>
+<p>
+<a href=https://github.com/filecoin-project/filecoin-ffi>ffi: go-c-rust</a></p>
+<blockquote>
+<p>此库作为子模块包含到lotus项目里</p>
+<p>在rust目录里，有一个名为<code>filcrypto</code>的crate。</p>
+<p>会构建出来三个文件：filcrypto.h, libfilcrypto.a, filcrypto.pc</p>
+<blockquote>
+<p>pc文件:
+<a href=https://www.cnblogs.com/sddai/p/10266624.html>pkg-config的配置文件</a>, 把众多头文件和库文件的位置指出来</p>
+</blockquote>
+<p>通过<code>filcrypto.yml</code>文件的配置(指定头文件等)来使用<code>c-for-go</code>工具生成cgo绑定: <code>go run github.com/xlab/c-for-go --nostamp filcrypto.yml</code></p>
+</blockquote>
+<p>
+<a href=https://github.com/filecoin-project/rust-filecoin-proofs-api>rust-filecoin-proofs-api: the official public API into the proofs library</a></p>
+<h4 id=rust-fil-proofs>
+rust-fil-proofs
+<a class=anchor href=#rust-fil-proofs>#</a>
+</h4>
+<p>
 <a href=https://github.com/filecoin-project/rust-fil-proofs>共识库： rust-fil-proofs</a></p>
 <blockquote>
 <p>Storage Proofs (storage-proofs) A library for constructing storage proofs – including non-circuit proofs, corresponding SNARK circuits, and a method of combining them.</p>
