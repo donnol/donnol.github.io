@@ -2,4 +2,9 @@
 加密
 镜像加密
 源码加密：在COPY源码进去之前先加密；这种适合服务器不是自己的，并且在局域网里的（接过医院系统的应该都懂吧）；留这样一份加密源码也只是在方便有bug时可以快速修复的同时，还可以稍微保护一下源码；
-先使用zip压缩源码：`zip -q -r code.zip ./code`； 再使用gpg加密：`gpg --yes --batch --passphrase=123 -c ebpf.zip`； -- 通过`--yes --batch --passphrase`三个选项避免键盘交互，最后生成`ebpf.zip.gpg`。 后续进入容器后，使用gpg解密：`gpg -o ebpf2.zip -d ebpf.zip.gpg`； 再使用unzip解压：`unzip -d ebpf2 ebpf2.zip`。 在镜像构建后，还要防止docker history -H cb0b42c0cb03 --no-trunc=true查看镜像构建历史时，泄露秘钥等信息。</description></item></channel></rss>
+先使用zip压缩源码：`zip -q -r code.zip ./code`； 再使用gpg加密：`gpg --yes --batch --passphrase=123 -c ebpf.zip`； -- 通过`--yes --batch --passphrase`三个选项避免键盘交互，最后生成`ebpf.zip.gpg`。 后续进入容器后，使用gpg解密：`gpg -o ebpf2.zip -d ebpf.zip.gpg`； 再使用unzip解压：`unzip -d ebpf2 ebpf2.zip`。 在镜像构建后，还要防止docker history -H cb0b42c0cb03 --no-trunc=true查看镜像构建历史时，泄露秘钥等信息。
+dockerfile COPY before mkdir will get a no such file or directory error # error:
+```dockerfile # &amp;hellip;
+RUN mkdir -p /abc
+COPY &amp;ndash;from=builder /opt/efg /abc/efg ```
+没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory</description></item></channel></rss>
