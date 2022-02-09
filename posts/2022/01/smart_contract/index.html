@@ -35,7 +35,7 @@ vending machine(自动售货机): money + snack selection = snack dispensed, 给
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.187c40de188345dd91d11a86789460b1e0da7ec92fb7a1349920dc3c9d09805f.js integrity="sha256-GHxA3hiDRd2R0RqGeJRgseDafskvt6E0mSDcPJ0JgF8=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.7a79506eb67ae629cd3bf01435ce505f6b1b94eb5db3e92c57449152a4f91504.js integrity="sha256-enlQbrZ65inNO/AUNc5QX2sblOtds+ksV0SRUqT5FQQ=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 </head>
 <body dir=ltr>
@@ -240,6 +240,7 @@ Hugo Themes
 <ul>
 <li><a href=#安全问题>安全问题</a></li>
 <li><a href=#合约开发测试和部署>合约开发、测试和部署</a></li>
+<li><a href=#实战>实战</a></li>
 </ul>
 </li>
 <li><a href=#evm>evm</a></li>
@@ -394,6 +395,8 @@ Hugo Themes
 <a href=https://ethereum.org/en/developers/docs/smart-contracts/testing/>一些工具库</a></p>
 <blockquote>
 <p>
+<a href=https://github.com/trufflesuite/truffle>truffle</a> - A tool for developing smart contracts. Crafted with the finest cacaos.</p>
+<p>
 <a href=https://github.com/EthWorks/Waffle>Waffle</a> - A framework for advanced smart contract development and testing (based on ethers.js).</p>
 <p>
 <a href=https://github.com/sc-forks/solidity-coverage>Solidity-Coverage</a> - Alternative solidity code coverage tool.</p>
@@ -406,6 +409,32 @@ Hugo Themes
 <p>
 <a href=https://github.com/OpenZeppelin/openzeppelin-test-helpers>OpenZeppelin Test Helpers</a> - Assertion library for Ethereum smart contract testing. Make sure your contracts behave as expected!</p>
 </blockquote>
+<h3 id=实战>
+实战
+<a class=anchor href=#%e5%ae%9e%e6%88%98>#</a>
+</h3>
+<p>安装
+<a href=https://metamask.io/download/><code>ETH钱包MetaMask(firefox插件)</code></a></p>
+<p>新建账户，会提示输入密码，然后生成成功后，会有一堆助记词，需要记录好：</p>
+<pre tabindex=0><code>jeans term salt true cereal hobby cheese awesome link nice never choose
+</code></pre><p>钱包默认连接的是主网，因为主网要花钱买币，所以我们选择测试网。在主网那里点击设置打开<code>Show test networks</code>配置。</p>
+<p>获得地址：<code>0x758c40f09207f9e6F72A8C24029Be865D28eF219</code></p>
+<p>
+<a href=https://faucet.rinkeby.io/>eth rinkeby测试网水龙头</a></p>
+<p>为上述地址去水龙头领取币。</p>
+<p>需要先把上述地址发到推特、脸书、谷家任一地方，然后再使用对应帖子的地址(如：)来获取。</p>
+<p>如果报错<code>nsufficient funds for gas * price + value</code>，可尝试使用
+<a href=https://faucets.chain.link/rinkeby>另外的网站</a>直接使用地址获取。</p>
+<p>拿到之后，在<code>metamask</code>查看余额。</p>
+<p>
+<a href=https://rinkeby.etherscan.io/>eth rinkeby测试网浏览器</a></p>
+<p>在浏览器上可以查找到上述的
+<a href=https://rinkeby.etherscan.io/address/0x758c40f09207f9e6F72A8C24029Be865D28eF219>转账记录</a></p>
+<p>
+<a href=https://github.com/upstateinteractive/blockchain-puzzle>参照这个游戏示例</a></p>
+<p>
+<a href=http://remix.ethereum.org/>编译、部署合约</a></p>
+<p>TODO:</p>
 <h2 id=evm>
 evm
 <a class=anchor href=#evm>#</a>
@@ -483,6 +512,7 @@ NFT
 <ul>
 <li><a href=#安全问题>安全问题</a></li>
 <li><a href=#合约开发测试和部署>合约开发、测试和部署</a></li>
+<li><a href=#实战>实战</a></li>
 </ul>
 </li>
 <li><a href=#evm>evm</a></li>
