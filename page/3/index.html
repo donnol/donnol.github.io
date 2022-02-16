@@ -14,7 +14,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.16f037b29018fe8bff3039ad6eb63f501421a505445ea74251d2c29981562a74.js integrity="sha256-FvA3spAY/ov/MDmtbrY/UBQhpQVEXqdCUdLCmYFWKnQ=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.07d886e85aba094245ef0aa22fee6c8f29749c4b5534f1ad41507910ff29a7c9.js integrity="sha256-B9iG6Fq6CUJF7wqiL+5sjyl0nEtVNPGtQVB5EP8pp8k=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/index.xml title=我的简单博客>
 </head>
@@ -47,6 +47,9 @@
 <a role=button>02</a>
 </label>
 <ul>
+<li>
+<a href=https://donnol.github.io/posts/2022/02/goroutine_vs_tokio/>goroutine vs tokio</a>
+</li>
 <li>
 <a href=https://donnol.github.io/posts/2022/02/go_runtime_chan/>go runtime chan</a>
 </li>
@@ -235,12 +238,20 @@ Hugo Themes
 <strong>Categories</strong>
 <ul>
 <li class="flex justify-between">
-<a href=/categories/chan/>chan</a>
+<a href=/categories/go/>go</a>
+<span>7</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/goroutine/>goroutine</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/categories/go/>go</a>
-<span>6</span>
+<a href=/categories/tokio/>tokio</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/chan/>chan</a>
+<span>1</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/runtime/>runtime</a>
@@ -359,6 +370,10 @@ Hugo Themes
 <li class=book-section-flat>
 <strong>Tags</strong>
 <ul>
+<li class="flex justify-between">
+<a href=/tags/concurrent/>concurrent</a>
+<span>1</span>
+</li>
 <li class="flex justify-between">
 <a href=/tags/chan/>chan</a>
 <span>1</span>
@@ -493,6 +508,43 @@ Hugo Themes
 </nav>
 </aside>
 </header>
+<article class="markdown book-post">
+<h2>
+<a href=/posts/2021/12/ddia/>数据密集型应用设计</a>
+</h2>
+<h5>December 10, 2021</h5>
+<div>
+<a href=/categories/book/>book</a>
+</div>
+<div>
+<a href=/tags/ddia/>ddia</a>
+</div>
+<p>第一章 可靠性、可扩展性、可维护性 # 数据密集型应用和计算密集型应用
+现今很多应用程序都是 数据密集型（data-intensive） 的，而非 计算密集型（compute-intensive） 的。因此CPU很少成为这类应用的瓶颈，更大的问题通常来自数据量、数据复杂性、以及数据的变更速度。
+数据密集型应用通常由标准组件构建而成，标准组件提供了很多通用的功能；例如，许多应用程序都需要：
+存储数据，以便自己或其他应用程序之后能再次找到 （数据库（database））
+记住开销昂贵操作的结果，加快读取速度（缓存（cache））
+允许用户按关键字搜索数据，或以各种方式对数据进行过滤（搜索索引（search indexes））
+向其他进程发送消息，进行异步处理（流处理（stream processing））
+定期处理累积的大批量数据（批处理（batch processing））
+对应可选的组件在我映像中可以有：
+数据库：mysql, postgresql
+缓存: redis, memcached
+搜索索引: elastic search, sonic, redis search
+流处理: kafka, redis stream
+批处理: linux cron, golang timer
+使用较小的通用组件创建了一个全新的、专用的数据系统。
+如何衡量一个系统的好坏 # 设计数据系统或服务时可能会遇到很多棘手的问题，例如：当系统出问题时，如何确保数据的正确性和完整性？当部分系统退化降级时，如何为客户提供始终如一的良好性能？当负载增加时，如何扩容应对？什么样的 API 才是好的 API？
+可靠性（Reliability）
+系统在困境（adversity）（硬件故障、软件故障、人为错误）中仍可正常工作（正确完成功能，并能达到期望的性能水准）。
+故障通常定义为系统的一部分状态偏离其标准，而失效则是系统作为一个整体停止向用户提供服务。故障的概率不可能降到零，因此最好设计容错机制以防因故障而导致失效。
+硬件错误的解决：为了减少系统的故障率，第一反应通常都是增加单个硬件的冗余度，例如：磁盘可以组建 RAID，服务器可能有双路电源和热插拔 CPU，数据中心可能有电池和柴油发电机作为后备电源，某个组件挂掉时冗余组件可以立刻接管。
+软件错误的解决：仔细考虑系统中的假设和交互；彻底的测试；进程隔离；允许进程崩溃并重启；测量、监控并分析生产环境中的系统行为。
+人为错误的解决：
+可扩展性（Scalability）
+<a href=/posts/2021/12/ddia/>...</a>
+</p>
+</article>
 <article class="markdown book-post">
 <h2>
 <a href=/posts/2021/12/burn_cpu_use_golang/>burn cpu use golang</a>
@@ -664,23 +716,6 @@ func (impl userImpl) CheckUser(ctx context.Context, id int) error { begin := tim
 启动博客
 </p>
 </article>
-<article class="markdown book-post">
-<h2>
-<a href=/posts/2020/12/go-ctx/>go ctx</a>
-</h2>
-<h5>December 18, 2020</h5>
-<div>
-<a href=/categories/go/>go</a>
-</div>
-<div>
-<a href=/tags/ctx/>ctx</a>
-</div>
-<p>ctx # 1.why
-goroutine号称百万之众，互相之间盘根错节，难以管理控制。为此，必须提供一种机制来管理控制它们。
-各自为战 # package main import ( "fmt" "time" ) func main() { // start first go func() { fmt.Println(1) }() // start second go func() { fmt.Println(2) }() time.Sleep(time.Second) } 万法归一 # package main import ( "fmt" "sync" ) func main() { wg := new(sync.WaitGroup) // start first wg.Add(1) go func() { defer wg.Done() fmt.Println(1) }() // start second wg.
-<a href=/posts/2020/12/go-ctx/>...</a>
-</p>
-</article>
 <ul class="pagination pagination-default">
 <li class=page-item>
 <a href=/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
@@ -722,12 +757,20 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 <strong>Categories</strong>
 <ul>
 <li class="flex justify-between">
-<a href=/categories/chan/>chan</a>
+<a href=/categories/go/>go</a>
+<span>7</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/goroutine/>goroutine</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/categories/go/>go</a>
-<span>6</span>
+<a href=/categories/tokio/>tokio</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/chan/>chan</a>
+<span>1</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/runtime/>runtime</a>
@@ -846,6 +889,10 @@ goroutine号称百万之众，互相之间盘根错节，难以管理控制。�
 <li class=book-section-flat>
 <strong>Tags</strong>
 <ul>
+<li class="flex justify-between">
+<a href=/tags/concurrent/>concurrent</a>
+<span>1</span>
+</li>
 <li class="flex justify-between">
 <a href=/tags/chan/>chan</a>
 <span>1</span>

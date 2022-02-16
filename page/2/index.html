@@ -14,7 +14,7 @@
 <link rel=icon href=/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.16f037b29018fe8bff3039ad6eb63f501421a505445ea74251d2c29981562a74.js integrity="sha256-FvA3spAY/ov/MDmtbrY/UBQhpQVEXqdCUdLCmYFWKnQ=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.07d886e85aba094245ef0aa22fee6c8f29749c4b5534f1ad41507910ff29a7c9.js integrity="sha256-B9iG6Fq6CUJF7wqiL+5sjyl0nEtVNPGtQVB5EP8pp8k=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://donnol.github.io/index.xml title=我的简单博客>
 </head>
@@ -47,6 +47,9 @@
 <a role=button>02</a>
 </label>
 <ul>
+<li>
+<a href=https://donnol.github.io/posts/2022/02/goroutine_vs_tokio/>goroutine vs tokio</a>
+</li>
 <li>
 <a href=https://donnol.github.io/posts/2022/02/go_runtime_chan/>go runtime chan</a>
 </li>
@@ -235,12 +238,20 @@ Hugo Themes
 <strong>Categories</strong>
 <ul>
 <li class="flex justify-between">
-<a href=/categories/chan/>chan</a>
+<a href=/categories/go/>go</a>
+<span>7</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/goroutine/>goroutine</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/categories/go/>go</a>
-<span>6</span>
+<a href=/categories/tokio/>tokio</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/chan/>chan</a>
+<span>1</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/runtime/>runtime</a>
@@ -359,6 +370,10 @@ Hugo Themes
 <li class=book-section-flat>
 <strong>Tags</strong>
 <ul>
+<li class="flex justify-between">
+<a href=/tags/concurrent/>concurrent</a>
+<span>1</span>
+</li>
 <li class="flex justify-between">
 <a href=/tags/chan/>chan</a>
 <span>1</span>
@@ -493,6 +508,36 @@ Hugo Themes
 </nav>
 </aside>
 </header>
+<article class="markdown book-post">
+<h2>
+<a href=/posts/2022/01/red_black_tree/>红黑树</a>
+</h2>
+<h5>January 11, 2022</h5>
+<div>
+<a href=/categories/tree/>tree</a>,
+<a href=/categories/red-black-tree/>red-black-tree</a>
+</div>
+<div>
+<a href=/tags/data-struct/>data-struct</a>
+</div>
+<p>树，保持高效在于平衡，高度低。
+红黑树如何做到的呢？
+定义 # wiki # 红黑树（英语：Red–black tree）是一种自平衡二叉查找树，是在计算机科学中用到的一种数据结构，典型用途是实现关联数组。它在1972年由鲁道夫·贝尔发明，被称为"对称二叉B树"，它现代的名字源于Leo J. Guibas和罗伯特·塞奇威克于1978年写的一篇论文。红黑树的结构复杂，但它的操作有着良好的最坏情况运行时间，并且在实践中高效：它可以在O(log n)时间内完成查找、插入和删除，这里的n是树中元素的数目。
+性质 # 红黑树是每个节点都带有颜色属性的二叉查找树，颜色为红色或黑色。在二叉查找树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求：
+节点是红色或黑色。 根是黑色。 所有叶子都是黑色（叶子是NIL节点）。 每个红色节点必须有两个黑色的子节点。（从每个叶子到根的所有路径上不能有两个连续的红色节点。） 从**任一节点到其每个叶子**的所有简单路径都包含**相同数目的黑色节点**。 一句话概况：或红或黑，首尾皆黑，红子必黑，任一点至所有尾含黑同数。
+为确保任一点至所有尾含黑同数，路径中必须插入红点，而在哪个位置插呢（必须考虑红子必黑原则）？
+这些约束确保了红黑树的关键特性：从根到叶子的最长的可能路径不多于最短的可能路径的两倍长。结果是这个树大致上是平衡的。因为操作比如插入、删除和查找某个值的最坏情况时间都要求与树的高度成比例，这个在高度上的理论上限允许红黑树在最坏情况下都是高效的，而不同于普通的二叉查找树。
+要知道为什么这些性质确保了这个结果，注意到性质4导致了路径不能有两个毗连的红色节点就足够了。最短的可能路径都是黑色节点，最长的可能路径有交替的红色和黑色节点。因为根据性质5所有最长的路径都有相同数目的黑色节点，这就表明了没有路径能多于任何其他路径的两倍长。
+在很多树数据结构的表示中，一个节点有可能只有一个子节点，而叶子节点包含数据。用这种范例表示红黑树是可能的，但是这会改变一些性质并使算法复杂。为此，本文中我们使用"nil叶子"或"空（null）叶子"，如上图所示，它不包含数据而只充当树在此结束的指示。这些节点在绘图中经常被省略，导致了这些树好像同上述原则相矛盾，而实际上不是这样。与此有关的结论是所有节点都有两个子节点，尽管其中的一个或两个可能是空叶子。
+实现 # 操作 # 因为每一个红黑树也是一个特化的二叉查找树，因此红黑树上的只读操作与普通二叉查找树上的只读操作相同。然而，在红黑树上进行插入操作和删除操作会导致不再符合红黑树的性质。恢复红黑树的性质需要少量（O(log n)）的颜色变更（实际是非常快速的）和不超过三次树旋转（对于插入操作是两次）。虽然插入和删除很复杂，但操作时间仍可以保持为O(log n)次。
+我们首先以二叉查找树的方法增加节点并标记它为红色。（如果设为黑色，就会导致根到叶子的路径上有一条路上，多一个额外的黑节点，这个是很难调整的。但是设为红色节点后，可能会导致出现两个连续红色节点的冲突，那么可以通过**颜色调换（color flips）和 树旋转**来调整。） 树旋转 # 对二叉树的一种操作，不影响元素的顺序，但会改变树的结构，将一个节点上移、一个节点下移。树旋转会改变树的形状，因此常被用来将较小的子树下移、较大的子树上移，从而降低树的高度、提升许多树操作的效率。
+对一棵树进行旋转时，这棵树的根节点是被旋转的两棵子树的父节点，称为旋转时的根（英语：root）；如果节点在旋转后会成为新的父节点，则该节点为旋转时的转轴（英语：pivot）。
+上图中，树的右旋操作以 Q 为根、P 为转轴，会将树顺时针旋转。相应的逆操作为左旋，会以 Q 为转轴，将树逆时针旋转。
+理解树旋转过程的关键，在于理解其中不变的约束。旋转操作不会导致叶节点顺序的改变（可以理解为旋转操作前后，树的中序遍历结果是一致的），旋转过程中也始终受二叉搜索树的主要性质约束：右子节点比父节点大、左子节点比父节点小。尤其需要注意的是，进行右旋转时，旋转前根的左节点的右节点（例如上图中以 Q 为根的 B 节点）会变成根的左节点，根本身则在旋转后会变成新的根的右节点，而在这一过程中，整棵树一直遵守着前面提到的几个约束。相反的左旋转操作亦然。
+如果将根记为 Root、转轴记为 Pivot、子节点中与旋转方向相同的一侧记为 RS（旋转侧，英语：Rotation Side）、旋转对侧记为 OS（英语：Opposite Side），则上图中 Q 节点的 RS 为 C、OS 为 P，将其右旋转的伪代码为：
+<a href=/posts/2022/01/red_black_tree/>...</a>
+</p>
+</article>
 <article class="markdown book-post">
 <h2>
 <a href=/posts/2022/01/rust_commonly_used_crate/>Rust常用库</a>
@@ -715,43 +760,6 @@ Flatcar Container Linux (tested with 2512.3.0)
 <a href=/posts/2021/12/k8s/>...</a>
 </p>
 </article>
-<article class="markdown book-post">
-<h2>
-<a href=/posts/2021/12/ddia/>数据密集型应用设计</a>
-</h2>
-<h5>December 10, 2021</h5>
-<div>
-<a href=/categories/book/>book</a>
-</div>
-<div>
-<a href=/tags/ddia/>ddia</a>
-</div>
-<p>第一章 可靠性、可扩展性、可维护性 # 数据密集型应用和计算密集型应用
-现今很多应用程序都是 数据密集型（data-intensive） 的，而非 计算密集型（compute-intensive） 的。因此CPU很少成为这类应用的瓶颈，更大的问题通常来自数据量、数据复杂性、以及数据的变更速度。
-数据密集型应用通常由标准组件构建而成，标准组件提供了很多通用的功能；例如，许多应用程序都需要：
-存储数据，以便自己或其他应用程序之后能再次找到 （数据库（database））
-记住开销昂贵操作的结果，加快读取速度（缓存（cache））
-允许用户按关键字搜索数据，或以各种方式对数据进行过滤（搜索索引（search indexes））
-向其他进程发送消息，进行异步处理（流处理（stream processing））
-定期处理累积的大批量数据（批处理（batch processing））
-对应可选的组件在我映像中可以有：
-数据库：mysql, postgresql
-缓存: redis, memcached
-搜索索引: elastic search, sonic, redis search
-流处理: kafka, redis stream
-批处理: linux cron, golang timer
-使用较小的通用组件创建了一个全新的、专用的数据系统。
-如何衡量一个系统的好坏 # 设计数据系统或服务时可能会遇到很多棘手的问题，例如：当系统出问题时，如何确保数据的正确性和完整性？当部分系统退化降级时，如何为客户提供始终如一的良好性能？当负载增加时，如何扩容应对？什么样的 API 才是好的 API？
-可靠性（Reliability）
-系统在困境（adversity）（硬件故障、软件故障、人为错误）中仍可正常工作（正确完成功能，并能达到期望的性能水准）。
-故障通常定义为系统的一部分状态偏离其标准，而失效则是系统作为一个整体停止向用户提供服务。故障的概率不可能降到零，因此最好设计容错机制以防因故障而导致失效。
-硬件错误的解决：为了减少系统的故障率，第一反应通常都是增加单个硬件的冗余度，例如：磁盘可以组建 RAID，服务器可能有双路电源和热插拔 CPU，数据中心可能有电池和柴油发电机作为后备电源，某个组件挂掉时冗余组件可以立刻接管。
-软件错误的解决：仔细考虑系统中的假设和交互；彻底的测试；进程隔离；允许进程崩溃并重启；测量、监控并分析生产环境中的系统行为。
-人为错误的解决：
-可扩展性（Scalability）
-<a href=/posts/2021/12/ddia/>...</a>
-</p>
-</article>
 <ul class="pagination pagination-default">
 <li class=page-item>
 <a href=/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
@@ -793,12 +801,20 @@ Flatcar Container Linux (tested with 2512.3.0)
 <strong>Categories</strong>
 <ul>
 <li class="flex justify-between">
-<a href=/categories/chan/>chan</a>
+<a href=/categories/go/>go</a>
+<span>7</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/goroutine/>goroutine</a>
 <span>1</span>
 </li>
 <li class="flex justify-between">
-<a href=/categories/go/>go</a>
-<span>6</span>
+<a href=/categories/tokio/>tokio</a>
+<span>1</span>
+</li>
+<li class="flex justify-between">
+<a href=/categories/chan/>chan</a>
+<span>1</span>
 </li>
 <li class="flex justify-between">
 <a href=/categories/runtime/>runtime</a>
@@ -917,6 +933,10 @@ Flatcar Container Linux (tested with 2512.3.0)
 <li class=book-section-flat>
 <strong>Tags</strong>
 <ul>
+<li class="flex justify-between">
+<a href=/tags/concurrent/>concurrent</a>
+<span>1</span>
+</li>
 <li class="flex justify-between">
 <a href=/tags/chan/>chan</a>
 <span>1</span>
