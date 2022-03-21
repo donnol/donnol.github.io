@@ -8,7 +8,7 @@ IO or 计算。
 阅读 # 从build.rs开始，首先映入眼帘的是use anyhow::Context;：
 /// Provides the `context` method for `Result`. /// /// This trait is sealed and cannot be implemented for types outside of /// `anyhow`. 这是一个为其它类型（anyhow::Result）引入context方法的特征啊，多么伟大，在anyhow包外面的类型就不要想着去实现它了，你们高攀不起的。
 再看anyhow::Context的定义：
-// lib.rs:598 pub trait Context&amp;lt;T, E&amp;gt;: context::private::Sealed { // 继承了Sealed，那它又是怎么样的、做什么的呢？ /// Wrap the error value with additional context. -- 给error值包装上下文信息 fn context&amp;lt;C&amp;gt;(self, context: C) -&amp;gt; Result&amp;lt;T, Error&amp;gt; where C: Display + Send + Sync + &amp;#39;static; // 能展示，并发安全，全局可见的类型值 /// Wrap the error value with additional context that is evaluated lazily /// only once an error does occur.</description></item><item><title>容器镜像加密</title><link>https://donnol.github.io/posts/2022/01/container_encrypt/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/container_encrypt/</guid><description>如果我在创建镜像时把源码也打包了进去，要怎么防止别人通过这个镜像把源码给窃取了呢？
+// lib.rs:598 pub trait Context&amp;lt;T, E&amp;gt;: context::private::Sealed { // 继承了Sealed，那它又是怎么样的、做什么的呢？ /// Wrap the error value with additional context.</description></item><item><title>容器镜像加密</title><link>https://donnol.github.io/posts/2022/01/container_encrypt/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/container_encrypt/</guid><description>如果我在创建镜像时把源码也打包了进去，要怎么防止别人通过这个镜像把源码给窃取了呢？
 加密
 镜像加密
 源码加密：在COPY源码进去之前先加密；这种适合服务器不是自己的，并且在局域网里的（接过医院系统的应该都懂吧）；留这样一份加密源码也只是在方便有bug时可以快速修复的同时，还可以稍微保护一下源码；
