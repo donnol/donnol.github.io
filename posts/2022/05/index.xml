@@ -3,4 +3,8 @@
 比如，现在需要一个颜色枚举，可以这样定义：
 const ( Red = &amp;#34;Red&amp;#34; // 红色 Blue = &amp;#34;Blue&amp;#34; // 蓝色 Green = &amp;#34;Green&amp;#34; // 绿色 ) 也有这样定义的：
 type Color string // 定义一个特定类型 // 枚举常量均声明为该类型 const ( Red Color = &amp;#34;Red&amp;#34; // 红色 Blue Color = &amp;#34;Blue&amp;#34; // 蓝色 Green Color = &amp;#34;Green&amp;#34; // 绿色 ) 这样做的好处是可以通过这个类型来更明显的标记出枚举字段来：
-type Car struct { Name string Color Color // 颜色字段声明为Color类型，在阅读代码的时候就能知道这个字段正常的可选值范围 } 但是，上面的做法都需要面临一个问题，就是我需要一个返回全部枚举值的集合时，需要这样做：</description></item></channel></rss>
+type Car struct { Name string Color Color // 颜色字段声明为Color类型，在阅读代码的时候就能知道这个字段正常的可选值范围 } 但是，上面的做法都需要面临一个问题，就是我需要一个返回全部枚举值的集合时，需要这样做：</description></item><item><title/><link>https://donnol.github.io/posts/2022/05/k8s_how_to_keep_pods/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/k8s_how_to_keep_pods/</guid><description>k8s是怎么维持pod的运行的呢？ # 当接收了yaml配置的信息后，是怎么维持pod根据声明一直运行的呢？
+让我们沿着命令执行的过程来一睹为快：kubectl apply -f pod.yaml.
+源码位置：cmd/kubectl/kubectl.go -&amp;gt; staging/src/k8s.io/kubectl/pkg/cmd/cmd.go -&amp;gt; staging/src/k8s.io/kubectl/pkg/cmd/apply/apply.go
+最终的执行方法：
+func (o *ApplyOptions) Run() error { // 预处理 if o.PreProcessorFn != nil { klog.V(4).Infof(&amp;#34;Running apply pre-processor function&amp;#34;) if err := o.PreProcessorFn(); err != nil { return err } } // Enforce CLI specified namespace on server request. if o.EnforceNamespace { o.VisitedNamespaces.Insert(o.Namespace) } // Generates the objects using the resource builder if they have not // already been stored by calling &amp;#34;SetObjects()&amp;#34; in the pre-processor.</description></item></channel></rss>
