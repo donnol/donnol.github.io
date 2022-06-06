@@ -7,4 +7,6 @@ dockerfile COPY before mkdir will get a no such file or directory error # error:
 ```dockerfile # &amp;hellip;
 RUN mkdir -p /abc
 COPY &amp;ndash;from=builder /opt/efg /abc/efg ```
-没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory</description></item></channel></rss>
+没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory
+success:
+```dockerfile # &amp;hellip;</description></item></channel></rss>

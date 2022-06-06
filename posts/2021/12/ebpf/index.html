@@ -1,40 +1,42 @@
 <!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="ebpf: 扩展伯克利包过滤器。
 下面的内容主要来源于 译文。
-用处 #   目前，主要有两大组触发器。
+用处 # 目前，主要有两大组触发器。
 第一组用于处理网络数据包和管理网络流量。它们是 XDP、流量控制事件及其他几个事件。
 以下情况需要用到这些事件：
- 创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。
+创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。
 创建更智能、更有针对性、但性能更好的防火墙——这些防火墙可以检查通过的流量是否符合公司的规则、是否存在漏洞模式等。例如，Facebook 在内部进行这种审计，而一些项目则对外销售这类产品。
 创建智能负载均衡器。最突出的例子就是 Cilium 项目，它最常被用作 K8s 集群中的网格网络。Cilium 对流量进行管理、均衡、重定向和分析。所有这些都是在内核运行的小型 BPF 程序的帮助下完成的，以响应这个或那个与网络数据包或套接字相关的事件。
- 这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。
+这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。
 这组的触发器有如下几个：
- perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。
+perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。
 跟踪点（tracepoints）——内核源代码中的静态（由开发人员定义）位置，通过附加到这些位置，你可以从中提取静态信息（开发人员先前准备的信息）。在这种情况下，静态似乎是一件坏事，因为我说过，日志的缺点之一就是它们只包含了程序员最初放在那里的内容。从某种意义上说，这是正确的，但跟踪点有三个重要的优势：
- 有相当多的跟踪点散落在内核中最有趣的地方
+有相当多的跟踪点散落在内核中最有趣的地方
 当它们不“开启”时，它们不使用任何资源
 它们是 API 的一部分，它们是稳定的，不会改变。这非常重要，因为我们将提到的其他触发器缺少稳定的 API。
 例如，假设有一个关于显示的实用程序，内核出于某种原因没有给它时间执行。你坐着纳闷为什么它这么慢，而 pprof 却没有显示任何什么有趣的东西。
- USDT——与跟踪点相同，但是它适用于用户空间的程序。也就是说，作为程序员，你可以将这些位置添加到你的程序中。并且许多大型且知名的程序和编程语言都已经采用了这些跟踪方法：例如 MySQL、或者 PHP 和 Python 语言。通常，它们的默认设置为“关闭”，如果要打开它们，需要使用 enable-dtrace 参数或类似的参数来重新构建解释器。是的，我们还可以在 Go 中注册这种类跟踪。你可能已经识别出参数名称中的单词 DTrace。关键在于，这些类型的静态跟踪是由 Solaris) 操作系统中诞生的同名系统所推广的。例如，想象一下，何时创建新线程、何时启动 GC 或与特定语言或系统相关的其他内容，我们都能够知道是怎样的一种场景。"><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="ebpf"><meta property="og:description" content="ebpf: 扩展伯克利包过滤器。
+USDT——与跟踪点相同，但是它适用于用户空间的程序。也就是说，作为程序员，你可以将这些位置添加到你的程序中。并且许多大型且知名的程序和编程语言都已经采用了这些跟踪方法：例如 MySQL、或者 PHP 和 Python 语言。通常，它们的默认设置为“关闭”，如果要打开它们，需要使用 enable-dtrace 参数或类似的参数来重新构建解释器。是的，我们还可以在 Go 中注册这种类跟踪。你可能已经识别出参数名称中的单词 DTrace。关键在于，这些类型的静态跟踪是由 Solaris) 操作系统中诞生的同名系统所推广的。例如，想象一下，何时创建新线程、何时启动 GC 或与特定语言或系统相关的其他内容，我们都能够知道是怎样的一种场景。
+这是另一种魔法开始的地方："><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="ebpf"><meta property="og:description" content="ebpf: 扩展伯克利包过滤器。
 下面的内容主要来源于 译文。
-用处 #   目前，主要有两大组触发器。
+用处 # 目前，主要有两大组触发器。
 第一组用于处理网络数据包和管理网络流量。它们是 XDP、流量控制事件及其他几个事件。
 以下情况需要用到这些事件：
- 创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。
+创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。
 创建更智能、更有针对性、但性能更好的防火墙——这些防火墙可以检查通过的流量是否符合公司的规则、是否存在漏洞模式等。例如，Facebook 在内部进行这种审计，而一些项目则对外销售这类产品。
 创建智能负载均衡器。最突出的例子就是 Cilium 项目，它最常被用作 K8s 集群中的网格网络。Cilium 对流量进行管理、均衡、重定向和分析。所有这些都是在内核运行的小型 BPF 程序的帮助下完成的，以响应这个或那个与网络数据包或套接字相关的事件。
- 这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。
+这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。
 这组的触发器有如下几个：
- perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。
+perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。
 跟踪点（tracepoints）——内核源代码中的静态（由开发人员定义）位置，通过附加到这些位置，你可以从中提取静态信息（开发人员先前准备的信息）。在这种情况下，静态似乎是一件坏事，因为我说过，日志的缺点之一就是它们只包含了程序员最初放在那里的内容。从某种意义上说，这是正确的，但跟踪点有三个重要的优势：
- 有相当多的跟踪点散落在内核中最有趣的地方
+有相当多的跟踪点散落在内核中最有趣的地方
 当它们不“开启”时，它们不使用任何资源
 它们是 API 的一部分，它们是稳定的，不会改变。这非常重要，因为我们将提到的其他触发器缺少稳定的 API。
 例如，假设有一个关于显示的实用程序，内核出于某种原因没有给它时间执行。你坐着纳闷为什么它这么慢，而 pprof 却没有显示任何什么有趣的东西。
- USDT——与跟踪点相同，但是它适用于用户空间的程序。也就是说，作为程序员，你可以将这些位置添加到你的程序中。并且许多大型且知名的程序和编程语言都已经采用了这些跟踪方法：例如 MySQL、或者 PHP 和 Python 语言。通常，它们的默认设置为“关闭”，如果要打开它们，需要使用 enable-dtrace 参数或类似的参数来重新构建解释器。是的，我们还可以在 Go 中注册这种类跟踪。你可能已经识别出参数名称中的单词 DTrace。关键在于，这些类型的静态跟踪是由 Solaris) 操作系统中诞生的同名系统所推广的。例如，想象一下，何时创建新线程、何时启动 GC 或与特定语言或系统相关的其他内容，我们都能够知道是怎样的一种场景。"><meta property="og:type" content="article"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/ebpf/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-24T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-24T00:00:00+00:00"><title>ebpf | 我的简单博客</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.bd4234df601a25034a70df494c95f73d96560c28ebfd0c8b8c02730c25fdfed7.js integrity="sha256-vUI032AaJQNKcN9JTJX3PZZWDCjr/QyLjAJzDCX9/tc=" crossorigin=anonymous></script>
+USDT——与跟踪点相同，但是它适用于用户空间的程序。也就是说，作为程序员，你可以将这些位置添加到你的程序中。并且许多大型且知名的程序和编程语言都已经采用了这些跟踪方法：例如 MySQL、或者 PHP 和 Python 语言。通常，它们的默认设置为“关闭”，如果要打开它们，需要使用 enable-dtrace 参数或类似的参数来重新构建解释器。是的，我们还可以在 Go 中注册这种类跟踪。你可能已经识别出参数名称中的单词 DTrace。关键在于，这些类型的静态跟踪是由 Solaris) 操作系统中诞生的同名系统所推广的。例如，想象一下，何时创建新线程、何时启动 GC 或与特定语言或系统相关的其他内容，我们都能够知道是怎样的一种场景。
+这是另一种魔法开始的地方："><meta property="og:type" content="article"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/ebpf/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-24T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-24T00:00:00+00:00"><title>ebpf | 我的简单博客</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script>
+<script defer src=/en.search.min.890574d2f85a387ba9a76c5a72e412fdd88a1874efbc9f30a18c7d19604a36c2.js integrity="sha256-iQV00vhaOHupp2xacuQS/diKGHTvvJ8woYx9GWBKNsI=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN",{anonymize_ip:!1})}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-PNRWGCH4KN',{anonymize_ip:!1})}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>我的简单博客</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-c8e9ae7896ddc3e931652e7edbcbefe2 class=toggle>
 <label for=section-c8e9ae7896ddc3e931652e7edbcbefe2 class="flex justify-between"><a role=button>2022</a></label><ul><li><input type=checkbox id=section-d9a952ec7a0fcb7a9ba717dc9bfce17b class=toggle>
 <label for=section-d9a952ec7a0fcb7a9ba717dc9bfce17b class="flex justify-between"><a role=button>05</a></label><ul><li><a href=https://donnol.github.io/posts/2022/05/generic/>泛型</a></li><li><a href=https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/>Find out which Go version built your binary</a></li><li><a href=https://donnol.github.io/posts/2022/05/k8s_how_to_keep_pods/>k8s是怎么维持pod的运行的呢？</a></li><li><a href=https://donnol.github.io/posts/2022/05/go_enum/>Go enum</a></li></ul></li><li><input type=checkbox id=section-98bace91040a47ec7d7a95076963fc62 class=toggle>

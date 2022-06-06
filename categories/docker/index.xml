@@ -7,7 +7,9 @@ dockerfile COPY before mkdir will get a no such file or directory error # error:
 ```dockerfile # &amp;hellip;
 RUN mkdir -p /abc
 COPY &amp;ndash;from=builder /opt/efg /abc/efg ```
-没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory</description></item><item><title>docker compose使用extra host让容器访问主机服务</title><link>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</guid><description>首发于：简单博客
+没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory
+success:
+```dockerfile # &amp;hellip;</description></item><item><title>docker compose使用extra host让容器访问主机服务</title><link>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</guid><description>首发于：简单博客
 docker compose 如何访问主机服务 # docker compose 里面的容器怎么访问主机自身起的服务呢？
 20.10.0 版本在 linux 新增 host.docker.internal 支持： docker run -it --add-host=host.docker.internal:host-gateway alpine cat /etc/hosts
 127.0.0.1 localhost ::1 localhost ip6-localhost ip6-loopback fe00::0 ip6-localnet ff00::0 ip6-mcastprefix ff02::1 ip6-allnodes ff02::2 ip6-allrouters 172.17.0.1 host.docker.internal # --add-host的作用就是添加了这行到/etc/hosts 172.17.0.3 cb0565ceea26 相关提交
@@ -16,4 +18,4 @@ docker compose 如何访问主机服务 # docker compose 里面的容器怎么�
 从而达到容器访问主机上服务的效果。
 那么，这个 add-host 怎么用在 compose 上呢？
 在 build 里使用 extra_hosts
-version: &amp;#34;2.</description></item></channel></rss>
+version: &amp;#34;2.3&amp;#34; # 因为某个bug的存在，只能用version2，不能用version3 services: tmp: build: context: .</description></item></channel></rss>

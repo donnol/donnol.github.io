@@ -4,4 +4,4 @@
 阅读 # 从build.rs开始，首先映入眼帘的是use anyhow::Context;：
 /// Provides the `context` method for `Result`. /// /// This trait is sealed and cannot be implemented for types outside of /// `anyhow`. 这是一个为其它类型（anyhow::Result）引入context方法的特征啊，多么伟大，在anyhow包外面的类型就不要想着去实现它了，你们高攀不起的。
 再看anyhow::Context的定义：
-// lib.rs:598 pub trait Context&amp;lt;T, E&amp;gt;: context::private::Sealed { // 继承了Sealed，那它又是怎么样的、做什么的呢？ /// Wrap the error value with additional context.</description></item></channel></rss>
+// lib.rs:598 pub trait Context&amp;lt;T, E&amp;gt;: context::private::Sealed { // 继承了Sealed，那它又是怎么样的、做什么的呢？ /// Wrap the error value with additional context. -- 给error值包装上下文信息 fn context&amp;lt;C&amp;gt;(self, context: C) -&amp;gt; Result&amp;lt;T, Error&amp;gt; where C: Display + Send + Sync + &amp;#39;static; // 能展示，并发安全，全局可见的类型值 /// Wrap the error value with additional context that is evaluated lazily /// only once an error does occur.</description></item></channel></rss>

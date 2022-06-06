@@ -32,4 +32,5 @@ eth共识 # Beacon # Beacon：信标
 eth2将要升级的共识机制，即将使用的基于eth1和PoS算法的共识。
 信标链不支持叔块了。
 信标链和经典链在校验header时的不同：
-(a) The following fields are expected to be constants:</description></item></channel></rss>
+(a) The following fields are expected to be constants:
+difficulty is expected to be 0 &amp;ndash; 难度固定为0 nonce is expected to be 0 &amp;ndash; 随机数固定为0 unclehash is expected to be Hash(emptyHeader) to be the desired constants &amp;ndash; 叔块哈希固定为空值 (b) the timestamp is not verified anymore (c) the extradata is limited to 32 bytes</description></item></channel></rss>

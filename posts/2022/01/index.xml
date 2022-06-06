@@ -8,7 +8,7 @@ IO or 计算。
 阅读 # 从build.rs开始，首先映入眼帘的是use anyhow::Context;：
 /// Provides the `context` method for `Result`. /// /// This trait is sealed and cannot be implemented for types outside of /// `anyhow`. 这是一个为其它类型（anyhow::Result）引入context方法的特征啊，多么伟大，在anyhow包外面的类型就不要想着去实现它了，你们高攀不起的。
 再看anyhow::Context的定义：
-// lib.rs:598 pub trait Context&amp;lt;T, E&amp;gt;: context::private::Sealed { // 继承了Sealed，那它又是怎么样的、做什么的呢？ /// Wrap the error value with additional context.</description></item><item><title>容器镜像加密</title><link>https://donnol.github.io/posts/2022/01/container_encrypt/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/container_encrypt/</guid><description>如果我在创建镜像时把源码也打包了进去，要怎么防止别人通过这个镜像把源码给窃取了呢？
+// lib.rs:598 pub trait Context&amp;lt;T, E&amp;gt;: context::private::Sealed { // 继承了Sealed，那它又是怎么样的、做什么的呢？ /// Wrap the error value with additional context. -- 给error值包装上下文信息 fn context&amp;lt;C&amp;gt;(self, context: C) -&amp;gt; Result&amp;lt;T, Error&amp;gt; where C: Display + Send + Sync + &amp;#39;static; // 能展示，并发安全，全局可见的类型值 /// Wrap the error value with additional context that is evaluated lazily /// only once an error does occur.</description></item><item><title>容器镜像加密</title><link>https://donnol.github.io/posts/2022/01/container_encrypt/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/container_encrypt/</guid><description>如果我在创建镜像时把源码也打包了进去，要怎么防止别人通过这个镜像把源码给窃取了呢？
 加密
 镜像加密
 源码加密：在COPY源码进去之前先加密；这种适合服务器不是自己的，并且在局域网里的（接过医院系统的应该都懂吧）；留这样一份加密源码也只是在方便有bug时可以快速修复的同时，还可以稍微保护一下源码；
@@ -17,7 +17,9 @@ dockerfile COPY before mkdir will get a no such file or directory error # error:
 ```dockerfile # &amp;hellip;
 RUN mkdir -p /abc
 COPY &amp;ndash;from=builder /opt/efg /abc/efg ```
-没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory</description></item><item><title>智能合约</title><link>https://donnol.github.io/posts/2022/01/smart_contract/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/smart_contract/</guid><description>智能合约 # 智能合约wiki
+没有指定创建/abc/efg目录，会导致后续想读取该目录内容时报错：no such file or directory
+success:
+```dockerfile # &amp;hellip;</description></item><item><title>智能合约</title><link>https://donnol.github.io/posts/2022/01/smart_contract/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/smart_contract/</guid><description>智能合约 # 智能合约wiki
 （英语：Smart contract）是一种特殊协议，在区块链内制定合约时使用，当中内含了代码函数 (Function)，亦能与其他合约进行交互、做决策、存储资料及发送以太币等功能。智能合约主要提供验证及执行合约内所订立的条件。智能合约允许在没有第三方的情况下进行可信交易。这些交易可追踪且不可逆转。
 安全问题 # 智能合约是“执行合约条款的计算机交易协议”。区块链上的所有用户都可以看到基于区块链的智能合约。但是，这会导致包括安全漏洞在内的所有漏洞都可见，并且可能无法迅速修复。
 这样的攻击难以迅速解决，例如：
@@ -61,7 +63,8 @@ eth共识 # Beacon # Beacon：信标
 eth2将要升级的共识机制，即将使用的基于eth1和PoS算法的共识。
 信标链不支持叔块了。
 信标链和经典链在校验header时的不同：
-(a) The following fields are expected to be constants:</description></item><item><title>红黑树</title><link>https://donnol.github.io/posts/2022/01/red_black_tree/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/red_black_tree/</guid><description>树，保持高效在于平衡，高度低。
+(a) The following fields are expected to be constants:
+difficulty is expected to be 0 &amp;ndash; 难度固定为0 nonce is expected to be 0 &amp;ndash; 随机数固定为0 unclehash is expected to be Hash(emptyHeader) to be the desired constants &amp;ndash; 叔块哈希固定为空值 (b) the timestamp is not verified anymore (c) the extradata is limited to 32 bytes</description></item><item><title>红黑树</title><link>https://donnol.github.io/posts/2022/01/red_black_tree/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/red_black_tree/</guid><description>树，保持高效在于平衡，高度低。
 红黑树如何做到的呢？
 定义 # wiki # 红黑树（英语：Red–black tree）是一种自平衡二叉查找树，是在计算机科学中用到的一种数据结构，典型用途是实现关联数组。它在1972年由鲁道夫·贝尔发明，被称为&amp;quot;对称二叉B树&amp;quot;，它现代的名字源于Leo J. Guibas和罗伯特·塞奇威克于1978年写的一篇论文。红黑树的结构复杂，但它的操作有着良好的最坏情况运行时间，并且在实践中高效：它可以在O(log n)时间内完成查找、插入和删除，这里的n是树中元素的数目。
 性质 # 红黑树是每个节点都带有颜色属性的二叉查找树，颜色为红色或黑色。在二叉查找树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求：
@@ -75,7 +78,8 @@ eth2将要升级的共识机制，即将使用的基于eth1和PoS算法的共识
 对一棵树进行旋转时，这棵树的根节点是被旋转的两棵子树的父节点，称为旋转时的根（英语：root）；如果节点在旋转后会成为新的父节点，则该节点为旋转时的转轴（英语：pivot）。
 上图中，树的右旋操作以 Q 为根、P 为转轴，会将树顺时针旋转。相应的逆操作为左旋，会以 Q 为转轴，将树逆时针旋转。
 理解树旋转过程的关键，在于理解其中不变的约束。旋转操作不会导致叶节点顺序的改变（可以理解为旋转操作前后，树的中序遍历结果是一致的），旋转过程中也始终受二叉搜索树的主要性质约束：右子节点比父节点大、左子节点比父节点小。尤其需要注意的是，进行右旋转时，旋转前根的左节点的右节点（例如上图中以 Q 为根的 B 节点）会变成根的左节点，根本身则在旋转后会变成新的根的右节点，而在这一过程中，整棵树一直遵守着前面提到的几个约束。相反的左旋转操作亦然。
-如果将根记为 Root、转轴记为 Pivot、子节点中与旋转方向相同的一侧记为 RS（旋转侧，英语：Rotation Side）、旋转对侧记为 OS（英语：Opposite Side），则上图中 Q 节点的 RS 为 C、OS 为 P，将其右旋转的伪代码为：</description></item><item><title>Rust常用库</title><link>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</guid><description>crossbeam # crossbeam: Tools for concurrent programming in Rust.
+如果将根记为 Root、转轴记为 Pivot、子节点中与旋转方向相同的一侧记为 RS（旋转侧，英语：Rotation Side）、旋转对侧记为 OS（英语：Opposite Side），则上图中 Q 节点的 RS 为 C、OS 为 P，将其右旋转的伪代码为：
+Pivot = Root.OS Root.OS = Pivot.RS Pivot.RS = Root Root = Pivot 该操作为常数时间复杂度。</description></item><item><title>Rust常用库</title><link>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</guid><description>crossbeam # crossbeam: Tools for concurrent programming in Rust.
 Atomics
 Data structures
 Memory management: epoch
@@ -86,7 +90,10 @@ channel example # use crossbeam_channel::unbounded; let (s, r) = unbounded(); s.
 当bounded channel容量设为0时，发送前必须等接收端就绪，一般可用于线程间等待。
 更多介绍
 与标准库的sync::mpsc对比
-epoch # Pin 做了什么？</description></item><item><title>缓存和数据库如何保持一致</title><link>https://donnol.github.io/posts/2022/01/cache/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/cache/</guid><description>缓存读 # 从缓存读，如果读到了，直接返回；如果读不到，继续去数据库读（singleflight），读到后，更新缓存，返回结果。
+epoch # Pin 做了什么？
+crossbeam在实现无锁并发结构时，采用了基于代的内存回收方式1，这种算法的内存管理开销和数据对象的数量无关，只和线程的数量相关，因此在 以上模型中可以表现出更好的一致性和可预测性。不过Rust中的所有权系统已经保证了内存安全，那为什么还需要做额外的内存回收呢？这个问题的关键点 就在要实现无锁并发结构。如果使用标准库中的Arc自然就不会有内存回收的问题，但对Arc进行读写是需要锁的。
+crossbeam-channel文章
+digest # This crate provides traits which describe functionality of cryptographic hash functions and Message Authentication algorithms.</description></item><item><title>缓存和数据库如何保持一致</title><link>https://donnol.github.io/posts/2022/01/cache/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/cache/</guid><description>缓存读 # 从缓存读，如果读到了，直接返回；如果读不到，继续去数据库读（singleflight），读到后，更新缓存，返回结果。
 缓存写 # 为什么是删缓存，而不是更新缓存呢？
 主要是怕两个并发的写操作导致脏数据。
 删除缓存和更新磁盘谁先谁后呢？

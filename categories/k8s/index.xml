@@ -14,4 +14,6 @@ Red Hat Enterprise Linux (RHEL) 7+
 Fedora 25+
 HypriotOS v1.0.1+
 Flatcar Container Linux (tested with 2512.3.0)
-2 GB or more of RAM per machine (any less will leave little room for your apps).</description></item></channel></rss>
+2 GB or more of RAM per machine (any less will leave little room for your apps).
+2 CPUs or more.
+Full network connectivity between all machines in the cluster (public or private network is fine).</description></item></channel></rss>

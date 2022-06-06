@@ -3,4 +3,5 @@ len alloc flag buf 长度(已使用空间大小) 分配(总共空间大小：buf
 sds.h, sdsalloc.h, sds.c.
 定义：
 typedef char *sds; 根据类型获取长度：
-static inline size_t sdslen(const sds s) { unsigned char flags = s[-1]; switch(flags&amp;amp;SDS_TYPE_MASK) { case SDS_TYPE_5: return SDS_TYPE_5_LEN(flags); case SDS_TYPE_8: return SDS_HDR(8,s)-&amp;gt;len; case SDS_TYPE_16: return SDS_HDR(16,s)-&amp;gt;len; case SDS_TYPE_32: return SDS_HDR(32,s)-&amp;gt;len; case SDS_TYPE_64: return SDS_HDR(64,s)-&amp;gt;len; } return 0; } 新建：</description></item></channel></rss>
+static inline size_t sdslen(const sds s) { unsigned char flags = s[-1]; switch(flags&amp;amp;SDS_TYPE_MASK) { case SDS_TYPE_5: return SDS_TYPE_5_LEN(flags); case SDS_TYPE_8: return SDS_HDR(8,s)-&amp;gt;len; case SDS_TYPE_16: return SDS_HDR(16,s)-&amp;gt;len; case SDS_TYPE_32: return SDS_HDR(32,s)-&amp;gt;len; case SDS_TYPE_64: return SDS_HDR(64,s)-&amp;gt;len; } return 0; } 新建：
+/* Create a new sds string with the content specified by the &amp;#39;init&amp;#39; pointer * and &amp;#39;initlen&amp;#39;.</description></item></channel></rss>

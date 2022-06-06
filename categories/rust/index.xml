@@ -14,4 +14,7 @@ channel example # use crossbeam_channel::unbounded; let (s, r) = unbounded(); s.
 当bounded channel容量设为0时，发送前必须等接收端就绪，一般可用于线程间等待。
 更多介绍
 与标准库的sync::mpsc对比
-epoch # Pin 做了什么？</description></item></channel></rss>
+epoch # Pin 做了什么？
+crossbeam在实现无锁并发结构时，采用了基于代的内存回收方式1，这种算法的内存管理开销和数据对象的数量无关，只和线程的数量相关，因此在 以上模型中可以表现出更好的一致性和可预测性。不过Rust中的所有权系统已经保证了内存安全，那为什么还需要做额外的内存回收呢？这个问题的关键点 就在要实现无锁并发结构。如果使用标准库中的Arc自然就不会有内存回收的问题，但对Arc进行读写是需要锁的。
+crossbeam-channel文章
+digest # This crate provides traits which describe functionality of cryptographic hash functions and Message Authentication algorithms.</description></item></channel></rss>
