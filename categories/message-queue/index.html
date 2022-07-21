@@ -1,11 +1,11 @@
 <!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="message queue"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://donnol.github.io/categories/message-queue/"><title>message queue | 我的简单博客</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.48517c6f30fd24b36632494c062a7ba30a94c9090366caf122ede6785ec50e7a.js integrity="sha256-SFF8bzD9JLNmMklMBip7owqUyQkDZsrxIu3meF7FDno=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.841c517f04237d7ff7dcbcf8e58cca241e33ef1dcbd87d1c2d242994c5061dff.js integrity="sha256-hBxRfwQjfX/33Lz45YzKJB4z7x3L2H0cLSQplMUGHf8=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script>
 <script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN",{anonymize_ip:!1})}</script><link rel=alternate type=application/rss+xml href=https://donnol.github.io/categories/message-queue/index.xml title=我的简单博客></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>我的简单博客</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-c8e9ae7896ddc3e931652e7edbcbefe2 class=toggle>
 <label for=section-c8e9ae7896ddc3e931652e7edbcbefe2 class="flex justify-between"><a role=button>2022</a></label><ul><li><input type=checkbox id=section-3811be776c86ac852ad674f5dc19e532 class=toggle>
-<label for=section-3811be776c86ac852ad674f5dc19e532 class="flex justify-between"><a role=button>07</a></label><ul><li><a href=https://donnol.github.io/posts/2022/07/jump_table/>Jump Table</a></li></ul></li><li><input type=checkbox id=section-d9a952ec7a0fcb7a9ba717dc9bfce17b class=toggle>
+<label for=section-3811be776c86ac852ad674f5dc19e532 class="flex justify-between"><a role=button>07</a></label><ul><li><a href=https://donnol.github.io/posts/2022/07/jump_table/>Jump Table</a></li><li><a href=https://donnol.github.io/posts/2022/07/number_calculate/>Jump Table</a></li></ul></li><li><input type=checkbox id=section-d9a952ec7a0fcb7a9ba717dc9bfce17b class=toggle>
 <label for=section-d9a952ec7a0fcb7a9ba717dc9bfce17b class="flex justify-between"><a role=button>05</a></label><ul><li><a href=https://donnol.github.io/posts/2022/05/generic/>泛型</a></li><li><a href=https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/>Find out which Go version built your binary</a></li><li><a href=https://donnol.github.io/posts/2022/05/k8s_how_to_keep_pods/>k8s是怎么维持pod的运行的呢？</a></li><li><a href=https://donnol.github.io/posts/2022/05/go_enum/>Go enum</a></li></ul></li><li><input type=checkbox id=section-98bace91040a47ec7d7a95076963fc62 class=toggle>
 <label for=section-98bace91040a47ec7d7a95076963fc62 class="flex justify-between"><a role=button>04</a></label><ul><li><a href=https://donnol.github.io/posts/2022/04/go1.18_comparable/>Go1.18 comparable</a></li></ul></li><li><input type=checkbox id=section-821dedbe2a29b27962c9696b13382042 class=toggle>
 <label for=section-821dedbe2a29b27962c9696b13382042 class="flex justify-between"><a role=button>03</a></label><ul><li><a href=https://donnol.github.io/posts/2022/03/kmp/>KMP</a></li></ul></li><li><input type=checkbox id=section-935ca4c1d23ab780a0809b4bc7c413bf class=toggle>
@@ -18,9 +18,9 @@
 <label for=section-6f89cc6c76d5375fc02e3f7e596280b9 class="flex justify-between"><a role=button>2020</a></label><ul><li><input type=checkbox id=section-03db05476b76e7f4afe06dfa3e1b675b class=toggle>
 <label for=section-03db05476b76e7f4afe06dfa3e1b675b class="flex justify-between"><a role=button>12</a></label><ul><li><a href=https://donnol.github.io/posts/2020/12/go-ctx/>go ctx</a></li></ul></li></ul></li><li><a href=https://donnol.github.io/posts/aboutme/about-me/>关于我</a></li></ul><ul><li><a href=https://github.com/donnol/blog target=_blank rel=noopener>Github</a></li><li><a href=https://themes.gohugo.io/hugo-book/ target=_blank rel=noopener>Hugo Themes</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
 <strong>message queue</strong>
-<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav><ul><li class=book-section-flat><strong>Categories</strong><ul><li class="flex justify-between"><a href=/categories/structure/>structure</a>
-<span>1</span></li><li class="flex justify-between"><a href=/categories/go/>go</a>
-<span>11</span></li><li class="flex justify-between"><a href=/categories/typescript/>TypeScript</a>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav><ul><li class=book-section-flat><strong>Categories</strong><ul><li class="flex justify-between"><a href=/categories/go/>go</a>
+<span>12</span></li><li class="flex justify-between"><a href=/categories/structure/>structure</a>
+<span>1</span></li><li class="flex justify-between"><a href=/categories/typescript/>TypeScript</a>
 <span>1</span></li><li class="flex justify-between"><a href=/categories/k8s/>k8s</a>
 <span>2</span></li><li class="flex justify-between"><a href=/categories/algorithm/>algorithm</a>
 <span>1</span></li><li class="flex justify-between"><a href=/categories/kmp/>KMP</a>
@@ -56,8 +56,8 @@
 <span>1</span></li><li class="flex justify-between"><a href=/categories/blog/>blog</a>
 <span>2</span></li><li class="flex justify-between"><a href=/categories/tools/>tools</a>
 <span>1</span></li></ul></li><li class=book-section-flat><strong>Tags</strong><ul><li class="flex justify-between"><a href=/tags/jump-table/>jump table</a>
-<span>1</span></li><li class="flex justify-between"><a href=/tags/generic/>generic</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/version/>version</a>
+<span>2</span></li><li class="flex justify-between"><a href=/tags/generic/>generic</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/pod/>pod</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/enum/>enum</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/comparable/>comparable</a>
@@ -105,9 +105,9 @@ control traffic and ensure the performance of critical applications with limited
 控制交通，确保有限网络容量下的应用性能。
 QoS（Quality of Service，服务质量）指一个网络能够利用各种基础技术，为指定的网络通信提供更好的服务能力，是网络的一种安全机制， 是用来解决网络延迟和阻塞等问题的一种技术。QoS 的保证对于容量有限的网络来说是十分重要的，特别是对于流多媒体应用，例如 VoIP 和 IPTV 等，因为这些应用常常需要固定的传输率，对延时也比较敏感。
 当网络发生拥塞的时候，所有的数据流都有可能被丢弃；为满足用户对不同应用不同服务质量的要求，就需要网络能根据用户的要求分配和调度资源，对不同的数据流提供不同的服务质量：
-<a href=/posts/2021/12/mqtt/>...</a></p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav><ul><li class=book-section-flat><strong>Categories</strong><ul><li class="flex justify-between"><a href=/categories/structure/>structure</a>
-<span>1</span></li><li class="flex justify-between"><a href=/categories/go/>go</a>
-<span>11</span></li><li class="flex justify-between"><a href=/categories/typescript/>TypeScript</a>
+<a href=/posts/2021/12/mqtt/>...</a></p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav><ul><li class=book-section-flat><strong>Categories</strong><ul><li class="flex justify-between"><a href=/categories/go/>go</a>
+<span>12</span></li><li class="flex justify-between"><a href=/categories/structure/>structure</a>
+<span>1</span></li><li class="flex justify-between"><a href=/categories/typescript/>TypeScript</a>
 <span>1</span></li><li class="flex justify-between"><a href=/categories/k8s/>k8s</a>
 <span>2</span></li><li class="flex justify-between"><a href=/categories/algorithm/>algorithm</a>
 <span>1</span></li><li class="flex justify-between"><a href=/categories/kmp/>KMP</a>
@@ -143,8 +143,8 @@ QoS（Quality of Service，服务质量）指一个网络能够利用各种基�
 <span>1</span></li><li class="flex justify-between"><a href=/categories/blog/>blog</a>
 <span>2</span></li><li class="flex justify-between"><a href=/categories/tools/>tools</a>
 <span>1</span></li></ul></li><li class=book-section-flat><strong>Tags</strong><ul><li class="flex justify-between"><a href=/tags/jump-table/>jump table</a>
-<span>1</span></li><li class="flex justify-between"><a href=/tags/generic/>generic</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/version/>version</a>
+<span>2</span></li><li class="flex justify-between"><a href=/tags/generic/>generic</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/pod/>pod</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/enum/>enum</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/comparable/>comparable</a>
