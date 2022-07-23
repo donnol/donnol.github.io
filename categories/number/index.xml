@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>number on 我的简单博客</title><link>https://donnol.github.io/categories/number/</link><description>Recent content in number on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 20 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/number/index.xml" rel="self" type="application/rss+xml"/><item><title>数字计算之分摊</title><link>https://donnol.github.io/posts/2022/07/number_calculate/</link><pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/07/number_calculate/</guid><description>背景：分多次把一批货全部出清。
+要求：需要确保这批货多次出清跟一次出清收的钱一样。
+现有三个数字(可整数，可小数)：a b c，其中：a 为数量，b 为价格，c 为折扣。
+总额为: t, t = a*b*c
+引入中间量: x y z
+x = a y = x*b z = y*c 假设分三次，每次数量为：a1 a2 a3，则有：a = a1 + a2 + a3
+第 1 次.
+x1 = (x-a1) y1 = (y-y*a1/x) z1 = (z-z*a1/x) t1 = z*a1/x 第 2 次.
+x2 = (x1-a2) y2 = (y1-y1*a2/x1) z2 = (z1-z1*a2/x1) t2 = z1*a2/x1 第 3 次.
+x3 = (x2-a3) y3 = (y2-y2*a3/x2) z3 = (z2-z2*a3/x2) t3 = z2*a3/x2 求证：t = t1 + t2 + t3 ?</description></item></channel></rss>
