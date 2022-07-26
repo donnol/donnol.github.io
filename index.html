@@ -1,5 +1,5 @@
 <!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.101.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="简单博客"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://donnol.github.io/"><title>简单博客 | 我的简单博客</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.09a284f5a03730d86dde350d2c062b1514e48fdfebba7763941c0674ef65748f.css integrity="sha256-CaKE9aA3MNht3jUNLAYrFRTkj9/rundjlBwGdO9ldI8=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.631f908d75dbdb9edaa73454e067c75df0840436c02952151ea039f0be29de10.js integrity="sha256-Yx+QjXXb257apzRU4GfHXfCEBDbAKVIVHqA58L4p3hA=" crossorigin=anonymous></script>
+<script defer src=/en.search.min.1e50b89e97d8f702c7a9abd7470a02d4899a5ddf6837180ffcafee7e97eb36c8.js integrity="sha256-HlC4npfY9wLHqavXRwoC1ImaXd9oNxgP/K/ufpfrNsg=" crossorigin=anonymous></script>
 <script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script>
 <script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN",{anonymize_ip:!1})}</script><link rel=alternate type=application/rss+xml href=https://donnol.github.io/index.xml title=我的简单博客></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
@@ -101,13 +101,17 @@
 <a href=/posts/2022/07/jump_table/>...</a></p></article><article class="markdown book-post"><h2><a href=/posts/2022/07/number_calculate/>数字计算之分摊</a></h2><h5>July 20, 2022</h5><div><a href=/categories/number/>number</a></div><div><a href=/tags/calculate/>calculate</a></div><p>背景：分多次把一批货全部出清。
 要求：需要确保这批货多次出清跟一次出清收的钱一样。
 现有三个数字(可整数，可小数)：a b c，其中：a 为数量，b 为价格，c 为折扣。
-总额为: t, t = a*b*c
-引入中间量: x y z
-x = a y = x*b z = y*c 假设分三次，每次数量为：a1 a2 a3，则有：a = a1 + a2 + a3
-第 1 次.
+则总额为: t, t = a*b*c
+假设分三次，每次数量为：a1 a2 a3，则有：a = a1 + a2 + a3
+直接计算： 第 1 次.
+a1*b*c 第 2 次.
+a2*b*c 第 3 次.
+a3*b*c (a1+a2+a3)bc 不就等于 abc 了吗？
+但是，如果考虑到小数乘法计算时的精度，比如：1.22*2.33 相乘后再取精度（保留两位小数），不就会导致数量误差了吗？
+那如果取精度导致结果误差，那我不取精度，直接用所有小数位数来计算呢。
+虽说可以，但小数位数是有可能非常多的，占用的空间也是一笔不小的开销。
+引入中间量(可称为&rsquo;余额&rsquo;): x y z x = a y = x*b z = y*c 第 1 次.
 x1 = (x-a1) y1 = (y-y*a1/x) z1 = (z-z*a1/x) t1 = z*a1/x 第 2 次.
-x2 = (x1-a2) y2 = (y1-y1*a2/x1) z2 = (z1-z1*a2/x1) t2 = z1*a2/x1 第 3 次.
-x3 = (x2-a3) y3 = (y2-y2*a3/x2) z3 = (z2-z2*a3/x2) t3 = z2*a3/x2 求证：t = t1 + t2 + t3 ?
 <a href=/posts/2022/07/number_calculate/>...</a></p></article><article class="markdown book-post"><h2><a href=/posts/2022/05/generic/>泛型</a></h2><h5>May 30, 2022</h5><div><a href=/categories/go/>go</a>,
 <a href=/categories/typescript/>TypeScript</a></div><div><a href=/tags/generic/>generic</a></div><p>Go泛型 # 试看：
 // 准确的描述出了参数和返回值的类型，非常方便 func Add(x, y int) int // 但也限制了Add函数的参数类型--只能接收`int` // Add(0.1, 0.2) // can't do that // 那怎么办呢？再写一个针对float64的呗 func AddFloat64(x, y float64) float64 AddFloat64(0.1, 0.2) // it's ok // 如果还要支持其它类型呢？再加一个吗，每多一种类型，就多加一个。。。 func AddInt8(x, y int8) int8 func AddInt32(x, y int32) int32 func AddFloat32(x, y float32) float32 // more... // emm. // how about interface{}? func AddAny(x, y interface{}) interface{} { switch x.(type) { case int: case int8: case int32: case float32: case float64: // more.
