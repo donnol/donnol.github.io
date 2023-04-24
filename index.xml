@@ -11,11 +11,14 @@ a3*b*c (a1+a2+a3)bc 不就等于 abc 了吗？
 那如果取精度导致结果误差，那我不取精度，直接用所有小数位数来计算呢。
 虽说可以，但小数位数是有可能非常多的，占用的空间也是一笔不小的开销。
 引入中间量(可称为&amp;rsquo;余额&amp;rsquo;): x y z x = a y = x*b z = y*c 第 1 次.
-x1 = (x-a1) y1 = (y-y*a1/x) z1 = (z-z*a1/x) t1 = z*a1/x 第 2 次.</description></item><item><title>泛型</title><link>https://donnol.github.io/posts/2022/05/generic/</link><pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/generic/</guid><description>泛型 # 调用方除了可自行决定参数值之外，还可以自行决定参数类型。
+x1 = (x-a1) y1 = (y-y*a1/x) z1 = (z-z*a1/x) t1 = z*a1/x 第 2 次.</description></item><item><title>泛型</title><link>https://donnol.github.io/posts/2022/05/generic/</link><pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/generic/</guid><description>泛型 # 是什么？ # Type parameter, 类型参数。func Add[T Number](x, y T) (r T)，其中的T就是类型参数，它被接口Number所约束。
+type Number interface { int | float32 } 调用方除了可自行决定参数值之外，还可以自行决定参数类型。Add[int](1, 2)，在调用时指定T的类型为int，同时传入参数值1,2必须是int类型。
 这样使得代码更灵活，更有扩展性，同时更安全。
-Go泛型 # 为什么？ # 那使用interface{}不也可以吗？
+Go泛型 # 为什么？ # 静态语言，类型固定，比如这个函数：func Add(x, y int) int就要求参数和结果都必须是整型。
+那如果后来又需要一个浮点数的加法呢？
+那使用interface{}不也可以吗？
 试看：
-// 准确的描述出了参数和返回值的类型，非常方便 func Add(x, y int) int // 但也限制了Add函数的参数类型--只能接收`int` // Add(0.1, 0.2) // can&amp;#39;t do that // 那怎么办呢？再写一个针对float64的呗 func AddFloat64(x, y float64) float64 AddFloat64(0.1, 0.2) // it&amp;#39;s ok // 如果还要支持其它类型呢？再加一个吗，每多一种类型，就多加一个。。。 func AddInt8(x, y int8) int8 func AddInt32(x, y int32) int32 func AddFloat32(x, y float32) float32 // more... // emm. // how about interface{}? func AddAny(x, y interface{}) interface{} { switch x.</description></item><item><title>Find out which Go version built your binary</title><link>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</link><pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</guid><description>根据二进制文件找出应用构建时使用的Go版本 # 使用 dlv:
+// 准确的描述出了参数和返回值的类型，非常方便 func Add(x, y int) int // 但也限制了Add函数的参数类型--只能接收`int` // Add(0.1, 0.2) // can&amp;#39;t do that // 那怎么办呢？再写一个针对float64的呗 func AddFloat64(x, y float64) float64 AddFloat64(0.1, 0.2) // it&amp;#39;s ok // 如果还要支持其它类型呢？再加一个吗，每多一种类型，就多加一个。。。 func AddInt8(x, y int8) int8 func AddInt32(x, y int32) int32 func AddFloat32(x, y float32) float32 // more.</description></item><item><title>Find out which Go version built your binary</title><link>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</link><pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</guid><description>根据二进制文件找出应用构建时使用的Go版本 # 使用 dlv:
 dlv exec ./app &amp;gt; p runtime.buildVerion 或者，在代码里调用runtime.Version():
 func main() { fmt.Println(&amp;#34;go version:&amp;#34;, runtime.Version()) } 参照</description></item><item><title>k8s是怎么维持pod的运行的呢？</title><link>https://donnol.github.io/posts/2022/05/k8s_how_to_keep_pods/</link><pubDate>Fri, 13 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/k8s_how_to_keep_pods/</guid><description>k8s是怎么维持pod的运行的呢？ # 当接收了yaml配置的信息后，是怎么维持pod根据声明一直运行的呢？
 让我们沿着命令执行的过程来一睹为快：kubectl apply -f pod.yaml.
