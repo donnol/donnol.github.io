@@ -107,10 +107,10 @@
 <span>1</span></li><li class="flex justify-between"><a href=/tags/ctx/>ctx</a>
 <span>1</span></li><li class="flex justify-between"><a href=/tags/pstree/>pstree</a>
 <span>1</span></li></ul></li></ul></nav></aside></header><article class="markdown book-post"><h2><a href=/posts/2021/01/proxy-between-layer/>Go实现AOP</a></h2><h5>January 17, 2021</h5><div><a href=/categories/go/>go</a></div><div><a href=/tags/aop/>aop</a>,
-<a href=/tags/proxy/>proxy</a></div><p>Go实现AOP # 假设有store，从数据库获取数据，其中有方法IUserStore.GetByID，传入id参数，返回用户信息:
+<a href=/tags/proxy/>proxy</a></div><p>Go实现AOP &ndash; 层间代理 # 假设有store，从数据库获取数据，其中有方法IUserStore.GetByID，传入id参数，返回用户信息:
 type IUserStore interface { GetByID(ctx context.Context, id int) (User, error) } 另外有service，刚好有用户id并且需要拿到用户信息，于是依赖了上述IUserStore：
 type IUserSrv interface { CheckUser(ctx context.Context, id int) error // 获取用户信息，然后检查用户某些属性 } type userImpl struct { userStore IUserStore } func (impl userImpl) CheckUser(ctx context.Context, id int) error { user, err := impl.userStore.GetByID(ctx, id) if err != nil { return err } // 使用user数据做一些操作 _ = user } 上面所描述的是一个最简单的情况，如果我们要在userImpl.CheckUser里对impl.userStore.GetByID方法调用添加耗时统计，依然十分简单。
-func (impl userImpl) CheckUser(ctx context.Context, id int) error { begin := time.
+func (impl userImpl) CheckUser(ctx context.
 <a href=/posts/2021/01/proxy-between-layer/>...</a></p></article><article class="markdown book-post"><h2><a href=/posts/2021/01/hugo-blog/>hugo搭建博客</a></h2><h5>January 17, 2021</h5><div><a href=/categories/blog/>blog</a></div><div><a href=/tags/hugo/>hugo</a></div><p>操作 # 安装hugo。
 使用hugo新建项目
 添加主题
