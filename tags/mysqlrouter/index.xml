@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mysqlrouter on 我的简单博客</title><link>https://donnol.github.io/tags/mysqlrouter/</link><description>Recent content in mysqlrouter on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/mysqlrouter/index.xml" rel="self" type="application/rss+xml"/><item><title>mysqlrouter使用</title><link>https://donnol.github.io/posts/2023/05/mysqlrouter/</link><pubDate>Tue, 16 May 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/05/mysqlrouter/</guid><description>What # mysqlrouter是一个代理，可以将查询转发到配置好的数据库服务里。
+Why # 在办公室网络环境下基于win10 wsl2开发应用时，需要连接到主机所在局域网的其它机器上的数据库服务。
+也就是说，存在机器：wsl2、主机、其它机器。
+wsl2通过NAT网络模式与主机互通，并且wsl2可以访问外网。
+但是wsl2不能访问到其它机器上的数据库服务，不知道是不是办公室网络环境存在限制。
+为了使得wsl2能访问到其它机器上的数据库服务成立，在主机启动mysqlrouter充当代理，然后wsl2通过访问代理来访问其它机器。
+Install # 可以使用mysql installer选择安装。
+简单模式 # 配置文件（mysqlrouter.conf）：
+[DEFAULT] logging_folder = D:/Data/mysqlrouter/log plugin_folder = C:/Program Files/MySQL/MySQL Router 8.0/lib # 这里是插件所在目录，必须是mysqlrouter安装路径下的目录，否则报错找不到插件 config_folder = D:/Data/mysqlrouter/etc # 启动配置默认查找目录，会在目录里寻找mysqlrouter.conf文件 runtime_folder = D:/Data/mysqlrouter/run data_folder = D:/Data/mysqlrouter/data [logger] level = DEBUG [routing:primary] bind_address=172.20.96.1 # 主机ip地址 bind_port=6446 # 主机监听端口 destinations = 172.17.39.239:3306 # 目标机器，也就是实际执行查询的数据库服务所在机器的地址 mode = read-write connect_timeout = 10 启动：mysqlrouter -c D:\Data\mysqlrouter\etc\mysqlrouter.conf
+关闭防火墙或者配置规则允许端口通过。
+在wsl2机器上访问：mysql -h 172.</description></item></channel></rss>
