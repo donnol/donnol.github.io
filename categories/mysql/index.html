@@ -130,7 +130,18 @@
 <a href=/categories/wsl2/>wsl2</a></div><div><a href=/tags/mysql/>mysql</a></div><p>wsl2版本 # > wsl.exe -v WSL version: 1.2.5.0 Kernel version: 5.15.90.1 WSLg version: 1.0.51 MSRDC version: 1.2.3770 Direct3D version: 1.608.2-61064218 DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp Windows version: 10.0.19045.3031 使用过程中，因为磁盘空间问题，把子系统安装位置从C盘转移到了其它盘。
 操作 # 把sql目录里的*.sql文件逐一导入到8.0.33版本的Mysql。
 尽管sql文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的INSERT IGNORE语句，更是用了将近12分钟才完成。
-怎么办？ # 改为通过网络访问本机的数据库。</p></article><article class="markdown book-post"><h2><a href=/posts/2023/05/mysqlrouter/>mysqlrouter使用</a></h2><h5>May 16, 2023</h5><div><a href=/categories/mysql/>mysql</a>,
+怎么办？ # 改为通过网络访问本机的数据库。
+端口 # 一文中提到：
+根据我的观察, 如果Windows本地启动了指定端口, 这时WSL2中虽然可以使用相同的端口, 但是localhost:port 将指向Windows的服务, WSL的服务将会被覆盖!
+当然了, 如果我们配置了端口转发, 转发的IP是WSL的地址, 而不是localhost, 那么WSL将会覆盖Windows的服务!
+而我的观察是，
+我发现本地起了数据库服务之后，在wsl2里起数据库服务（mysql服务，端口都是3306）的情况下，是不会报端口重复绑定错误的。
+但是如果我在wsl2里先起一个服务，绑定端口14222后，再在主机起相同服务，想绑定相同端口时，则会报错端口已被绑定。
+如果我是先在主机起上述服务，然后再在wsl2起该服务，则能正常启动。那在主机访问localhost:[port]时会访问到哪个呢？此时访问到的是主机的服务。
+所以端口是否占用会不会还跟服务起的顺序有关呢？
+暂时未看到有确切的描述。
+但是，经过上面的实验，可以认为：
+先在主机起服务，再在wsl2起服务绑定相同端口时，服务可正常启动；在主机访问`localhost:[port]`时访问的是主机的服务；在wsl2里访问的则是wsl2的服务，除非手动指定主机IP。 而如果先在wsl2里起了服务，再在主机起服务（绑定相同端口: 14222），则会报错端口已被绑定。 但是，如果在wsl2里先起的mysql服务，再在主机起，则不会报错，所以还跟端口值有关？</p></article><article class="markdown book-post"><h2><a href=/posts/2023/05/mysqlrouter/>mysqlrouter使用</a></h2><h5>May 16, 2023</h5><div><a href=/categories/mysql/>mysql</a>,
 <a href=/categories/router/>router</a></div><div><a href=/tags/mysqlrouter/>mysqlrouter</a></div><p>What # mysqlrouter是一个代理，可以将查询转发到配置好的数据库服务里。
 Why # 在办公室网络环境下基于win10 wsl2开发应用时，需要连接到主机所在局域网的其它机器上的数据库服务。
 也就是说，存在机器：wsl2、主机、其它机器。
