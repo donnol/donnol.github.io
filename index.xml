@@ -440,4 +440,10 @@ with # with设置.的值：
 macro.c:
 #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define SUM(a, b) ((a) + (b)) #define SUB(a, b) ((a) - (b)) int main() { int a = 2; int b = 1; int c = 0; c = SUM(a, b) + SUB(a, b); printf(&amp;#34;%d\n&amp;#34;, c); } 生成的macro_expand.c:
 // 生成的文件里包含了非常多内容，这里就不一一展示了，有兴趣的可以自己试一下 // 其中关键的部分： # 7 &amp;#34;macro.c&amp;#34; int main() { int a = 2; int b = 1; int c = 0; c = ((a) + (b)) + ((a) - (b)); printf(&amp;#34;%d\n&amp;#34;, c); }</description></item><item><title/><link>https://donnol.github.io/posts/2023/11/%E7%90%86%E6%83%B3%E5%92%8C%E7%8E%B0%E5%AE%9E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/11/%E7%90%86%E6%83%B3%E5%92%8C%E7%8E%B0%E5%AE%9E/</guid><description>做的时候从现实出发，没人手、没时间、没资源，但是必须限期做出来；&amp;ndash; 死也死出来
-评的时候从理想出发，这里应该、那里必须，依然还有好多要优化。&amp;ndash; 这点东西不够看</description></item></channel></rss>
+评的时候从理想出发，这里应该、那里必须，依然还有好多要优化。&amp;ndash; 这点东西不够看</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</guid><description>规矩：
+名词 画圆形和方形的两种工具；比喻一定的标准、准则或惯例。 「要按 规矩办事」
+形容词 符合标准或常理；老实本分。
+何时订立、何时执行？
+何地订立、何地执行？
+何人订立、何人执行？
+如何订立、如何执行？</description></item></channel></rss>
