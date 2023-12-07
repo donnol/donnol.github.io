@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/12/index.xml" rel="self" type="application/rss+xml"/><item><title>dbeaver手动导入驱动</title><link>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</link><pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</guid><description>因为直接下载dbeaver的时候，是没有带上驱动文件的，所以需要在使用时下载。
+但是，如果刚好安装的环境是无法通网的，那么就需要手动传入驱动并安装。
+做法如下：
+现在本地有网环境下载驱动文件 用dbeaver下载mysql的驱动，会存放在目录：C:\Users\{用户名}\AppData\Roaming\DBeaverData\drivers\maven\maven-central\mysql.
+NOTE: 注意替换{用户名}为你本机实际名称。
+把下好的文件传入到无网机器上，同样放到以上目录。
+打开dbeaver，数据库-&amp;gt;驱动管理器，添加驱动
+选中MySQL，然后点击编辑；在弹出框里切到库，将已有内容全部删掉，再点击添加文件夹，然后选择上面驱动存放的目录，即可确定保存。
+如此，即可手动导入驱动文件。</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</guid><description>规矩：
+名词 画圆形和方形的两种工具；比喻一定的标准、准则或惯例。 「要按 规矩办事」
+形容词 符合标准或常理；老实本分。
+何时订立、何时执行？
+何地订立、何地执行？
+何人订立、何人执行？
+如何订立、如何执行？</description></item></channel></rss>
