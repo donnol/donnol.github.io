@@ -9,7 +9,11 @@ $ cat Script/wsl2host.sh #!/bin/bash HOSTS_FILE_WIN=&amp;#39;/mnt/c/Windows/Syst
 用力打，鼻青脸肿；
 怎么办？陷入迷茫&amp;hellip;
 带路人，合力突刺。
-更多人，集齐元气！</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</guid><description>如果世界真的有好坏，那么坏人的猖狂就来源于好人的软弱。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</guid><description>算数 # 定义（数）
+更多人，集齐元气！</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</guid><description>如果世界真的有好坏，那么坏人的猖狂就来源于好人的软弱。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%8C%96/</guid><description>模块化和服务化 # 面向接口
+模块化 # type I interface { A() B() C() } 服务化 # GET /user POST /user PUT /user DELETE /user 在多人协作开发过程中，先定义接口，达到并行开发的目的。
+存在单人单服务的开发模式，也存在单人单模块的开发模式。
+存在多人单服务的开发模式，也存在多人单模块的开发模式。
+更存在存在多人多服务的开发模式，也存在多人多模块的开发模式。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</guid><description>算数 # 定义（数）
 计算（数）
 使用（数）
 期望和方差 # 定义 期望(Expectation)：度量一个随机变量取值的集中位置或平均水平。
