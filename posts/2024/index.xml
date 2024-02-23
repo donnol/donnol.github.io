@@ -20,7 +20,13 @@ $ cat Script/wsl2host.sh #!/bin/bash HOSTS_FILE_WIN=&amp;#39;/mnt/c/Windows/Syst
 方差(Variance)：是表示随机变量取值的分散性的一个数字特征。
 怎么算？ 怎么用？ 方差越大，说明随机变量的取值分布越不均匀，变化性越强；方差越小，说明随机变量的取值越趋近于均值，即期望值。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E8%BD%AC%E5%90%91/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E8%BD%AC%E5%90%91/</guid><description>技术 -&amp;gt; 图文音画的技术 图文音画的技术 -&amp;gt; 内容</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E8%BD%AF%E5%BC%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E8%BD%AF%E5%BC%B1/</guid><description>软弱 # 容易被包装为心慈仁善，实则是放虎归山、助纣为虐。</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E5%A8%81%E6%9C%9B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E5%A8%81%E6%9C%9B/</guid><description>威望 # 权力、财富、名声。
 威望带来威亚。
-可以快速达成一致，也会阻碍想象和实践。</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>物极必反 # 追求极限的方法：
+可以快速达成一致，也会阻碍想象和实践。</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</guid><description>排列组合 # 可能出现的情况总数。
+排列：是指从给定个数的元素中取出指定个数的元素进行排序。&amp;ndash; n个中取m个，需要考虑排序：n!/(n-m)!
+组合：是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。&amp;ndash; n个中取m个，不考虑排序：n!/m!*(n-m)!
+例如 # 3个球里取1个，有多少种排列呢？根据公式有：3*2*1/2*1 = 3，跟直觉一致。组合呢？根据公式有：3*2*1/1*2*1 = 3. 当取1个的时候，排列和组合是一样的，因为此时m! = 1.
+3个球里取2个，排列：3*2*1/(3-2) = 6; 组合：3*2*1/2*1*1 = 3. 此时，排列数比组合数多。
+如果用A、B、C分别表示3个球，则排列情况有：AB、AC、BC、BA、CA、CB；组合情况有：AB、AC、BC。
+当n和m都很大时，需要借助计算机来计算： package main func factorial(n int) (s int) { s = 1 for i := 1; i &amp;lt;= n; i++ { s *= i } return } func main() { s := factorial(10) / factorial(10-4) println(&amp;#34;10个取4个的排列&amp;#34;, s) // 10个取4个的排列 5040 p := factorial(10) / factorial(10-4) * factorial(4) println(&amp;#34;10个取4个的组合&amp;#34;, p) // 10个取4个的组合 120960 } 执行</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>物极必反 # 追求极限的方法：
 以人的意志，忽略自然规律。
 尊重自然规律，科学寻找。
 尽情发挥想象力，实现时必须遵循规律。</description></item></channel></rss>
