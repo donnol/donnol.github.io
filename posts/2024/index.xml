@@ -29,4 +29,11 @@ $ cat Script/wsl2host.sh #!/bin/bash HOSTS_FILE_WIN=&amp;#39;/mnt/c/Windows/Syst
 当n和m都很大时，需要借助计算机来计算： package main func factorial(n int) (s int) { s = 1 for i := 1; i &amp;lt;= n; i++ { s *= i } return } func main() { s := factorial(10) / factorial(10-4) println(&amp;#34;10个取4个的排列&amp;#34;, s) // 10个取4个的排列 5040 p := factorial(10) / factorial(10-4) * factorial(4) println(&amp;#34;10个取4个的组合&amp;#34;, p) // 10个取4个的组合 120960 } 执行</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>物极必反 # 追求极限的方法：
 以人的意志，忽略自然规律。
 尊重自然规律，科学寻找。
-尽情发挥想象力，实现时必须遵循规律。</description></item></channel></rss>
+尽情发挥想象力，实现时必须遵循规律。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E8%B6%85%E8%B5%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E8%B6%85%E8%B5%B6/</guid><description>超赶 # 一来就提超赶，不就承认自己落后了吗？
+而且必须跟在别人屁股后面，屁颠屁颠的追赶。
+后面发现跟不合适，进而出来了弯道超车。
+再来就是遥遥领先了。
+既然领先了，为什么还是那么焦虑？
+因为又害怕被别人超赶了。
+所以竞争到底是为了什么，为了焦虑，还是为了享受。
+还是为了自己享受，让别人焦虑呢？</description></item></channel></rss>
