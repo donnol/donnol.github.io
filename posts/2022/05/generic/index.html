@@ -88,7 +88,7 @@ Go泛型 # 为什么？ # 静态语言，类型固定，比如这个函数：fun
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>
 </span></span><span style=display:flex><span><span style=color:#75715e>// 但any并不一定支持+运算符，所以需要用更细粒度的约束
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Number</span> <span style=color:#66d9ef>interface</span> {
-</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>~</span><span style=color:#66d9ef>int</span>|<span style=color:#960050;background-color:#1e0010>~</span><span style=color:#66d9ef>int8</span>|<span style=color:#960050;background-color:#1e0010>~</span><span style=color:#66d9ef>int32</span>|<span style=color:#960050;background-color:#1e0010>~</span><span style=color:#66d9ef>float32</span>|<span style=color:#960050;background-color:#1e0010>~</span><span style=color:#66d9ef>float64</span>
+</span></span><span style=display:flex><span>    ~<span style=color:#66d9ef>int</span>|~<span style=color:#66d9ef>int8</span>|~<span style=color:#66d9ef>int32</span>|~<span style=color:#66d9ef>float32</span>|~<span style=color:#66d9ef>float64</span>
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>AddGeneric2</span>[<span style=color:#a6e22e>T</span> <span style=color:#a6e22e>Number</span>](<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>y</span> <span style=color:#a6e22e>T</span>) <span style=color:#a6e22e>T</span> <span style=color:#75715e>// 通过Number约束，确保类型参数可加
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>
