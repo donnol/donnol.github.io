@@ -566,4 +566,5 @@ func DP[T, R any](n int, list []T, f func(T) R) R { s := make([]R, len(list)) fo
 对己，对挤，对急，对纪。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</guid><description>任何统治要想长期维系，都必须要从统治行为中获益，就算统治者本人无欲无求也一样，否则统治本身无法维系。
 而统治者的收益，都来自于对被统治者经济价值的盘剥。
 所以，要有效地瓦解统治行为，其中一个就是消除被统治者的经济价值。
-被统治者以低成本的方式拉高统治者的统治成本，降低统治者的统治收益，拒绝配合统治者的统治行为，从而使其统治难以为继。</description></item></channel></rss>
+被统治者以低成本的方式拉高统治者的统治成本，降低统治者的统治收益，拒绝配合统治者的统治行为，从而使其统治难以为继。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E8%A1%8C/</guid><description>每一次行动都全力以赴；
+每一次行动都硕果累累。</description></item></channel></rss>
