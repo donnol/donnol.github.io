@@ -89,7 +89,11 @@ func DP[T, R any](n int, list []T, f func(T) R) R { s := make([]R, len(list)) fo
 第一个函数 表示这个对象对系统的作用速度。
 第二个函数 表示当作用速度为单位冲击函数时这个对象对系统的作用效果。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%9D%83%E5%88%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%9D%83%E5%88%A9/</guid><description>在别人攻城略地的同时，选择步步退让，自我安慰再让一步就会好起来。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%B1%82%E5%AE%9E%E5%8A%A1%E8%99%9A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%B1%82%E5%AE%9E%E5%8A%A1%E8%99%9A/</guid><description>求实，则新变化从容应对；
 务虚，则大祸临无所适从。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%BC%A0%E8%A7%86/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%BC%A0%E8%A7%86/</guid><description>对它，对他，对她，对TA；
-对己，对挤，对急，对纪。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</guid><description>简化是一种本事，也是一种病。
+对己，对挤，对急，对纪。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%9F%9B%E7%9B%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%9F%9B%E7%9B%BE/</guid><description>个性化必然导致矛盾，
+自然法则必然导致个性化。
+矛盾必然存在的话，怎么缓解、怎么解决呢？
+略之？惑之？堵之？疏之？灭之？解之？
+可问题是，你有得选吗！</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</guid><description>简化是一种本事，也是一种病。
 为了简化，逐渐失真、扭曲、捏造。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</guid><description>任何统治要想长期维系，都必须要从统治行为中获益，就算统治者本人无欲无求也一样，否则统治本身无法维系。
 而统治者的收益，都来自于对被统治者经济价值的盘剥。
 所以，要有效地瓦解统治行为，其中一个就是消除被统治者的经济价值。
