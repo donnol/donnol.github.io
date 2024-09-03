@@ -134,4 +134,4 @@ type Policy struct { mechanisms []Mechanism } func (p *Policy) Do() { // ... for
 共识重要。</description></item><item><title/><link>https://donnol.github.io/posts/2024/09/%E6%8E%A8%E6%BC%94/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/09/%E6%8E%A8%E6%BC%94/</guid><description>推理和演化
 在设计时，推算流程，理清线索。
 演化，将可能出现的多种情况思索一番，寻找其中能更好持续执行的一种。
-最优路径，在起点和终点的多条路径之中，选择路程最短/耗时最少/花费最少/...的路径。</description></item></channel></rss>
+最优路径，在起点和终点的多条路径之中，选择路程最短/耗时最少/花费最少/...的路径。</description></item><item><title/><link>https://donnol.github.io/posts/2024/09/%E7%89%B9%E6%9D%83%E6%91%A7%E6%AF%81%E8%A7%84%E7%9F%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/09/%E7%89%B9%E6%9D%83%E6%91%A7%E6%AF%81%E8%A7%84%E7%9F%A9/</guid><description>在有规矩的时候有人无需遵守，规矩自然就被摧毁了。</description></item></channel></rss>
