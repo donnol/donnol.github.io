@@ -1,6 +1,98 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>10 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/10/</link><description>Recent content in 10 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 18 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/10/index.xml" rel="self" type="application/rss+xml"/><item><title>Mysql 8.0.33在使用窗口函数的同时不能用count(distinct *)</title><link>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</link><pubDate>Wed, 18 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</guid><description>Mysql 8.0.33在使用窗口函数的同时不能用count(distinct *)
-比如，我想在窗口函数里使用字段apply_unit_id分组，然后求project_id列不重复值的数量：
-select distinct apply_unit_id, count(distinct project_id) over (partition by apply_unit_id) from weia join weiag on weiag.apply_id = weia.id ; 此时报错：SQL 错误 [1235] [42000]: This version of MySQL doesn't yet support '&amp;lt;window function&amp;gt;(DISTINCT ..)'
-怎么办呢？ # 使用 dense_rank()间接计算：
-select distinct apply_unit_id, dense_rank() over (partition by apply_unit_id order by project_id) + dense_rank() over (partition by apply_unit_id order by project_id desc) - 1 from weia join weiag on weiag.apply_id = weia.</description></item><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>Wezterm极简配置文件
--- Pull in the wezterm API local wezterm = require &amp;#39;wezterm&amp;#39; -- This table will hold the configuration. local config = {} -- In newer versions of wezterm, use the config_builder which will -- help provide clearer error messages if wezterm.config_builder then config = wezterm.config_builder() end -- This is where you actually apply your config choices -- For example, changing the color scheme: config.color_scheme = &amp;#39;AdventureTime&amp;#39; -- config.color_scheme = &amp;#39;Batman&amp;#39; config.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>10 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/10/</link><description>Recent content in 10 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 18 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/10/index.xml" rel="self" type="application/rss+xml"/><item><title>Mysql 8.0.33在使用窗口函数的同时不能用count(distinct *)</title><link>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</link><pubDate>Wed, 18 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</guid><description>&lt;p>&lt;code>Mysql 8.0.33&lt;/code>在使用窗口函数的同时不能用&lt;code>count(distinct *)&lt;/code>&lt;/p>
+&lt;p>比如，我想在窗口函数里使用字段&lt;code>apply_unit_id&lt;/code>分组，然后求&lt;code>project_id&lt;/code>列不重复值的数量：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#66d9ef">distinct&lt;/span> apply_unit_id, &lt;span style="color:#66d9ef">count&lt;/span>(&lt;span style="color:#66d9ef">distinct&lt;/span> project_id) over (partition &lt;span style="color:#66d9ef">by&lt;/span> apply_unit_id)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">from&lt;/span> weia &lt;span style="color:#66d9ef">join&lt;/span> weiag &lt;span style="color:#66d9ef">on&lt;/span> weiag.apply_id &lt;span style="color:#f92672">=&lt;/span> weia.id 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时报错：&lt;code>SQL 错误 [1235] [42000]: This version of MySQL doesn't yet support '&amp;lt;window function&amp;gt;(DISTINCT ..)'&lt;/code>&lt;/p>
+&lt;h2 id="怎么办呢">
+ 怎么办呢？
+ &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e%e5%91%a2">#&lt;/a>
+&lt;/h2>
+&lt;p>使用
+ &lt;a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_dense-rank">&lt;code>dense_rank()&lt;/code>&lt;/a>间接计算：&lt;/p></description></item><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>&lt;p>&lt;code>Wezterm&lt;/code>极简配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lua" data-lang="lua">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Pull in the wezterm API&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> wezterm &lt;span style="color:#f92672">=&lt;/span> require &lt;span style="color:#e6db74">&amp;#39;wezterm&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- This table will hold the configuration.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> config &lt;span style="color:#f92672">=&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- In newer versions of wezterm, use the config_builder which will&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- help provide clearer error messages&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> wezterm.config_builder &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config &lt;span style="color:#f92672">=&lt;/span> wezterm.config_builder()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- This is where you actually apply your config choices&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- For example, changing the color scheme:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.color_scheme &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;AdventureTime&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- config.color_scheme = &amp;#39;Batman&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.enable_tab_bar &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.hide_tab_bar_if_only_one_tab &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.show_tab_index_in_tab_bar &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.tab_bar_at_bottom &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.tab_max_width &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Font&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- config.font = wezterm.font_with_fallback { &amp;#39;JetBrains Mono&amp;#39; }&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.font_size &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">14&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.freetype_load_target &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Light&amp;#34;&lt;/span> &lt;span style="color:#75715e">-- Possible alternatives are `HorizontalLcd`, `Light`, `Mono`, `Normal`, `VerticalLcd`.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.mouse_bindings &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#75715e">-- Paste on right-click&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Down &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Right&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;NONE&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> PasteFrom &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Clipboard&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }, &lt;span style="color:#75715e">-- Change the default click behavior so that it only selects&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Up &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Left&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;NONE&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CompleteSelection &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;PrimarySelection&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }, &lt;span style="color:#75715e">-- CTRL-Click open hyperlinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Up &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Left&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;CTRL&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;OpenLinkAtMouseCursor&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.keys &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">-- 使用 Ctrl+n 来新建标签页，而不是 Ctrl+Shift+T&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { SpawnTab &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;DefaultDomain&amp;#34;&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">-- 使用 Alt+左右箭头来切换标签页&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;LeftArrow&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { ActivateTabRelative &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;RightArrow&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { ActivateTabRelative &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 定义 Alt+数字 切换到对应标签页的快捷键&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> table.insert(config.keys, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> key &lt;span style="color:#f92672">=&lt;/span> tostring(i),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ALT&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action.ActivateTab(i &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- and finally, return the configuration to wezterm&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> config
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

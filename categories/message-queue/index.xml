@@ -1,10 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Message Queue on 我的简单博客</title><link>https://donnol.github.io/categories/message-queue/</link><description>Recent content in Message Queue on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 14 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/message-queue/index.xml" rel="self" type="application/rss+xml"/><item><title>mqtt</title><link>https://donnol.github.io/posts/2021/12/mqtt/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/mqtt/</guid><description>物联网消息标准 # 官网
-It is designed as an extremely lightweight publish/subscribe messaging transport that is ideal for connecting remote devices with a small code footprint and minimal network bandwidth.
-极其轻量的发布/订阅消息传输，使用小量代码脚本和极小网络带宽来连接远程设备。
-轻量 高效 双向 大规模（百万设备） 可靠 支持不可靠网络 安全 多个mqtt客户端连接到broker(译为：中间商)，围绕topic来实现发布/订阅操作，某些客户端向topic发布消息，某些客户端订阅topic上的消息，当broker接收到某个topic上的消息时，它会将消息转发到订阅了该topic的客户端。
-mqtt 5.0
-QoS # Quality of Service
-control traffic and ensure the performance of critical applications with limited network capacity
-控制交通，确保有限网络容量下的应用性能。
-QoS（Quality of Service，服务质量）指一个网络能够利用各种基础技术，为指定的网络通信提供更好的服务能力，是网络的一种安全机制， 是用来解决网络延迟和阻塞等问题的一种技术。QoS 的保证对于容量有限的网络来说是十分重要的，特别是对于流多媒体应用，例如 VoIP 和 IPTV 等，因为这些应用常常需要固定的传输率，对延时也比较敏感。
-当网络发生拥塞的时候，所有的数据流都有可能被丢弃；为满足用户对不同应用不同服务质量的要求，就需要网络能根据用户的要求分配和调度资源，对不同的数据流提供不同的服务质量：</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Message Queue on 我的简单博客</title><link>https://donnol.github.io/categories/message-queue/</link><description>Recent content in Message Queue on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 14 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/message-queue/index.xml" rel="self" type="application/rss+xml"/><item><title>mqtt</title><link>https://donnol.github.io/posts/2021/12/mqtt/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/mqtt/</guid><description>&lt;h2 id="物联网消息标准">
+ 物联网消息标准
+ &lt;a class="anchor" href="#%e7%89%a9%e8%81%94%e7%bd%91%e6%b6%88%e6%81%af%e6%a0%87%e5%87%86">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://mqtt.org/">官网&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>It is designed as an extremely lightweight publish/subscribe messaging transport that is ideal for connecting remote devices with a small code footprint and minimal network bandwidth.&lt;/p>
+&lt;p>极其轻量的发布/订阅消息传输，使用小量代码脚本和极小网络带宽来连接远程设备。&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>轻量&lt;/li>
+&lt;li>高效&lt;/li>
+&lt;li>双向&lt;/li>
+&lt;li>大规模（百万设备）&lt;/li>
+&lt;li>可靠&lt;/li>
+&lt;li>支持不可靠网络&lt;/li>
+&lt;li>安全&lt;/li>
+&lt;/ul>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/mqtt%e6%9e%b6%e6%9e%84%e5%9b%be.png" alt="架构图" />&lt;/p>
+&lt;p>多个&lt;code>mqtt&lt;/code>客户端连接到&lt;code>broker&lt;/code>(译为：中间商)，围绕&lt;code>topic&lt;/code>来实现发布/订阅操作，某些客户端向&lt;code>topic&lt;/code>发布消息，某些客户端订阅&lt;code>topic&lt;/code>上的消息，当&lt;code>broker&lt;/code>接收到某个&lt;code>topic&lt;/code>上的消息时，它会将消息转发到订阅了该&lt;code>topic&lt;/code>的客户端。&lt;/p>
+&lt;p>
+ &lt;a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">mqtt 5.0&lt;/a>&lt;/p></description></item></channel></rss>

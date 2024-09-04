@@ -1,123 +1,419 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2021/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2021/12/index.xml" rel="self" type="application/rss+xml"/><item><title>ebpf</title><link>https://donnol.github.io/posts/2021/12/ebpf/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/ebpf/</guid><description>ebpf: 扩展伯克利包过滤器。
-下面的内容主要来源于 译文。
-用处 # 目前，主要有两大组触发器。
-第一组用于处理网络数据包和管理网络流量。它们是 XDP、流量控制事件及其他几个事件。
-以下情况需要用到这些事件：
-创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。
-创建更智能、更有针对性、但性能更好的防火墙——这些防火墙可以检查通过的流量是否符合公司的规则、是否存在漏洞模式等。例如，Facebook 在内部进行这种审计，而一些项目则对外销售这类产品。
-创建智能负载均衡器。最突出的例子就是 Cilium 项目，它最常被用作 K8s 集群中的网格网络。Cilium 对流量进行管理、均衡、重定向和分析。所有这些都是在内核运行的小型 BPF 程序的帮助下完成的，以响应这个或那个与网络数据包或套接字相关的事件。
-这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。
-这组的触发器有如下几个：
-perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。
-跟踪点（tracepoints）——内核源代码中的静态（由开发人员定义）位置，通过附加到这些位置，你可以从中提取静态信息（开发人员先前准备的信息）。在这种情况下，静态似乎是一件坏事，因为我说过，日志的缺点之一就是它们只包含了程序员最初放在那里的内容。从某种意义上说，这是正确的，但跟踪点有三个重要的优势：
-有相当多的跟踪点散落在内核中最有趣的地方
-当它们不“开启”时，它们不使用任何资源
-它们是 API 的一部分，它们是稳定的，不会改变。这非常重要，因为我们将提到的其他触发器缺少稳定的 API。
-例如，假设有一个关于显示的实用程序，内核出于某种原因没有给它时间执行。你坐着纳闷为什么它这么慢，而 pprof 却没有显示任何什么有趣的东西。
-USDT——与跟踪点相同，但是它适用于用户空间的程序。也就是说，作为程序员，你可以将这些位置添加到你的程序中。并且许多大型且知名的程序和编程语言都已经采用了这些跟踪方法：例如 MySQL、或者 PHP 和 Python 语言。通常，它们的默认设置为“关闭”，如果要打开它们，需要使用 enable-dtrace 参数或类似的参数来重新构建解释器。是的，我们还可以在 Go 中注册这种类跟踪。你可能已经识别出参数名称中的单词 DTrace。关键在于，这些类型的静态跟踪是由 Solaris) 操作系统中诞生的同名系统所推广的。例如，想象一下，何时创建新线程、何时启动 GC 或与特定语言或系统相关的其他内容，我们都能够知道是怎样的一种场景。
-这是另一种魔法开始的地方：</description></item><item><title>时间和文字</title><link>https://donnol.github.io/posts/2021/12/time_wenzi/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/time_wenzi/</guid><description>带领，今天突然用到这个“带”字时，觉得它不是我印象中的“带”字，这是为什么呢？
-很重的一种陌生感迎面而来，这真的是曾经伴随我历经千测万考的字吗？
-这种突然觉得某个曾经很熟悉的字很陌生的感觉，真的很奇怪。</description></item><item><title>etcd</title><link>https://donnol.github.io/posts/2021/12/etcd/</link><pubDate>Mon, 20 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/etcd/</guid><description>etcd # raft # 介绍 # 由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
-状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
-插曲 # 人、联系、共识
-人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。
-当两个人面对面时，就某个想法达成一致或不一致，非常容易。
-如果两个人不是面对面呢？
-如果不只两个人，同坐在祠堂里呢？
-如果不止两个人，还分散在不同地点呢？
-那么，为什么要达成共识呢？
-因为有些事必须达成共识才能执行，比如，两个人双向奔赴。
-如果彼此异心，一个向东，一个往南，事情就办不成了。
-所以，共识是大伙成事的前提。
-共识，除了就某件事所要达成的结果，也要考虑所使用的方法。
-有可能是步步为营，走一步算一步，也就是每走一步再就下一步达成共识。
-也有可能是，一次性就接下来的几步均达成共识，然后各自执行。
-message type # // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用； // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号 // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据； // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）； // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点； // 发给candidate的话，它们直接丢弃该消息 // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 MsgProp MessageType = 2 // 包含了要复制的日志条目 // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息； // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。 // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票； // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。 // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。 // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。 // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， MsgVote MessageType = 5 // 投票响应； // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower MsgVoteResp MessageType = 6 // 请求安装一个快照消息； // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过&amp;#34;MsgSnap&amp;#34;消息请求快照。 MsgSnap MessageType = 7 // leader发送心跳； // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。 // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id MsgHeartbeat MessageType = 8 // 心跳响应； // leader收到后就知道有哪些follower响应了。 // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付； // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） MsgUnreachable MessageType = 10 // 表明快照安装消息的结果 // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?</description></item><item><title>vscode-go在go.mod在非根目录情况下失效的问题</title><link>https://donnol.github.io/posts/2021/12/vscode-go-module/</link><pubDate>Mon, 20 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/vscode-go-module/</guid><description>问题如图：
-解决：
-添加配置：
-{ // ... &amp;#34;gopls&amp;#34;: { &amp;#34;experimentalWorkspaceModule&amp;#34;: true }, // ... } 等go 1.18的workspace模式推出之后，应该就不需要配置这个了。
-参考</description></item><item><title>mqtt</title><link>https://donnol.github.io/posts/2021/12/mqtt/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/mqtt/</guid><description>物联网消息标准 # 官网
-It is designed as an extremely lightweight publish/subscribe messaging transport that is ideal for connecting remote devices with a small code footprint and minimal network bandwidth.
-极其轻量的发布/订阅消息传输，使用小量代码脚本和极小网络带宽来连接远程设备。
-轻量 高效 双向 大规模（百万设备） 可靠 支持不可靠网络 安全 多个mqtt客户端连接到broker(译为：中间商)，围绕topic来实现发布/订阅操作，某些客户端向topic发布消息，某些客户端订阅topic上的消息，当broker接收到某个topic上的消息时，它会将消息转发到订阅了该topic的客户端。
-mqtt 5.0
-QoS # Quality of Service
-control traffic and ensure the performance of critical applications with limited network capacity
-控制交通，确保有限网络容量下的应用性能。
-QoS（Quality of Service，服务质量）指一个网络能够利用各种基础技术，为指定的网络通信提供更好的服务能力，是网络的一种安全机制， 是用来解决网络延迟和阻塞等问题的一种技术。QoS 的保证对于容量有限的网络来说是十分重要的，特别是对于流多媒体应用，例如 VoIP 和 IPTV 等，因为这些应用常常需要固定的传输率，对延时也比较敏感。
-当网络发生拥塞的时候，所有的数据流都有可能被丢弃；为满足用户对不同应用不同服务质量的要求，就需要网络能根据用户的要求分配和调度资源，对不同的数据流提供不同的服务质量：</description></item><item><title>redis sds</title><link>https://donnol.github.io/posts/2021/12/redis_sds/</link><pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/redis_sds/</guid><description>简单动态字符串 # 结构：
-len alloc flag buf 长度(已使用空间大小) 分配(总共空间大小：buf 的大小减 1 &amp;ndash; &amp;lsquo;\0&amp;rsquo;字符占用了 1) 标记(sdshdr 的类型) 真正存储字符串的地方 文件：
-sds.h, sdsalloc.h, sds.c.
-定义：
-typedef char *sds; 根据类型获取长度：
-static inline size_t sdslen(const sds s) { unsigned char flags = s[-1]; switch(flags&amp;amp;SDS_TYPE_MASK) { case SDS_TYPE_5: return SDS_TYPE_5_LEN(flags); case SDS_TYPE_8: return SDS_HDR(8,s)-&amp;gt;len; case SDS_TYPE_16: return SDS_HDR(16,s)-&amp;gt;len; case SDS_TYPE_32: return SDS_HDR(32,s)-&amp;gt;len; case SDS_TYPE_64: return SDS_HDR(64,s)-&amp;gt;len; } return 0; } 新建：
-/* Create a new sds string with the content specified by the &amp;#39;init&amp;#39; pointer * and &amp;#39;initlen&amp;#39;.</description></item><item><title>k8s</title><link>https://donnol.github.io/posts/2021/12/k8s/</link><pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/k8s/</guid><description>What # docker 带来容器之风，以致容器多不胜数。如何编排和管理众多容器，使得它们同心协力办好事情，即成为了当下最大的课题。
-为此，k8s 应运而生。
-容器，通讯，存储，配置。
-Why # 为编排和管理数量众多的容器。
-How # Install # k8s: 集群搭建所需资源 # One or more machines running one of:
-Ubuntu 16.04+
-Debian 9+
-CentOS 7+
-Red Hat Enterprise Linux (RHEL) 7+
-Fedora 25+
-HypriotOS v1.0.1+
-Flatcar Container Linux (tested with 2512.3.0)
-2 GB or more of RAM per machine (any less will leave little room for your apps).
-2 CPUs or more.
-Full network connectivity between all machines in the cluster (public or private network is fine).</description></item><item><title>数据密集型应用设计</title><link>https://donnol.github.io/posts/2021/12/ddia/</link><pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/ddia/</guid><description>第一章 可靠性、可扩展性、可维护性 # 数据密集型应用和计算密集型应用
-现今很多应用程序都是 数据密集型（data-intensive） 的，而非 计算密集型（compute-intensive） 的。因此CPU很少成为这类应用的瓶颈，更大的问题通常来自数据量、数据复杂性、以及数据的变更速度。
-数据密集型应用通常由标准组件构建而成，标准组件提供了很多通用的功能；例如，许多应用程序都需要：
-存储数据，以便自己或其他应用程序之后能再次找到 （数据库（database））
-记住开销昂贵操作的结果，加快读取速度（缓存（cache））
-允许用户按关键字搜索数据，或以各种方式对数据进行过滤（搜索索引（search indexes））
-向其他进程发送消息，进行异步处理（流处理（stream processing））
-定期处理累积的大批量数据（批处理（batch processing））
-对应可选的组件在我映像中可以有：
-数据库：mysql, postgresql
-缓存: redis, memcached
-搜索索引: elastic search, sonic, redis search
-流处理: kafka, redis stream
-批处理: linux cron, golang timer
-使用较小的通用组件创建了一个全新的、专用的数据系统。
-如何衡量一个系统的好坏 # 设计数据系统或服务时可能会遇到很多棘手的问题，例如：当系统出问题时，如何确保数据的正确性和完整性？当部分系统退化降级时，如何为客户提供始终如一的良好性能？当负载增加时，如何扩容应对？什么样的 API 才是好的 API？
-可靠性（Reliability）
-系统在困境（adversity）（硬件故障、软件故障、人为错误）中仍可正常工作（正确完成功能，并能达到期望的性能水准）。
-故障通常定义为系统的一部分状态偏离其标准，而失效则是系统作为一个整体停止向用户提供服务。故障的概率不可能降到零，因此最好设计容错机制以防因故障而导致失效。
-硬件错误的解决：为了减少系统的故障率，第一反应通常都是增加单个硬件的冗余度，例如：磁盘可以组建 RAID，服务器可能有双路电源和热插拔 CPU，数据中心可能有电池和柴油发电机作为后备电源，某个组件挂掉时冗余组件可以立刻接管。
-软件错误的解决：仔细考虑系统中的假设和交互；彻底的测试；进程隔离；允许进程崩溃并重启；测量、监控并分析生产环境中的系统行为。
-人为错误的解决：
-可扩展性（Scalability）
-有合理的办法应对系统的增长（数据量、流量、复杂性）
-可维护性（Maintainability）
-许多不同的人（工程师、运维）在不同的生命周期，都能高效地在系统上工作（使系统保持现有行为，并适应新的应用场景）。
-从人的角度看：可靠就是能共困苦，同富贵；可扩展就是学习能力强，心胸广阔；可维护就是对人对己无偏见、无特例。
-2PC（两阶段提交） # 2PC，two-phase commit，两阶段提交。
-一种用于实现跨多个节点的原子事务提交的算法，即确保所有节点提交或所有节点中止。
-2PC 使用一个通常不会出现在单节点事务中的新组件：协调者（coordinator）（也称为事务管理器（transaction manager））。
-正常情况下，2PC 事务以应用在多个数据库节点上读写数据开始。我们称这些数据库节点为参与者（participants）。</description></item><item><title>burn cpu use golang</title><link>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</guid><description>虚假的 burn # package main func fakeBurn() { for { } } 真正的 burn # package main import ( &amp;#34;flag&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; &amp;#34;time&amp;#34; ) var ( numBurn int updateInterval int ) func cpuBurn() { for { for i := 0; i &amp;lt; 2147483647; i++ { } // Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically. // Gosched让当前goroutine让出处理器，从而使得其它goroutine可以运行。它不会挂起/暂停当前的goroutine，它会自动恢复执行。 runtime.</description></item><item><title>docker compose使用extra host让容器访问主机服务</title><link>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</guid><description>首发于：简单博客
-docker compose 如何访问主机服务 # docker compose 里面的容器怎么访问主机自身起的服务呢？
-20.10.0 版本在 linux 新增 host.docker.internal 支持： docker run -it --add-host=host.docker.internal:host-gateway alpine cat /etc/hosts
-127.0.0.1 localhost ::1 localhost ip6-localhost ip6-loopback fe00::0 ip6-localnet ff00::0 ip6-mcastprefix ff02::1 ip6-allnodes ff02::2 ip6-allrouters 172.17.0.1 host.docker.internal # --add-host的作用就是添加了这行到/etc/hosts 172.17.0.3 cb0565ceea26 相关提交
-这个 add-host 的意思是告诉容器，容器对域名 host.docker.internal 的访问都将转发到 host-gateway 去。
-也就是容器内部访问这个域名 host.docker.internal 时，就会访问到对应的主机上的 host-gateway 地址。
-从而达到容器访问主机上服务的效果。
-那么，这个 add-host 怎么用在 compose 上呢？
-在 build 里使用 extra_hosts
-version: &amp;#34;2.3&amp;#34; # 因为某个bug的存在，只能用version2，不能用version3 services: tmp: build: context: .</description></item><item><title>数据库管理工具之dbeaver</title><link>https://donnol.github.io/posts/2021/12/dbeaver/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/dbeaver/</guid><description>dbeaver: github
-下载页
-面向开发者、SQL 编程人员、数据库管理员和分析人员的免费的多平台数据库工具。 支持任何已有 JDBC 驱动的数据库（基本上是任何数据库）。商业版本还额外支持非 JDBC 数据源，比如：MongoDB, Cassandra, Couchbase, Redis, BigTable, DynamoDB 等。
-拥有的特性：元数据编辑、SQL 编辑、富文本编辑、ER 图、数据导出/导入/转译、SQL 执行计划等。 基于 Eclipse 平台。 使用插件架构，为以下数据库提供额外功能：MySQL/MariaDB, PostgreSQL, Greenplum, Oracle, DB2 LUW, Exasol, SQL Server, Sybase/SAP ASE, SQLite, Firebird, H2, HSQLDB, Derby, Teradata, Vertica, Netezza, Informix 等。
-Free multi-platform database tool for developers, SQL programmers, database administrators and analysts. Supports any database which has JDBC driver (which basically means - ANY database). Commercial versions also support non-JDBC datasources such as MongoDB, Cassandra, Couchbase, Redis, BigTable, DynamoDB, etc.</description></item><item><title>Domain-oriented development</title><link>https://donnol.github.io/posts/2021/12/domain/</link><pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/domain/</guid><description>面向领域开发。
-将业务复杂度和技术复杂度分开，逐个击破。
-分离领域，各司其职。
-降低复杂度，容易测试。
-DDD 尝试 # order.go:
-package domain import ( &amp;#34;crypto/rand&amp;#34; &amp;#34;math/big&amp;#34; &amp;#34;github.com/pkg/errors&amp;#34; ) // 关键词：用户、店铺、商品、订单 // // 场景描述：店铺展示商品，其价格为P、库存为N，用户（余额为Y）看到商品觉得合适，于是下单购买B个； // 购买前，用户余额Y必须不小于P，商品库存N不小于B；购买后，用户余额减少P，库存减少B； // // 先不考虑并发情况，建立此时的领域模型 type User struct { name string // 名称 phone string // 电话 balance Money // 余额 } type Shop struct { name string // 名称 addr string // 地址 } type Product struct { name string // 名称 price Money // 价格 stock int // 库存 ownShop *Shop // 所属商铺 } type Order struct { name string // 名称 user *User // 用户 product *Product // 商品 } type Money int func NewUser(name, phone string, bal Money) *User { return &amp;amp;User{ name: name, phone: phone, balance: bal, } } func (u *User) Balance() Money { return u.</description></item><item><title>github action deploy hugo blog</title><link>https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/</link><pubDate>Thu, 02 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/</guid><description>why # 为了将视线保持在文章上，减少构建和发布的时间占用。
-what # github action是GitHub推出的持续集成/持续部署工具，只需要在项目中添加workflow.yml配置文件，在其中配置好任务、工作、步骤等，即可在指定动作发生时自动触发编排好的动作。换言之，如果我们在我们的博客仓库里配置了自动将内容打包和发布的workflow.yml，那我们就可以把精力集中在文章的编写，然后轻轻地提交推送，即可完成博客地打包和发布，very easy and smooth。
-how # 在github准备一个blog仓库，用于存放原始信息；再准备一个github page仓库，用于存放打包数据。
-其中github page仓库已开启page，可以通过github page设置的域名访问。
-我的blog仓库
-我的github page仓库
-workflow # 这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件
-name: blog # 做什么都好，别忘了先起个平凡（kuxuan）的名字 on: # 指定触发动作 push: # 动作是：git push branches: - main # 指定分支： main jobs: build-deploy: runs-on: ubuntu-latest # 基于ubuntu steps: - uses: actions/checkout@v2 # 切换分支：git checkout with: submodules: recursive # Fetch Hugo themes (true OR recursive) fetch-depth: 0 # Fetch all history for .</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2021/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2021/12/index.xml" rel="self" type="application/rss+xml"/><item><title>ebpf</title><link>https://donnol.github.io/posts/2021/12/ebpf/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/ebpf/</guid><description>&lt;p>
+ &lt;a href="https://ebpf.io/">ebpf&lt;/a>: 扩展伯克利包过滤器。&lt;/p>
+&lt;p>下面的内容主要来源于
+ &lt;a href="https://mp.weixin.qq.com/s/xxBQuj-iD103kWeicanUFA">译文&lt;/a>。&lt;/p>
+&lt;h2 id="用处">
+ 用处
+ &lt;a class="anchor" href="#%e7%94%a8%e5%a4%84">#&lt;/a>
+&lt;/h2>
+&lt;blockquote>
+&lt;p>目前，主要有两大组触发器。&lt;/p>
+&lt;p>第一组用于处理网络数据包和管理网络流量。它们是 XDP、流量控制事件及其他几个事件。&lt;/p>
+&lt;p>以下情况需要用到这些事件：&lt;/p>
+&lt;blockquote>
+&lt;p>创建简单但非常有效的防火墙。Cloudflare 和 Facebook 等公司使用 BPF 程序来过滤掉大量的寄生流量，并打击最大规模的 DDoS 攻击。由于处理发生在数据包生命的最早阶段，直接在内核中进行（BPF 程序的处理有时甚至可以直接推送到网卡中进行），因此可以通过这种方式处理巨量的流量。这些事情过去都是在专门的网络硬件上完成的。&lt;/p>
+&lt;p>创建更智能、更有针对性、但性能更好的防火墙——这些防火墙可以检查通过的流量是否符合公司的规则、是否存在漏洞模式等。例如，Facebook 在内部进行这种审计，而一些项目则对外销售这类产品。&lt;/p>
+&lt;p>创建智能负载均衡器。最突出的例子就是 Cilium 项目，它最常被用作 K8s 集群中的网格网络。Cilium 对流量进行管理、均衡、重定向和分析。所有这些都是在内核运行的小型 BPF 程序的帮助下完成的，以响应这个或那个与网络数据包或套接字相关的事件。&lt;/p>
+&lt;/blockquote>
+&lt;p>这是第一组与网络问题相关并能够影响网络通信行为的触发器。第二组则与更普遍的可观察性相关；在大多数情况下，这组的程序无法影响任何事件，而只能“观察”。这才是我更感兴趣的。&lt;/p>
+&lt;p>这组的触发器有如下几个：&lt;/p>
+&lt;blockquote>
+&lt;p>perf 事件（perf events）——与性能和 perf Linux 分析器相关的事件：硬件处理器计数器、中断处理、小 / 大内存异常拦截等等。例如，我们可以设置一个处理程序，每当内核需要从 swap 读取内存页时，该处理程序就会运行。例如，想象有这样一个实用程序，它显示了当前所有使用 swap 的程序。&lt;/p></description></item><item><title>时间和文字</title><link>https://donnol.github.io/posts/2021/12/time_wenzi/</link><pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/time_wenzi/</guid><description>&lt;p>带领，今天突然用到这个“带”字时，觉得它不是我印象中的“带”字，这是为什么呢？&lt;/p>
+&lt;p>很重的一种陌生感迎面而来，这真的是曾经伴随我历经千测万考的字吗？&lt;/p>
+&lt;p>这种突然觉得某个曾经很熟悉的字很陌生的感觉，真的很奇怪。&lt;/p></description></item><item><title>etcd</title><link>https://donnol.github.io/posts/2021/12/etcd/</link><pubDate>Mon, 20 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/etcd/</guid><description>&lt;h1 id="etcd">
+ etcd
+ &lt;a class="anchor" href="#etcd">#&lt;/a>
+&lt;/h1>
+&lt;h2 id="raft">
+ raft
+ &lt;a class="anchor" href="#raft">#&lt;/a>
+&lt;/h2>
+&lt;h3 id="介绍httpspkggodevgoetcdioetcdraftv3section-readme">
+ 
+ &lt;a href="https://pkg.go.dev/go.etcd.io/etcd/raft/v3#section-readme">介绍&lt;/a>
+ &lt;a class="anchor" href="#%e4%bb%8b%e7%bb%8dhttpspkggodevgoetcdioetcdraftv3section-readme">#&lt;/a>
+&lt;/h3>
+&lt;blockquote>
+&lt;p>由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。
+ &lt;a href="https://raft.github.io/raft.pdf">可理解的共识算法&lt;/a>&lt;/p>
+&lt;p>状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：&lt;code>[]Messages, []LogEntries, NextState&lt;/code>，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="插曲">
+ 插曲
+ &lt;a class="anchor" href="#%e6%8f%92%e6%9b%b2">#&lt;/a>
+&lt;/h3>
+&lt;p>人、联系、共识&lt;/p>
+&lt;p>人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。&lt;/p>
+&lt;p>当两个人面对面时，就某个想法达成一致或不一致，非常容易。&lt;/p>
+&lt;p>如果两个人不是面对面呢？&lt;/p>
+&lt;p>如果不只两个人，同坐在祠堂里呢？&lt;/p>
+&lt;p>如果不止两个人，还分散在不同地点呢？&lt;/p></description></item><item><title>vscode-go在go.mod在非根目录情况下失效的问题</title><link>https://donnol.github.io/posts/2021/12/vscode-go-module/</link><pubDate>Mon, 20 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/vscode-go-module/</guid><description>&lt;p>问题如图：&lt;/p>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/vscode-go-module-not-support-noroot-gomod.png" alt="问题" />&lt;/p>
+&lt;p>解决：&lt;/p>
+&lt;p>添加配置：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#f92672">&amp;#34;gopls&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;experimentalWorkspaceModule&amp;#34;&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等&lt;code>go 1.18&lt;/code>的&lt;code>workspace&lt;/code>模式推出之后，应该就不需要配置这个了。&lt;/p></description></item><item><title>mqtt</title><link>https://donnol.github.io/posts/2021/12/mqtt/</link><pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/mqtt/</guid><description>&lt;h2 id="物联网消息标准">
+ 物联网消息标准
+ &lt;a class="anchor" href="#%e7%89%a9%e8%81%94%e7%bd%91%e6%b6%88%e6%81%af%e6%a0%87%e5%87%86">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://mqtt.org/">官网&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>It is designed as an extremely lightweight publish/subscribe messaging transport that is ideal for connecting remote devices with a small code footprint and minimal network bandwidth.&lt;/p>
+&lt;p>极其轻量的发布/订阅消息传输，使用小量代码脚本和极小网络带宽来连接远程设备。&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>轻量&lt;/li>
+&lt;li>高效&lt;/li>
+&lt;li>双向&lt;/li>
+&lt;li>大规模（百万设备）&lt;/li>
+&lt;li>可靠&lt;/li>
+&lt;li>支持不可靠网络&lt;/li>
+&lt;li>安全&lt;/li>
+&lt;/ul>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/mqtt%e6%9e%b6%e6%9e%84%e5%9b%be.png" alt="架构图" />&lt;/p>
+&lt;p>多个&lt;code>mqtt&lt;/code>客户端连接到&lt;code>broker&lt;/code>(译为：中间商)，围绕&lt;code>topic&lt;/code>来实现发布/订阅操作，某些客户端向&lt;code>topic&lt;/code>发布消息，某些客户端订阅&lt;code>topic&lt;/code>上的消息，当&lt;code>broker&lt;/code>接收到某个&lt;code>topic&lt;/code>上的消息时，它会将消息转发到订阅了该&lt;code>topic&lt;/code>的客户端。&lt;/p>
+&lt;p>
+ &lt;a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">mqtt 5.0&lt;/a>&lt;/p></description></item><item><title>redis sds</title><link>https://donnol.github.io/posts/2021/12/redis_sds/</link><pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/redis_sds/</guid><description>&lt;h2 id="简单动态字符串">
+ 简单动态字符串
+ &lt;a class="anchor" href="#%e7%ae%80%e5%8d%95%e5%8a%a8%e6%80%81%e5%ad%97%e7%ac%a6%e4%b8%b2">#&lt;/a>
+&lt;/h2>
+&lt;p>结构：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">len&lt;/th>
+ &lt;th style="text-align: left">alloc&lt;/th>
+ &lt;th style="text-align: left">flag&lt;/th>
+ &lt;th style="text-align: left">buf&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">长度(已使用空间大小)&lt;/td>
+ &lt;td style="text-align: left">分配(总共空间大小：buf 的大小减 1 &amp;ndash; &amp;lsquo;\0&amp;rsquo;字符占用了 1)&lt;/td>
+ &lt;td style="text-align: left">标记(sdshdr 的类型)&lt;/td>
+ &lt;td style="text-align: left">真正存储字符串的地方&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>文件：&lt;/p></description></item><item><title>k8s</title><link>https://donnol.github.io/posts/2021/12/k8s/</link><pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/k8s/</guid><description>&lt;h2 id="what">
+ What
+ &lt;a class="anchor" href="#what">#&lt;/a>
+&lt;/h2>
+&lt;p>docker 带来容器之风，以致容器多不胜数。如何编排和管理众多容器，使得它们同心协力办好事情，即成为了当下最大的课题。&lt;/p>
+&lt;p>为此，k8s 应运而生。&lt;/p>
+&lt;p>容器，通讯，存储，配置。&lt;/p>
+&lt;h2 id="why">
+ Why
+ &lt;a class="anchor" href="#why">#&lt;/a>
+&lt;/h2>
+&lt;p>为编排和管理数量众多的容器。&lt;/p>
+&lt;h2 id="how">
+ How
+ &lt;a class="anchor" href="#how">#&lt;/a>
+&lt;/h2>
+&lt;h3 id="install">
+ Install
+ &lt;a class="anchor" href="#install">#&lt;/a>
+&lt;/h3>
+&lt;h4 id="k8s-集群搭建所需资源">
+ k8s: 集群搭建所需资源
+ &lt;a class="anchor" href="#k8s-%e9%9b%86%e7%be%a4%e6%90%ad%e5%bb%ba%e6%89%80%e9%9c%80%e8%b5%84%e6%ba%90">#&lt;/a>
+&lt;/h4>
+&lt;blockquote>
+&lt;p>One or more machines running one of:&lt;/p></description></item><item><title>数据密集型应用设计</title><link>https://donnol.github.io/posts/2021/12/ddia/</link><pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/ddia/</guid><description>&lt;h2 id="第一章-可靠性可扩展性可维护性">
+ 第一章 可靠性、可扩展性、可维护性
+ &lt;a class="anchor" href="#%e7%ac%ac%e4%b8%80%e7%ab%a0-%e5%8f%af%e9%9d%a0%e6%80%a7%e5%8f%af%e6%89%a9%e5%b1%95%e6%80%a7%e5%8f%af%e7%bb%b4%e6%8a%a4%e6%80%a7">#&lt;/a>
+&lt;/h2>
+&lt;p>数据密集型应用和计算密集型应用&lt;/p>
+&lt;blockquote>
+&lt;p>现今很多应用程序都是 &lt;strong>数据密集型（data-intensive）&lt;/strong> 的，而非 &lt;strong>计算密集型（compute-intensive）&lt;/strong> 的。因此&lt;strong>CPU&lt;/strong>很少成为这类应用的瓶颈，更大的问题通常来自&lt;strong>数据量、数据复杂性、以及数据的变更速度&lt;/strong>。&lt;/p>
+&lt;/blockquote>
+&lt;p>数据密集型应用通常由标准组件构建而成，标准组件提供了很多通用的功能；例如，许多应用程序都需要：&lt;/p>
+&lt;blockquote>
+&lt;p>存储数据，以便自己或其他应用程序之后能再次找到 （&lt;strong>数据库（database）&lt;/strong>）&lt;/p>
+&lt;p>记住开销昂贵操作的结果，加快读取速度（&lt;strong>缓存（cache）&lt;/strong>）&lt;/p>
+&lt;p>允许用户按关键字搜索数据，或以各种方式对数据进行过滤（&lt;strong>搜索索引（search indexes）&lt;/strong>）&lt;/p>
+&lt;p>向其他进程发送消息，进行异步处理（&lt;strong>流处理（stream processing）&lt;/strong>）&lt;/p>
+&lt;p>定期处理累积的大批量数据（&lt;strong>批处理（batch processing）&lt;/strong>）&lt;/p>
+&lt;blockquote>
+&lt;p>对应可选的组件在我映像中可以有：&lt;/p>
+&lt;p>数据库：mysql, postgresql&lt;/p>
+&lt;p>缓存: redis, memcached&lt;/p>
+&lt;p>搜索索引: elastic search, sonic, redis search&lt;/p>
+&lt;p>流处理: kafka, redis stream&lt;/p>
+&lt;p>批处理: linux cron, golang timer&lt;/p>
+&lt;/blockquote>
+&lt;/blockquote>
+&lt;p>使用较小的通用组件创建了一个全新的、专用的数据系统。&lt;/p></description></item><item><title>burn cpu use golang</title><link>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</guid><description>&lt;h2 id="虚假的-burn">
+ 虚假的 burn
+ &lt;a class="anchor" href="#%e8%99%9a%e5%81%87%e7%9a%84-burn">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">fakeBurn&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="真正的-burn">
+ 真正的 burn
+ &lt;a class="anchor" href="#%e7%9c%9f%e6%ad%a3%e7%9a%84-burn">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;flag&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;runtime&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;time&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">var&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">numBurn&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">updateInterval&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">cpuBurn&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#ae81ff">2147483647&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// Gosched让当前goroutine让出处理器，从而使得其它goroutine可以运行。它不会挂起/暂停当前的goroutine，它会自动恢复执行。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">Gosched&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">init&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">flag&lt;/span>.&lt;span style="color:#a6e22e">IntVar&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">numBurn&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">0&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;number of cores to burn (0 = all)&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">flag&lt;/span>.&lt;span style="color:#a6e22e">IntVar&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">updateInterval&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;u&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">10&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;seconds between updates (0 = don&amp;#39;t update)&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">flag&lt;/span>.&lt;span style="color:#a6e22e">Parse&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">numBurn&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">numBurn&lt;/span> = &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">NumCPU&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">GOMAXPROCS&lt;/span>(&lt;span style="color:#a6e22e">numBurn&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Burning %d CPUs/cores\n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">numBurn&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">numBurn&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">go&lt;/span> &lt;span style="color:#a6e22e">cpuBurn&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 一直执行，区别是其中一个会定期打印，另一个不会打印
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">updateInterval&lt;/span> &amp;gt; &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Tick&lt;/span>(&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>(&lt;span style="color:#a6e22e">updateInterval&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Second&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">secs&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">updateInterval&lt;/span>; ; &lt;span style="color:#a6e22e">secs&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">updateInterval&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">t&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%d seconds\n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">secs&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">select&lt;/span> {} &lt;span style="color:#75715e">// wait forever
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>docker compose使用extra host让容器访问主机服务</title><link>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</guid><description>&lt;p>
+ &lt;a href="https://donnol.github.io/posts/2021/12/docker_compose_extra_host/">首发于：简单博客&lt;/a>&lt;/p>
+&lt;h2 id="docker-compose-如何访问主机服务">
+ docker compose 如何访问主机服务
+ &lt;a class="anchor" href="#docker-compose-%e5%a6%82%e4%bd%95%e8%ae%bf%e9%97%ae%e4%b8%bb%e6%9c%ba%e6%9c%8d%e5%8a%a1">#&lt;/a>
+&lt;/h2>
+&lt;p>docker compose 里面的容器怎么访问主机自身起的服务呢？&lt;/p>
+&lt;p>
+ &lt;a href="https://docs.docker.com/engine/release-notes/#networking-3">20.10.0 版本在 linux 新增 host.docker.internal 支持&lt;/a>：
+&lt;code>docker run -it --add-host=host.docker.internal:host-gateway alpine cat /etc/hosts&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>127.0.0.1 localhost
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>::1 localhost ip6-localhost ip6-loopback
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>fe00::0 ip6-localnet
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ff00::0 ip6-mcastprefix
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ff02::1 ip6-allnodes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ff02::2 ip6-allrouters
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>172.17.0.1 host.docker.internal &lt;span style="color:#75715e"># --add-host的作用就是添加了这行到/etc/hosts&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>172.17.0.3 cb0565ceea26
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>数据库管理工具之dbeaver</title><link>https://donnol.github.io/posts/2021/12/dbeaver/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/dbeaver/</guid><description>&lt;p>
+ &lt;a href="https://github.com/dbeaver/dbeaver">dbeaver: github&lt;/a>&lt;/p>
+&lt;p>
+ &lt;a href="https://github.com/dbeaver/dbeaver/releases">下载页&lt;/a>&lt;/p>
+&lt;p>面向开发者、SQL 编程人员、数据库管理员和分析人员的免费的多平台数据库工具。
+支持任何已有 JDBC 驱动的数据库（基本上是任何数据库）。商业版本还额外支持非 JDBC 数据源，比如：MongoDB, Cassandra, Couchbase, Redis, BigTable, DynamoDB 等。&lt;/p>
+&lt;p>拥有的特性：元数据编辑、SQL 编辑、富文本编辑、ER 图、数据导出/导入/转译、SQL 执行计划等。
+基于 Eclipse 平台。
+使用插件架构，为以下数据库提供额外功能：MySQL/MariaDB, PostgreSQL, Greenplum, Oracle, DB2 LUW, Exasol, SQL Server, Sybase/SAP ASE, SQLite, Firebird, H2, HSQLDB, Derby, Teradata, Vertica, Netezza, Informix 等。&lt;/p>
+&lt;blockquote>
+&lt;p>Free multi-platform database tool for developers, SQL programmers, database administrators and analysts.
+Supports any database which has JDBC driver (which basically means - ANY database). Commercial versions also support non-JDBC datasources such as MongoDB, Cassandra, Couchbase, Redis, BigTable, DynamoDB, etc. You can find the list of all databases supported in commercial versions here.&lt;/p></description></item><item><title>Domain-oriented development</title><link>https://donnol.github.io/posts/2021/12/domain/</link><pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/domain/</guid><description>&lt;p>面向领域开发。&lt;/p>
+&lt;p>将业务复杂度和技术复杂度分开，逐个击破。&lt;/p>
+&lt;p>分离领域，各司其职。&lt;/p>
+&lt;p>降低复杂度，容易测试。&lt;/p>
+&lt;h2 id="ddd-尝试">
+ DDD 尝试
+ &lt;a class="anchor" href="#ddd-%e5%b0%9d%e8%af%95">#&lt;/a>
+&lt;/h2>
+&lt;p>order.go:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">domain&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;crypto/rand&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;math/big&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;github.com/pkg/errors&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 关键词：用户、店铺、商品、订单
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 场景描述：店铺展示商品，其价格为P、库存为N，用户（余额为Y）看到商品觉得合适，于是下单购买B个；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 购买前，用户余额Y必须不小于P，商品库存N不小于B；购买后，用户余额减少P，库存减少B；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 先不考虑并发情况，建立此时的领域模型
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">User&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">phone&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 电话
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">balance&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span> &lt;span style="color:#75715e">// 余额
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Shop&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">addr&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 地址
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Product&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">price&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span> &lt;span style="color:#75715e">// 价格
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">stock&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#75715e">// 库存
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ownShop&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span> &lt;span style="color:#75715e">// 所属商铺
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Order&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">user&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span> &lt;span style="color:#75715e">// 用户
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">product&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span> &lt;span style="color:#75715e">// 商品
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewUser&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>, &lt;span style="color:#a6e22e">phone&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">bal&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">phone&lt;/span>: &lt;span style="color:#a6e22e">phone&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">balance&lt;/span>: &lt;span style="color:#a6e22e">bal&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">u&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>) &lt;span style="color:#a6e22e">Balance&lt;/span>() &lt;span style="color:#a6e22e">Money&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">u&lt;/span>.&lt;span style="color:#a6e22e">balance&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">u&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>) &lt;span style="color:#a6e22e">DeductBalance&lt;/span>(&lt;span style="color:#a6e22e">amount&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">u&lt;/span>.&lt;span style="color:#a6e22e">balance&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">amount&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> panic(&lt;span style="color:#e6db74">&amp;#34;not enough money&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">u&lt;/span>.&lt;span style="color:#a6e22e">balance&lt;/span> &lt;span style="color:#f92672">-=&lt;/span> &lt;span style="color:#a6e22e">amount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewShop&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>, &lt;span style="color:#a6e22e">addr&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">addr&lt;/span>: &lt;span style="color:#a6e22e">addr&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewProduct&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">price&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>, &lt;span style="color:#a6e22e">stock&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#a6e22e">shop&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">price&lt;/span>: &lt;span style="color:#a6e22e">price&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">stock&lt;/span>: &lt;span style="color:#a6e22e">stock&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ownShop&lt;/span>: &lt;span style="color:#a6e22e">shop&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>) &lt;span style="color:#a6e22e">Stock&lt;/span>() &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">stock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>) &lt;span style="color:#a6e22e">DeductStock&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">stock&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">c&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> panic(&lt;span style="color:#e6db74">&amp;#34;not enough stock&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">stock&lt;/span> &lt;span style="color:#f92672">-=&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// NewOrder 用户对商品下单c个
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewOrder&lt;/span>(&lt;span style="color:#a6e22e">user&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>, &lt;span style="color:#a6e22e">product&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>, &lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">GenerateRandomString&lt;/span>(&lt;span style="color:#ae81ff">12&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> panic(&lt;span style="color:#a6e22e">err&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">user&lt;/span>.&lt;span style="color:#a6e22e">DeductBalance&lt;/span>(&lt;span style="color:#a6e22e">product&lt;/span>.&lt;span style="color:#a6e22e">price&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">product&lt;/span>.&lt;span style="color:#a6e22e">DeductStock&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">user&lt;/span>: &lt;span style="color:#a6e22e">user&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">product&lt;/span>: &lt;span style="color:#a6e22e">product&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">o&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span>) &lt;span style="color:#a6e22e">User&lt;/span>() &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">o&lt;/span>.&lt;span style="color:#a6e22e">user&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">o&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span>) &lt;span style="color:#a6e22e">Product&lt;/span>() &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">o&lt;/span>.&lt;span style="color:#a6e22e">product&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// GenerateRandomString 随机字符串包含有数字和大小写字母
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">GenerateRandomString&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) (&lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">letters&lt;/span> = &lt;span style="color:#e6db74">&amp;#34;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">generate&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span>, &lt;span style="color:#a6e22e">letters&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">generate&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#a6e22e">letters&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) (&lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ret&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make([]&lt;span style="color:#66d9ef">byte&lt;/span>, &lt;span style="color:#a6e22e">n&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">n&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">num&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">rand&lt;/span>.&lt;span style="color:#a6e22e">Int&lt;/span>(&lt;span style="color:#a6e22e">rand&lt;/span>.&lt;span style="color:#a6e22e">Reader&lt;/span>, &lt;span style="color:#a6e22e">big&lt;/span>.&lt;span style="color:#a6e22e">NewInt&lt;/span>(int64(len(&lt;span style="color:#a6e22e">letters&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">errors&lt;/span>.&lt;span style="color:#a6e22e">WithStack&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ret&lt;/span>[&lt;span style="color:#a6e22e">i&lt;/span>] = &lt;span style="color:#a6e22e">letters&lt;/span>[&lt;span style="color:#a6e22e">num&lt;/span>.&lt;span style="color:#a6e22e">Int64&lt;/span>()]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> string(&lt;span style="color:#a6e22e">ret&lt;/span>), &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>github action deploy hugo blog</title><link>https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/</link><pubDate>Thu, 02 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/</guid><description>&lt;h2 id="why">
+ why
+ &lt;a class="anchor" href="#why">#&lt;/a>
+&lt;/h2>
+&lt;p>为了将视线保持在文章上，减少构建和发布的时间占用。&lt;/p>
+&lt;h2 id="what">
+ what
+ &lt;a class="anchor" href="#what">#&lt;/a>
+&lt;/h2>
+&lt;p>&lt;code>github action&lt;/code>是&lt;code>GitHub&lt;/code>推出的持续集成/持续部署工具，只需要在项目中添加&lt;code>workflow.yml&lt;/code>配置文件，在其中配置好任务、工作、步骤等，即可在指定动作发生时自动触发编排好的动作。换言之，如果我们在我们的博客仓库里配置了自动将内容打包和发布的&lt;code>workflow.yml&lt;/code>，那我们就可以把精力集中在文章的编写，然后轻轻地提交推送，即可完成博客地打包和发布，&lt;code>very easy and smooth&lt;/code>。&lt;/p>
+&lt;h2 id="how">
+ how
+ &lt;a class="anchor" href="#how">#&lt;/a>
+&lt;/h2>
+&lt;p>在github准备一个blog仓库，用于存放原始信息；再准备一个&lt;code>github page&lt;/code>仓库，用于存放打包数据。&lt;/p>
+&lt;p>其中&lt;code>github page&lt;/code>仓库已开启page，可以通过&lt;code>github page&lt;/code>设置的域名访问。&lt;/p>
+&lt;p>
+ &lt;a href="https://github.com/donnol/blog">我的blog仓库&lt;/a>&lt;/p>
+&lt;p>
+ &lt;a href="https://github.com/donnol/donnol.github.io">我的github page仓库&lt;/a>&lt;/p>
+&lt;h3 id="workflow">
+ workflow
+ &lt;a class="anchor" href="#workflow">#&lt;/a>
+&lt;/h3>
+&lt;p>
+ &lt;a href="https://github.com/donnol/blog/blob/main/.github/workflows/workflow.yml">这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件&lt;/a>&lt;/p></description></item></channel></rss>

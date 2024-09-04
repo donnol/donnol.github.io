@@ -1,12 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Time on 我的简单博客</title><link>https://donnol.github.io/categories/time/</link><description>Recent content in Time on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 27 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/time/index.xml" rel="self" type="application/rss+xml"/><item><title>雪花id的时钟回退问题</title><link>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 27 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</guid><description>雪花id由64位二进制组成，转成字符串则长为19. 它依赖于系统时钟，如果出现时钟回退，会导致已经在用的id再次被生成。
-怎么办呢？
-记录上次生成时间，在本次生成时比较时间，如果当前时间比上次生成时间要小，则认为时钟回拨，直接报错。也可以一直重试，直到当前时间不小于上次生成时间。
-采用历史时间则天然的不存在时间回拨问题。但是在超高并发情况下，历史的时间很快用完，时间一直保持在最新时间的话，这个时候还是会出现时间回拨。
-Go1.9开始，使用单调时钟: time.Now(), time.Since(), time.Until().
-// # Monotonic Clocks
-//
-// Operating systems provide both a “wall clock,” which is subject to
-// changes for clock synchronization, and a “monotonic clock,” which is
-// not. The general rule is that the wall clock is for telling time and
-// the monotonic clock is for measuring time. Rather than split the API,
-// in this package the Time returned by time.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Time on 我的简单博客</title><link>https://donnol.github.io/categories/time/</link><description>Recent content in Time on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 27 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/time/index.xml" rel="self" type="application/rss+xml"/><item><title>雪花id的时钟回退问题</title><link>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 27 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</guid><description>&lt;p>雪花id由64位二进制组成，转成字符串则长为19. 它依赖于系统时钟，如果出现时钟回退，会导致已经在用的id再次被生成。&lt;/p>
+&lt;p>怎么办呢？&lt;/p>
+&lt;ol start="0">
+&lt;li>
+&lt;p>记录上次生成时间，在本次生成时比较时间，如果当前时间比上次生成时间要小，则认为时钟回拨，直接报错。也可以一直重试，直到当前时间不小于上次生成时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>采用历史时间则天然的不存在时间回拨问题。但是在超高并发情况下，历史的时间很快用完，时间一直保持在最新时间的话，这个时候还是会出现时间回拨。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Go1.9开始，使用单调时钟: time.Now(), time.Since(), time.Until().&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>// # Monotonic Clocks&lt;/p>
+&lt;p>//&lt;/p>
+&lt;p>// Operating systems provide both a “wall clock,” which is subject to&lt;/p>
+&lt;p>// changes for clock synchronization, and a “monotonic clock,” which is&lt;/p>
+&lt;p>// not. The general rule is that the wall clock is for telling time and&lt;/p></description></item></channel></rss>

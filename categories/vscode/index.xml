@@ -1,14 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vscode on 我的简单博客</title><link>https://donnol.github.io/categories/vscode/</link><description>Recent content in Vscode on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 13 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/vscode/index.xml" rel="self" type="application/rss+xml"/><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>今天发现在windows上的vscode一直提示找不到go：go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go。
-强制设置了go.goroot也不行，直到查看了GOENV文件（C:\Users\xxx\AppData\Roaming\go\env）之后，才发现里面有一行：GOROOT=c:\msys64\mingw64\lib\go，可能是当时在msys2安装go的时候加上的。
-去掉它就恢复正常了。
-$ go env set GOENV=C:\Users\xxx\AppData\Roaming\go\env set GOHOSTARCH=amd64 set GOHOSTOS=windows set GOMODCACHE=C:\Users\xxx\go\pkg\mod set GOOS=windows set GOPATH=C:\Users\xxx\go set GOPRIVATE= set GOPROXY=https://goproxy.cn,https://goproxy.io,direct set GOROOT=C:\Program Files\Go 应该是这样的，如果用go env -w 来设置goroot，那么这个值就会保存到GOENV对应的文件里，如果是$env:GOROOT=xxx的方式来设置则不会修改GOENV文件里的内容。这时候，如果vscode是优先从GOENV文件来获取GOROOT的话，就可能会导致与实际的GOROOT不一致。
-所以，如果再遇到以上错误，除了echo $env:GOROOT 看一下环境变量值之外，也要看一下GOENV文件。</description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>不同系统之间通过网络对接
-数据库事件 # 可以用个事件表来做，在事务执行过程中添加事件(确保事务完成时事件也存在)。
-在事务提交之后，先尝试做一次事件，如果成功了就把事件状态置为成功；如果失败了也没关系，另外开定时器来扫表进行重试执行。 &amp;ndash; 此时不影响正常业务执行
-在事件处理事务里的网络请求里加入超时控制，确保事件不会执行太久，导致接口过慢。
-网络请求支持幂等，防止事件处理事务请求成功了，但是事务挂了导致状态未变更，这种情况下会重复请求多次。
-skip locked实现 # -- 条件字段必须有索引(status, [name, status])，排序字段必须是主键(id)，此时刚好是所要锁定的行 start transaction; -- select * from w_event we where status in (1) order by create_time asc limit 1 for update skip locked; -- 引入create_time作为排序字段时，会将符合条件的行都锁住，`limit 1`不起作用 select * from w_event we where status in (1) order by id asc limit 1 for update skip locked; -- 使用主键字段作排序时，`limit 1`则起作用 select * from w_event we where name = &amp;#39;测试&amp;#39; and status in (1) order by id asc limit 1 for update skip locked; -- 如果有多个字段作为条件，需要建立组合索引 SELECT object_name, index_name, lock_type, lock_mode, lock_data FROM performance_schema.</description></item><item><title>Vscode Translate</title><link>https://donnol.github.io/posts/2023/07/vscode_traslate/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/vscode_traslate/</guid><description>试了几个vscode的翻译插件，包括Google Translate, Comment Translate, Translate Var。
-来自intellsmi的Comment Translate最终脱颖而出。
-它支持Google, Bing, Baidu等翻译工具。
-设置：选择翻译工具Bing，再设置源语言和目标语言。
-使用：选中单词即会自动翻译，非常方便。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vscode on 我的简单博客</title><link>https://donnol.github.io/categories/vscode/</link><description>Recent content in Vscode on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 13 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/vscode/index.xml" rel="self" type="application/rss+xml"/><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>&lt;p>今天发现在windows上的vscode一直提示找不到go：&lt;code>go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go&lt;/code>。&lt;/p>
+&lt;p>强制设置了go.goroot也不行，直到查看了GOENV文件（C:\Users\xxx\AppData\Roaming\go\env）之后，才发现里面有一行：GOROOT=c:\msys64\mingw64\lib\go，可能是当时在msys2安装go的时候加上的。&lt;/p>
+&lt;p>去掉它就恢复正常了。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go env
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOENV&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\U&lt;/span>sers&lt;span style="color:#ae81ff">\x&lt;/span>xx&lt;span style="color:#ae81ff">\A&lt;/span>ppData&lt;span style="color:#ae81ff">\R&lt;/span>oaming&lt;span style="color:#ae81ff">\g&lt;/span>o&lt;span style="color:#ae81ff">\e&lt;/span>nv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOHOSTARCH&lt;span style="color:#f92672">=&lt;/span>amd64
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOHOSTOS&lt;span style="color:#f92672">=&lt;/span>windows
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOMODCACHE&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\U&lt;/span>sers&lt;span style="color:#ae81ff">\x&lt;/span>xx&lt;span style="color:#ae81ff">\g&lt;/span>o&lt;span style="color:#ae81ff">\p&lt;/span>kg&lt;span style="color:#ae81ff">\m&lt;/span>od
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOOS&lt;span style="color:#f92672">=&lt;/span>windows
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPATH&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\U&lt;/span>sers&lt;span style="color:#ae81ff">\x&lt;/span>xx&lt;span style="color:#ae81ff">\g&lt;/span>o
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPRIVATE&lt;span style="color:#f92672">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPROXY&lt;span style="color:#f92672">=&lt;/span>https://goproxy.cn,https://goproxy.io,direct
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOROOT&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\P&lt;/span>rogram Files&lt;span style="color:#ae81ff">\G&lt;/span>o
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>&lt;p>不同系统之间通过网络对接&lt;/p>
+&lt;h2 id="数据库事件">
+ 数据库事件
+ &lt;a class="anchor" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e4%ba%8b%e4%bb%b6">#&lt;/a>
+&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>可以用个&lt;code>事件表&lt;/code>来做，在事务执行过程中添加&lt;code>事件&lt;/code>(确保事务完成时事件也存在)。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在事务提交之后，先尝试做一次事件，如果成功了就把事件状态置为成功；如果失败了也没关系，另外开定时器来扫表进行&lt;code>重试&lt;/code>执行。 &amp;ndash; 此时不影响正常业务执行&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在事件处理事务里的网络请求里加入超时控制，确保事件不会执行太久，导致接口过慢。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>网络请求支持&lt;code>幂等&lt;/code>，防止事件处理事务请求成功了，但是事务挂了导致状态未变更，这种情况下会重复请求多次。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="skip-locked实现">
+ &lt;code>skip locked&lt;/code>实现
+ &lt;a class="anchor" href="#skip-locked%e5%ae%9e%e7%8e%b0">#&lt;/a>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 条件字段必须有索引(status, [name, status])，排序字段必须是主键(id)，此时刚好是所要锁定的行
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">start&lt;/span> &lt;span style="color:#66d9ef">transaction&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- select * from w_event we where status in (1) order by create_time asc limit 1 for update skip locked; -- 引入create_time作为排序字段时，会将符合条件的行都锁住，`limit 1`不起作用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">1&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked; &lt;span style="color:#75715e">-- 使用主键字段作排序时，`limit 1`则起作用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;测试&amp;#39;&lt;/span> &lt;span style="color:#66d9ef">and&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">1&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked; &lt;span style="color:#75715e">-- 如果有多个字段作为条件，需要建立组合索引
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">SELECT&lt;/span> object_name, index_name, lock_type, lock_mode, lock_data &lt;span style="color:#66d9ef">FROM&lt;/span> performance_schema.data_locks; &lt;span style="color:#75715e">-- 查看上锁情况
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">commit&lt;/span>;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Vscode Translate</title><link>https://donnol.github.io/posts/2023/07/vscode_traslate/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/vscode_traslate/</guid><description>&lt;p>试了几个&lt;code>vscode&lt;/code>的翻译插件，包括&lt;code>Google Translate&lt;/code>, &lt;code>Comment Translate&lt;/code>, &lt;code>Translate Var&lt;/code>。&lt;/p>
+&lt;p>来自&lt;code>intellsmi&lt;/code>的&lt;code>Comment Translate&lt;/code>最终脱颖而出。&lt;/p>
+&lt;p>它支持&lt;code>Google&lt;/code>, &lt;code>Bing&lt;/code>, &lt;code>Baidu&lt;/code>等翻译工具。&lt;/p>
+&lt;p>设置：选择翻译工具&lt;code>Bing&lt;/code>，再设置源语言和目标语言。&lt;/p>
+&lt;p>使用：选中单词即会自动翻译，非常方便。&lt;/p></description></item></channel></rss>

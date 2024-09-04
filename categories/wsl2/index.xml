@@ -1,15 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Wsl2 on 我的简单博客</title><link>https://donnol.github.io/categories/wsl2/</link><description>Recent content in Wsl2 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 01 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/wsl2/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description> wsl2版本 # &amp;gt; wsl.exe -v WSL version: 1.2.5.0 Kernel version: 5.15.90.1 WSLg version: 1.0.51 MSRDC version: 1.2.3770 Direct3D version: 1.608.2-61064218 DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp Windows version: 10.0.19045.3031 使用过程中，因为磁盘空间问题，把子系统安装位置从C盘转移到了其它盘。
-操作 # 把sql目录里的*.sql文件逐一导入到8.0.33版本的Mysql。
-尽管sql文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的INSERT IGNORE语句，更是用了将近12分钟才完成。
-怎么办？ # 改为通过网络访问本机的数据库。
-端口 # 一文中提到：
-根据我的观察, 如果Windows本地启动了指定端口, 这时WSL2中虽然可以使用相同的端口, 但是localhost:port 将指向Windows的服务, WSL的服务将会被覆盖!
-当然了, 如果我们配置了端口转发, 转发的IP是WSL的地址, 而不是localhost, 那么WSL将会覆盖Windows的服务!
-而我的观察是，
-我发现本地起了数据库服务之后，在wsl2里起数据库服务（mysql服务，端口都是3306）的情况下，是不会报端口重复绑定错误的。
-但是如果我在wsl2里先起一个服务，绑定端口14222后，再在主机起相同服务，想绑定相同端口时，则会报错端口已被绑定。
-如果我是先在主机起上述服务，然后再在wsl2起该服务，则能正常启动。那在主机访问localhost:[port]时会访问到哪个呢？此时访问到的是主机的服务。
-所以端口是否占用会不会还跟服务起的顺序有关呢？
-暂时未看到有确切的描述。
-但是，经过上面的实验，可以认为：
-先在主机起服务，再在wsl2起服务绑定相同端口时，服务可正常启动；在主机访问`localhost:[port]`时访问的是主机的服务；在wsl2里访问的则是wsl2的服务，除非手动指定主机IP。 而如果先在wsl2里起了服务，再在主机起服务（绑定相同端口: 14222），则会报错端口已被绑定。 但是，如果在wsl2里先起的mysql服务，再在主机起，则不会报错，所以还跟端口值有关？</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Wsl2 on 我的简单博客</title><link>https://donnol.github.io/categories/wsl2/</link><description>Recent content in Wsl2 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 01 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/wsl2/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description>&lt;h2 id="wsl2版本">
+ wsl2版本
+ &lt;a class="anchor" href="#wsl2%e7%89%88%e6%9c%ac">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&amp;gt; wsl.exe -v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WSL version: 1.2.5.0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Kernel version: 5.15.90.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WSLg version: 1.0.51
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MSRDC version: 1.2.3770
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Direct3D version: 1.608.2-61064218
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Windows version: 10.0.19045.3031
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用过程中，因为磁盘空间问题，把子系统安装位置从&lt;code>C盘&lt;/code>转移到了其它盘。&lt;/p>
+&lt;h2 id="操作">
+ 操作
+ &lt;a class="anchor" href="#%e6%93%8d%e4%bd%9c">#&lt;/a>
+&lt;/h2>
+&lt;p>把&lt;code>sql&lt;/code>目录里的&lt;code>*.sql&lt;/code>文件逐一导入到&lt;code>8.0.33&lt;/code>版本的&lt;code>Mysql&lt;/code>。&lt;/p>
+&lt;p>尽管&lt;code>sql&lt;/code>文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的&lt;code>INSERT IGNORE&lt;/code>语句，更是用了将近12分钟才完成。&lt;/p>
+&lt;h2 id="怎么办">
+ 怎么办？
+ &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e">#&lt;/a>
+&lt;/h2>
+&lt;p>改为通过网络访问本机的数据库。&lt;/p></description></item></channel></rss>

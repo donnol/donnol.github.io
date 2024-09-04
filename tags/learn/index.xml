@@ -1,1 +1,95 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Learn on 我的简单博客</title><link>https://donnol.github.io/tags/learn/</link><description>Recent content in Learn on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 25 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/learn/index.xml" rel="self" type="application/rss+xml"/><item><title>Go快速入门</title><link>https://donnol.github.io/posts/2022/01/learn_go_fast/</link><pubDate>Tue, 25 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/learn_go_fast/</guid><description>源码 # // 所有代码都需要放到包里 package color // 导入其它包 import ( &amp;#34;context&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;time&amp;#34; ) // 枚举 type Color int // 常量 const ( Red Color = 1 // 红 Blue Color = 2 // 蓝 Green Color = 3 // 绿 ) // 函数 func NewCar( name string, rate int, ) *Car { return &amp;amp;Car{ name: name, rate: rate, } } // 类型 type Car struct { // 类型字段 name string // 首字母小写，非导出，只能包内使用 rate int } // 类型方法 func (car *Car) String() string { // 首字母大写，导出，可供其它包使用 return &amp;#34;[Car] name: &amp;#34; + car.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Learn on 我的简单博客</title><link>https://donnol.github.io/tags/learn/</link><description>Recent content in Learn on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 25 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/learn/index.xml" rel="self" type="application/rss+xml"/><item><title>Go快速入门</title><link>https://donnol.github.io/posts/2022/01/learn_go_fast/</link><pubDate>Tue, 25 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/learn_go_fast/</guid><description>&lt;h2 id="源码">
+ 源码
+ &lt;a class="anchor" href="#%e6%ba%90%e7%a0%81">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 所有代码都需要放到包里
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">color&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 导入其它包
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;context&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;strconv&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;sync&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;time&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 枚举
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Color&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 常量
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Red&lt;/span> &lt;span style="color:#a6e22e">Color&lt;/span> = &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#75715e">// 红
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">Blue&lt;/span> &lt;span style="color:#a6e22e">Color&lt;/span> = &lt;span style="color:#ae81ff">2&lt;/span> &lt;span style="color:#75715e">// 蓝
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">Green&lt;/span> &lt;span style="color:#a6e22e">Color&lt;/span> = &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#75715e">// 绿
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewCar&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">rate&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Car&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Car&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">rate&lt;/span>: &lt;span style="color:#a6e22e">rate&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Car&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 类型字段
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 首字母小写，非导出，只能包内使用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">rate&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 类型方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">car&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Car&lt;/span>) &lt;span style="color:#a6e22e">String&lt;/span>() &lt;span style="color:#66d9ef">string&lt;/span> { &lt;span style="color:#75715e">// 首字母大写，导出，可供其它包使用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;[Car] name: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">car&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;, rate: &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">strconv&lt;/span>.&lt;span style="color:#a6e22e">Itoa&lt;/span>(&lt;span style="color:#a6e22e">car&lt;/span>.&lt;span style="color:#a6e22e">rate&lt;/span>) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">car&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Car&lt;/span>) &lt;span style="color:#a6e22e">Run&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">ctx&lt;/span> &lt;span style="color:#a6e22e">context&lt;/span>.&lt;span style="color:#a6e22e">Context&lt;/span>, &lt;span style="color:#75715e">// 使用ctx实现超时控制
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 定时器，每隔rate秒执行一次
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">ticker&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">NewTicker&lt;/span>(&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>(&lt;span style="color:#a6e22e">car&lt;/span>.&lt;span style="color:#a6e22e">rate&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Second&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">defer&lt;/span> &lt;span style="color:#a6e22e">ticker&lt;/span>.&lt;span style="color:#a6e22e">Stop&lt;/span>() &lt;span style="color:#75715e">// defer语句，在方法退出前执行，做收尾工作
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// for range ticker.C { // 循环，遍历chan
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 	fmt.Printf(&amp;#34;%s\n&amp;#34;, car)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// }
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">select&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">ticker&lt;/span>.&lt;span style="color:#a6e22e">C&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			{ &lt;span style="color:#75715e">// 代码块，让逻辑更聚合，更清晰
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>				&lt;span style="color:#a6e22e">timesMutex&lt;/span>.&lt;span style="color:#a6e22e">Lock&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#a6e22e">count&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">ok&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">times&lt;/span>[&lt;span style="color:#a6e22e">car&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span>]; &lt;span style="color:#a6e22e">ok&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					&lt;span style="color:#a6e22e">count&lt;/span> = &lt;span style="color:#a6e22e">v&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#a6e22e">times&lt;/span>[&lt;span style="color:#a6e22e">car&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span>] = &lt;span style="color:#a6e22e">count&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#a6e22e">timesMutex&lt;/span>.&lt;span style="color:#a6e22e">Unlock&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%s\n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">car&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">ctx&lt;/span>.&lt;span style="color:#a6e22e">Done&lt;/span>():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 接口
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Runner&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Run&lt;/span>(&lt;span style="color:#a6e22e">ctx&lt;/span> &lt;span style="color:#a6e22e">context&lt;/span>.&lt;span style="color:#a6e22e">Context&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 变量
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 确保*Car实现了Runner接口
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">_&lt;/span> &lt;span style="color:#a6e22e">Runner&lt;/span> = (&lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Car&lt;/span>)(&lt;span style="color:#66d9ef">nil&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">timesMutex&lt;/span> = new(&lt;span style="color:#a6e22e">sync&lt;/span>.&lt;span style="color:#a6e22e">RWMutex&lt;/span>) &lt;span style="color:#75715e">// 读写锁，唯一写，多个读，读时无写
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">times&lt;/span> = make(&lt;span style="color:#66d9ef">map&lt;/span>[&lt;span style="color:#66d9ef">string&lt;/span>]&lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#75715e">// 记录Car Run的次数；在声明时初始化，并配置容量
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

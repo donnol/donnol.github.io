@@ -1,27 +1,81 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mysql on 我的简单博客</title><link>https://donnol.github.io/categories/mysql/</link><description>Recent content in Mysql on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 15 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>查找并杀掉运行中事务</title><link>https://donnol.github.io/posts/2023/09/mysql/</link><pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/mysql/</guid><description>查找并杀掉运行中事务 # -- 获取线程id然后杀掉 SELECT * FROM information_schema.innodb_trx; -- 优先找到其中耗时最长的删 kill 36272; kill 36275; kill 35971; kill 35972; -- 其它 select * from performance_schema.events_statements_current; show processlist; 查看锁使用情况 # SELECT object_name, index_name, lock_type, lock_mode, lock_data FROM performance_schema.data_locks; Windows环境下死锁时重启数据库导致数据库出现“启动后停止” # 后面重启服务器也不行，一直提示：
-&amp;gt; net start mysql MYSQL服务正在启动 MYSQL服务无法启动 服务没有报告任何错误。 请键入 MET HELPMSG 3534 以获得更多的帮助。 解决办法：
-将data目录移走，再重新初始化数据库，此时可正常启动数据库；然后停止数据库，将旧data数据库里的数据库和索引文件复制回新的data目录里，再启动数据库。 # 重新初始化数据库 mysqld --initialize-insecure --user=mysql mysqld -install # 停止和启动 net stop mysql net start mysql 参考</description></item><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description> wsl2版本 # &amp;gt; wsl.exe -v WSL version: 1.2.5.0 Kernel version: 5.15.90.1 WSLg version: 1.0.51 MSRDC version: 1.2.3770 Direct3D version: 1.608.2-61064218 DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp Windows version: 10.0.19045.3031 使用过程中，因为磁盘空间问题，把子系统安装位置从C盘转移到了其它盘。
-操作 # 把sql目录里的*.sql文件逐一导入到8.0.33版本的Mysql。
-尽管sql文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的INSERT IGNORE语句，更是用了将近12分钟才完成。
-怎么办？ # 改为通过网络访问本机的数据库。
-端口 # 一文中提到：
-根据我的观察, 如果Windows本地启动了指定端口, 这时WSL2中虽然可以使用相同的端口, 但是localhost:port 将指向Windows的服务, WSL的服务将会被覆盖!
-当然了, 如果我们配置了端口转发, 转发的IP是WSL的地址, 而不是localhost, 那么WSL将会覆盖Windows的服务!
-而我的观察是，
-我发现本地起了数据库服务之后，在wsl2里起数据库服务（mysql服务，端口都是3306）的情况下，是不会报端口重复绑定错误的。
-但是如果我在wsl2里先起一个服务，绑定端口14222后，再在主机起相同服务，想绑定相同端口时，则会报错端口已被绑定。
-如果我是先在主机起上述服务，然后再在wsl2起该服务，则能正常启动。那在主机访问localhost:[port]时会访问到哪个呢？此时访问到的是主机的服务。
-所以端口是否占用会不会还跟服务起的顺序有关呢？
-暂时未看到有确切的描述。
-但是，经过上面的实验，可以认为：
-先在主机起服务，再在wsl2起服务绑定相同端口时，服务可正常启动；在主机访问`localhost:[port]`时访问的是主机的服务；在wsl2里访问的则是wsl2的服务，除非手动指定主机IP。 而如果先在wsl2里起了服务，再在主机起服务（绑定相同端口: 14222），则会报错端口已被绑定。 但是，如果在wsl2里先起的mysql服务，再在主机起，则不会报错，所以还跟端口值有关？</description></item><item><title>mysqlrouter使用</title><link>https://donnol.github.io/posts/2023/05/mysqlrouter/</link><pubDate>Tue, 16 May 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/05/mysqlrouter/</guid><description>What # mysqlrouter是一个代理，可以将查询转发到配置好的数据库服务里。
-Why # 在办公室网络环境下基于win10 wsl2开发应用时，需要连接到主机所在局域网的其它机器上的数据库服务。
-也就是说，存在机器：wsl2、主机、其它机器。
-wsl2通过NAT网络模式与主机互通，并且wsl2可以访问外网。
-但是wsl2不能访问到其它机器上的数据库服务，不知道是不是办公室网络环境存在限制。
-为了使得wsl2能访问到其它机器上的数据库服务成立，在主机启动mysqlrouter充当代理，然后wsl2通过访问代理来访问其它机器。
-Install # 可以使用mysql installer选择安装。
-简单模式 # 配置文件（mysqlrouter.conf）：
-[DEFAULT] logging_folder = D:/Data/mysqlrouter/log plugin_folder = C:/Program Files/MySQL/MySQL Router 8.0/lib # 这里是插件所在目录，必须是mysqlrouter安装路径下的目录，否则报错找不到插件 config_folder = D:/Data/mysqlrouter/etc # 启动配置默认查找目录，会在目录里寻找mysqlrouter.conf文件 runtime_folder = D:/Data/mysqlrouter/run data_folder = D:/Data/mysqlrouter/data [logger] level = DEBUG [routing:primary] bind_address=172.20.96.1 # 主机ip地址 bind_port=6446 # 主机监听端口 destinations = 172.17.39.239:3306 # 目标机器，也就是实际执行查询的数据库服务所在机器的地址 mode = read-write connect_timeout = 10 启动：mysqlrouter -c D:\Data\mysqlrouter\etc\mysqlrouter.conf
-关闭防火墙或者配置规则允许端口通过。
-在wsl2机器上访问：mysql -h 172.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mysql on 我的简单博客</title><link>https://donnol.github.io/categories/mysql/</link><description>Recent content in Mysql on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 15 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>查找并杀掉运行中事务</title><link>https://donnol.github.io/posts/2023/09/mysql/</link><pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/mysql/</guid><description>&lt;h2 id="查找并杀掉运行中事务">
+ 查找并杀掉运行中事务
+ &lt;a class="anchor" href="#%e6%9f%a5%e6%89%be%e5%b9%b6%e6%9d%80%e6%8e%89%e8%bf%90%e8%a1%8c%e4%b8%ad%e4%ba%8b%e5%8a%a1">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 获取线程id然后杀掉
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">SELECT&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">FROM&lt;/span> information_schema.innodb_trx;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 优先找到其中耗时最长的删
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>kill &lt;span style="color:#ae81ff">36272&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kill &lt;span style="color:#ae81ff">36275&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kill &lt;span style="color:#ae81ff">35971&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kill &lt;span style="color:#ae81ff">35972&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 其它
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> performance_schema.events_statements_current;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">show&lt;/span> processlist;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description>&lt;h2 id="wsl2版本">
+ wsl2版本
+ &lt;a class="anchor" href="#wsl2%e7%89%88%e6%9c%ac">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&amp;gt; wsl.exe -v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WSL version: 1.2.5.0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Kernel version: 5.15.90.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WSLg version: 1.0.51
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MSRDC version: 1.2.3770
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Direct3D version: 1.608.2-61064218
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Windows version: 10.0.19045.3031
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用过程中，因为磁盘空间问题，把子系统安装位置从&lt;code>C盘&lt;/code>转移到了其它盘。&lt;/p>
+&lt;h2 id="操作">
+ 操作
+ &lt;a class="anchor" href="#%e6%93%8d%e4%bd%9c">#&lt;/a>
+&lt;/h2>
+&lt;p>把&lt;code>sql&lt;/code>目录里的&lt;code>*.sql&lt;/code>文件逐一导入到&lt;code>8.0.33&lt;/code>版本的&lt;code>Mysql&lt;/code>。&lt;/p>
+&lt;p>尽管&lt;code>sql&lt;/code>文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的&lt;code>INSERT IGNORE&lt;/code>语句，更是用了将近12分钟才完成。&lt;/p>
+&lt;h2 id="怎么办">
+ 怎么办？
+ &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e">#&lt;/a>
+&lt;/h2>
+&lt;p>改为通过网络访问本机的数据库。&lt;/p></description></item><item><title>mysqlrouter使用</title><link>https://donnol.github.io/posts/2023/05/mysqlrouter/</link><pubDate>Tue, 16 May 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/05/mysqlrouter/</guid><description>&lt;h2 id="what">
+ What
+ &lt;a class="anchor" href="#what">#&lt;/a>
+&lt;/h2>
+&lt;p>&lt;code>mysqlrouter&lt;/code>是一个代理，可以将查询转发到配置好的数据库服务里。&lt;/p>
+&lt;h2 id="why">
+ Why
+ &lt;a class="anchor" href="#why">#&lt;/a>
+&lt;/h2>
+&lt;p>在办公室网络环境下基于&lt;code>win10 wsl2&lt;/code>开发应用时，需要连接到主机所在局域网的其它机器上的数据库服务。&lt;/p>
+&lt;blockquote>
+&lt;p>也就是说，存在机器：wsl2、主机、其它机器。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;code>wsl2&lt;/code>通过&lt;code>NAT&lt;/code>网络模式与&lt;code>主机&lt;/code>互通，并且&lt;code>wsl2&lt;/code>可以访问外网。&lt;/p>
+&lt;p>但是&lt;code>wsl2&lt;/code>不能访问到&lt;code>其它机器&lt;/code>上的数据库服务，不知道是不是办公室网络环境存在限制。&lt;/p>
+&lt;p>为了使得&lt;code>wsl2&lt;/code>能访问到&lt;code>其它机器&lt;/code>上的数据库服务成立，在&lt;code>主机&lt;/code>启动&lt;code>mysqlrouter&lt;/code>充当代理，然后&lt;code>wsl2&lt;/code>通过访问代理来访问&lt;code>其它机器&lt;/code>。&lt;/p>
+&lt;h2 id="install">
+ Install
+ &lt;a class="anchor" href="#install">#&lt;/a>
+&lt;/h2>
+&lt;p>可以使用&lt;code>mysql installer&lt;/code>选择安装。&lt;/p>
+&lt;h2 id="简单模式">
+ 简单模式
+ &lt;a class="anchor" href="#%e7%ae%80%e5%8d%95%e6%a8%a1%e5%bc%8f">#&lt;/a>
+&lt;/h2>
+&lt;p>配置文件（mysqlrouter.conf）：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">[DEFAULT]
+logging_folder = D:/Data/mysqlrouter/log
+plugin_folder = C:/Program Files/MySQL/MySQL Router 8.0/lib # 这里是插件所在目录，必须是mysqlrouter安装路径下的目录，否则报错找不到插件
+config_folder = D:/Data/mysqlrouter/etc # 启动配置默认查找目录，会在目录里寻找mysqlrouter.conf文件
+runtime_folder = D:/Data/mysqlrouter/run
+data_folder = D:/Data/mysqlrouter/data
+
+[logger]
+level = DEBUG
+
+[routing:primary]
+bind_address=172.20.96.1 # 主机ip地址
+bind_port=6446 # 主机监听端口
+destinations = 172.17.39.239:3306 # 目标机器，也就是实际执行查询的数据库服务所在机器的地址
+mode = read-write
+connect_timeout = 10
+&lt;/code>&lt;/pr</description></item></channel></rss>

@@ -1,7 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redis on 我的简单博客</title><link>https://donnol.github.io/categories/redis/</link><description>Recent content in Redis on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 13 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/redis/index.xml" rel="self" type="application/rss+xml"/><item><title>redis sds</title><link>https://donnol.github.io/posts/2021/12/redis_sds/</link><pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/redis_sds/</guid><description>简单动态字符串 # 结构：
-len alloc flag buf 长度(已使用空间大小) 分配(总共空间大小：buf 的大小减 1 &amp;ndash; &amp;lsquo;\0&amp;rsquo;字符占用了 1) 标记(sdshdr 的类型) 真正存储字符串的地方 文件：
-sds.h, sdsalloc.h, sds.c.
-定义：
-typedef char *sds; 根据类型获取长度：
-static inline size_t sdslen(const sds s) { unsigned char flags = s[-1]; switch(flags&amp;amp;SDS_TYPE_MASK) { case SDS_TYPE_5: return SDS_TYPE_5_LEN(flags); case SDS_TYPE_8: return SDS_HDR(8,s)-&amp;gt;len; case SDS_TYPE_16: return SDS_HDR(16,s)-&amp;gt;len; case SDS_TYPE_32: return SDS_HDR(32,s)-&amp;gt;len; case SDS_TYPE_64: return SDS_HDR(64,s)-&amp;gt;len; } return 0; } 新建：
-/* Create a new sds string with the content specified by the &amp;#39;init&amp;#39; pointer * and &amp;#39;initlen&amp;#39;.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redis on 我的简单博客</title><link>https://donnol.github.io/categories/redis/</link><description>Recent content in Redis on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 13 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/redis/index.xml" rel="self" type="application/rss+xml"/><item><title>redis sds</title><link>https://donnol.github.io/posts/2021/12/redis_sds/</link><pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/redis_sds/</guid><description>&lt;h2 id="简单动态字符串">
+ 简单动态字符串
+ &lt;a class="anchor" href="#%e7%ae%80%e5%8d%95%e5%8a%a8%e6%80%81%e5%ad%97%e7%ac%a6%e4%b8%b2">#&lt;/a>
+&lt;/h2>
+&lt;p>结构：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">len&lt;/th>
+ &lt;th style="text-align: left">alloc&lt;/th>
+ &lt;th style="text-align: left">flag&lt;/th>
+ &lt;th style="text-align: left">buf&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">长度(已使用空间大小)&lt;/td>
+ &lt;td style="text-align: left">分配(总共空间大小：buf 的大小减 1 &amp;ndash; &amp;lsquo;\0&amp;rsquo;字符占用了 1)&lt;/td>
+ &lt;td style="text-align: left">标记(sdshdr 的类型)&lt;/td>
+ &lt;td style="text-align: left">真正存储字符串的地方&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>文件：&lt;/p></description></item></channel></rss>

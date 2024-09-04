@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Translate on 我的简单博客</title><link>https://donnol.github.io/tags/translate/</link><description>Recent content in Translate on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 25 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/translate/index.xml" rel="self" type="application/rss+xml"/><item><title>Vscode Translate</title><link>https://donnol.github.io/posts/2023/07/vscode_traslate/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/vscode_traslate/</guid><description>试了几个vscode的翻译插件，包括Google Translate, Comment Translate, Translate Var。
-来自intellsmi的Comment Translate最终脱颖而出。
-它支持Google, Bing, Baidu等翻译工具。
-设置：选择翻译工具Bing，再设置源语言和目标语言。
-使用：选中单词即会自动翻译，非常方便。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Translate on 我的简单博客</title><link>https://donnol.github.io/tags/translate/</link><description>Recent content in Translate on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 25 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/translate/index.xml" rel="self" type="application/rss+xml"/><item><title>Vscode Translate</title><link>https://donnol.github.io/posts/2023/07/vscode_traslate/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/vscode_traslate/</guid><description>&lt;p>试了几个&lt;code>vscode&lt;/code>的翻译插件，包括&lt;code>Google Translate&lt;/code>, &lt;code>Comment Translate&lt;/code>, &lt;code>Translate Var&lt;/code>。&lt;/p>
+&lt;p>来自&lt;code>intellsmi&lt;/code>的&lt;code>Comment Translate&lt;/code>最终脱颖而出。&lt;/p>
+&lt;p>它支持&lt;code>Google&lt;/code>, &lt;code>Bing&lt;/code>, &lt;code>Baidu&lt;/code>等翻译工具。&lt;/p>
+&lt;p>设置：选择翻译工具&lt;code>Bing&lt;/code>，再设置源语言和目标语言。&lt;/p>
+&lt;p>使用：选中单词即会自动翻译，非常方便。&lt;/p></description></item></channel></rss>

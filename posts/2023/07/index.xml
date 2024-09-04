@@ -1,27 +1,163 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>07 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/07/</link><description>Recent content in 07 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 03 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/07/index.xml" rel="self" type="application/rss+xml"/><item><title>Jupyter notebook</title><link>https://donnol.github.io/posts/2023/07/jupyter/</link><pubDate>Thu, 03 Aug 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/jupyter/</guid><description>Install: pip install --user jupyter.
-Install plugin: jupyter install matplotlib.
-Install rust tools: cargo install evcxr_jupyter &amp;amp;&amp;amp; evcxr_jupyter --install.
-Install plugin: jupyter install plotters.
-Start: jupyter notebook --port 35222.</description></item><item><title>Vscode Translate</title><link>https://donnol.github.io/posts/2023/07/vscode_traslate/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/vscode_traslate/</guid><description>试了几个vscode的翻译插件，包括Google Translate, Comment Translate, Translate Var。
-来自intellsmi的Comment Translate最终脱颖而出。
-它支持Google, Bing, Baidu等翻译工具。
-设置：选择翻译工具Bing，再设置源语言和目标语言。
-使用：选中单词即会自动翻译，非常方便。</description></item><item><title>Windows restart remote service</title><link>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</guid><description>Windows如何方便的重启远程服务器里的服务，在不使用远程连接的情况下？
-注意：服务(名称：service-name)已在远程机器上创建。
-在本机新建映射网络驱动器.
-打开映射好的文件夹，在其中添加bat和ps1文件:
-restart.bat:
-@echo off for %%i in (service-name) do ( echo the service &amp;#39;%%i&amp;#39; is being starting... sc query %%i net stop %%i net start %%i sc query %%i echo service &amp;#39;%%i&amp;#39; started. ) pause restart.ps1:
-$Username = &amp;#39;Name&amp;#39; $Password = &amp;#39;Password&amp;#39; $pass = ConvertTo-SecureString -AsPlainText $Password -Force $Cred = New-Object System.Management.Automation.PSCredential -ArgumentList $Username,$pass Invoke-Command -ComputerName [Remote-IP] -ScriptBlock { Get-Service WinRM } -credential $Cred Invoke-Command -ComputerName [Remote-IP] -credential $Cred -ScriptBlock { E:\win-dms4\restart.</description></item><item><title>错误的定义和返回</title><link>https://donnol.github.io/posts/2023/07/error/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/error/</guid><description>错误的定义和返回
-错误的定义 # 错误粒度：太细则既多又杂，太宽则毫无意义。
-个人觉得一般需要的错误有以下：正常、参数错误、业务错误、内部错误、返回错误。业务错误又有：无权限、处理超时、无记录、已经存在。
-可参照 GRPC的实现。
-Code Number Description OK 0 Not an error; returned on success. CANCELLED 1 The operation was cancelled, typically by the caller. UNKNOWN 2 Unknown error. For example, this error may be returned when a Status value received from another address space belongs to an error space that is not known in this address space. Also errors raised by APIs that do not return enough error information may be converted to this error.</description></item><item><title>Prometheus start failed</title><link>https://donnol.github.io/posts/2023/07/prometheus/</link><pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/prometheus/</guid><description>Question # prometheus start failed:
-... ts=2023-07-06T01:34:43.871Z caller=repair.go:57 level=info component=tsdb msg=&amp;#34;Found healthy block&amp;#34; mint=1688493607159 maxt=1688515200000 ulid=01H4J6TB6NCBZFNR9XZ1R2P67H ts=2023-07-06T01:34:43.871Z caller=repair.go:57 level=info component=tsdb msg=&amp;#34;Found healthy block&amp;#34; mint=1688529607159 maxt=1688536800000 ulid=01H4JDM4YR6J3TJVBY6P6EGZS4 ts=2023-07-06T01:34:43.872Z caller=repair.go:57 level=info component=tsdb msg=&amp;#34;Found healthy block&amp;#34; mint=1688536807159 maxt=1688544000000 ulid=01H4JMFGKWY1MAM7GBFDQ89FRV ts=2023-07-06T01:34:43.872Z caller=main.go:696 level=info msg=&amp;#34;Stopping scrape discovery manager...&amp;#34; ts=2023-07-06T01:34:43.872Z caller=main.go:710 level=info msg=&amp;#34;Stopping notify discovery manager...&amp;#34; ts=2023-07-06T01:34:43.872Z caller=main.go:732 level=info msg=&amp;#34;Stopping scrape manager...&amp;#34; ts=2023-07-06T01:34:43.872Z caller=manager.go:946 level=info component=&amp;#34;rule manager&amp;#34; msg=&amp;#34;Stopping rule manager...&amp;#34; ts=2023-07-06T01:34:43.872Z caller=manager.go:956 level=info component=&amp;#34;rule manager&amp;#34; msg=&amp;#34;Rule manager stopped&amp;#34; ts=2023-07-06T01:34:43.</description></item><item><title>Compare and Order</title><link>https://donnol.github.io/posts/2023/07/compare_order/</link><pubDate>Wed, 05 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/compare_order/</guid><description>比，争。
-比较，争先。
-拿他与她比，让他与她争。
-做黄雀，做渔翁。
-不比，不争。
-不付出无收获？
-丛林社会，谈何付出，谈何收获。
-有付出也无收获。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>07 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/07/</link><description>Recent content in 07 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 03 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/07/index.xml" rel="self" type="application/rss+xml"/><item><title>Jupyter notebook</title><link>https://donnol.github.io/posts/2023/07/jupyter/</link><pubDate>Thu, 03 Aug 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/jupyter/</guid><description>&lt;p>Install: &lt;code>pip install --user jupyter&lt;/code>.&lt;/p>
+&lt;p>Install plugin: &lt;code>jupyter install matplotlib&lt;/code>.&lt;/p>
+&lt;p>Install rust tools: &lt;code>cargo install evcxr_jupyter&lt;/code> &amp;amp;&amp;amp; &lt;code>evcxr_jupyter --install&lt;/code>.&lt;/p>
+&lt;p>Install plugin: &lt;code>jupyter install plotters&lt;/code>.&lt;/p>
+&lt;p>Start: &lt;code>jupyter notebook --port 35222&lt;/code>.&lt;/p></description></item><item><title>Vscode Translate</title><link>https://donnol.github.io/posts/2023/07/vscode_traslate/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/vscode_traslate/</guid><description>&lt;p>试了几个&lt;code>vscode&lt;/code>的翻译插件，包括&lt;code>Google Translate&lt;/code>, &lt;code>Comment Translate&lt;/code>, &lt;code>Translate Var&lt;/code>。&lt;/p>
+&lt;p>来自&lt;code>intellsmi&lt;/code>的&lt;code>Comment Translate&lt;/code>最终脱颖而出。&lt;/p>
+&lt;p>它支持&lt;code>Google&lt;/code>, &lt;code>Bing&lt;/code>, &lt;code>Baidu&lt;/code>等翻译工具。&lt;/p>
+&lt;p>设置：选择翻译工具&lt;code>Bing&lt;/code>，再设置源语言和目标语言。&lt;/p>
+&lt;p>使用：选中单词即会自动翻译，非常方便。&lt;/p></description></item><item><title>Windows restart remote service</title><link>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</guid><description>&lt;p>Windows如何方便的重启远程服务器里的服务，在不使用远程连接的情况下？&lt;/p>
+&lt;p>注意：服务(名称：service-name)已在远程机器上创建。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在本机新建&lt;code>映射网络驱动器&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打开映射好的文件夹，在其中添加&lt;code>bat&lt;/code>和&lt;code>ps1&lt;/code>文件:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>restart.bat&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bat" data-lang="bat">&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#66d9ef">echo&lt;/span> off
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#ae81ff">%%&lt;/span>i &lt;span style="color:#66d9ef">in&lt;/span> (service-name) &lt;span style="color:#66d9ef">do&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">echo&lt;/span> the service &amp;#39;&lt;span style="color:#ae81ff">%%&lt;/span>i&amp;#39; is being starting...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sc query &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> net stop &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> net start &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sc query &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">echo&lt;/span> service &amp;#39;&lt;span style="color:#ae81ff">%%&lt;/span>i&amp;#39; started.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">pause&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>错误的定义和返回</title><link>https://donnol.github.io/posts/2023/07/error/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/error/</guid><description>&lt;p>错误的定义和返回&lt;/p>
+&lt;h3 id="错误的定义">
+ 错误的定义
+ &lt;a class="anchor" href="#%e9%94%99%e8%af%af%e7%9a%84%e5%ae%9a%e4%b9%89">#&lt;/a>
+&lt;/h3>
+&lt;p>错误粒度：太细则既多又杂，太宽则毫无意义。&lt;/p>
+&lt;p>个人觉得一般需要的错误有以下：正常、参数错误、业务错误、内部错误、返回错误。业务错误又有：无权限、处理超时、无记录、已经存在。&lt;/p>
+&lt;p>可参照
+ &lt;a href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">&lt;code>GRPC&lt;/code>的实现&lt;/a>。&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">Code&lt;/th>
+ &lt;th style="text-align: left">Number&lt;/th>
+ &lt;th style="text-align: left">Description&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">OK&lt;/td>
+ &lt;td style="text-align: left">0&lt;/td>
+ &lt;td style="text-align: left">Not an error; returned on success.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">CANCELLED&lt;/td>
+ &lt;td style="text-align: left">1&lt;/td>
+ &lt;td style="text-align: left">The operation was cancelled, typically by the caller.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">UNKNOWN&lt;/td>
+ &lt;td style="text-align: left">2&lt;/td>
+ &lt;td style="text-align: left">Unknown error. For example, this error may be returned when a Status value received from another address space belongs to an error space that is not known in this address space. Also errors raised by APIs that do not return enough error information may be converted to this error.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">INVALID_ARGUMENT&lt;/td>
+ &lt;td style="text-align: left">3&lt;/td>
+ &lt;td style="text-align: left">The client specified an invalid argument. Note that this differs from FAILED_PRECONDITION. INVALID_ARGUMENT indicates arguments that are problematic regardless of the state of the system (e.g., a malformed file name).&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">DEADLINE_EXCEEDED&lt;/td>
+ &lt;td style="text-align: left">4&lt;/td>
+ &lt;td style="text-align: left">The deadline expired before the operation could complete. For operations that change the state of the system, this error may be returned even if the operation has completed successfully. For example, a successful response from a server could have been delayed long&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">NOT_FOUND&lt;/td>
+ &lt;td style="text-align: left">5&lt;/td>
+ &lt;td style="text-align: left">Some requested entity (e.g., file or directory) was not found. Note to server developers: if a request is denied for an entire class of users, such as gradual feature rollout or undocumented allowlist, NOT_FOUND may be used. If a request is denied for some users within a class of users, such as user-based access control, PERMISSION_DENIED must be used.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">ALREADY_EXISTS&lt;/td>
+ &lt;td style="text-align: left">6&lt;/td>
+ &lt;td style="text-align: left">The entity that a client attempted to create (e.g., file or directory) already exists.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">PERMISSION_DENIED&lt;/td>
+ &lt;td style="text-align: left">7&lt;/td>
+ &lt;td style="text-align: left">The caller does not have permission to execute the specified operation. PERMISSION_DENIED must not be used for rejections caused by exhausting some resource (use RESOURCE_EXHAUSTED instead for those errors). PERMISSION_DENIED must not be used if the caller can not be identified (use UNAUTHENTICATED instead for those errors). This error code does not imply the request is valid or the requested entity exists or satisfies other pre-conditions.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">RESOURCE_EXHAUSTED&lt;/td>
+ &lt;td style="text-align: left">8&lt;/td>
+ &lt;td style="text-align: left">Some resource has been exhausted, perhaps a per-user quota, or perhaps the entire file system is out of space.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">FAILED_PRECONDITION&lt;/td>
+ &lt;td style="text-align: left">9&lt;/td>
+ &lt;td style="text-align: left">The operation was rejected because the system is not in a state required for the operation&amp;rsquo;s execution. For example, the directory to be deleted is non-empty, an rmdir operation is applied to a non-directory, etc. Service implementors can use the following guidelines to decide between FAILED_PRECONDITION, ABORTED, and UNAVAILABLE: (a) Use UNAVAILABLE if the client can retry just the failing call. (b) Use ABORTED if the client should retry at a higher level (e.g., when a client-specified test-and-set fails, indicating the client should restart a read-modify-write sequence). (c) Use FAILED_PRECONDITION if the client should not retry until the system state has been explicitly fixed. E.g., if an &amp;ldquo;rmdir&amp;rdquo; fails because the directory is non-empty, FAILED_PRECONDITION should be returned since the client should not retry unless the files are deleted from the directory.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">ABORTED&lt;/td>
+ &lt;td style="text-align: left">10&lt;/td>
+ &lt;td style="text-align: left">The operation was aborted, typically due to a concurrency issue such as a sequencer check failure or transaction abort. See the guidelines above for deciding between FAILED_PRECONDITION, ABORTED, and UNAVAILABLE.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">OUT_OF_RANGE&lt;/td>
+ &lt;td style="text-align: left">11&lt;/td>
+ &lt;td style="text-align: left">The operation was attempted past the valid range. E.g., seeking or reading past end-of-file. Unlike INVALID_ARGUMENT, this error indicates a problem that may be fixed if the system state changes. For example, a 32-bit file system will generate INVALID_ARGUMENT if asked to read at an offset that is not in the range [0,2^32-1], but it will generate OUT_OF_RANGE if asked to read from an offset past the current file size. There is a fair bit of overlap between FAILED_PRECONDITION and OUT_OF_RANGE. We recommend using OUT_OF_RANGE (the more specific error) when it applies so that callers who are iterating through a space can easily look for an OUT_OF_RANGE error to detect when they are done.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">UNIMPLEMENTED&lt;/td>
+ &lt;td style="text-align: left">12&lt;/td>
+ &lt;td style="text-align: left">The operation is not implemented or is not supported/enabled in this service.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">INTERNAL&lt;/td>
+ &lt;td style="text-align: left">13&lt;/td>
+ &lt;td style="text-align: left">Internal errors. This means that some invariants expected by the underlying system have been broken. This error code is reserved for serious errors.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">UNAVAILABLE&lt;/td>
+ &lt;td style="text-align: left">14&lt;/td>
+ &lt;td style="text-align: left">The service is currently unavailable. This is most likely a transient condition, which can be corrected by retrying with a backoff. Note that it is not always safe to retry non-idempotent operations.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">DATA_LOSS&lt;/td>
+ &lt;td style="text-align: left">15&lt;/td>
+ &lt;td style="text-align: left">Unrecoverable data loss or corruption.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">UNAUTHENTICATED&lt;/td>
+ &lt;td style="text-align: left">16&lt;/td>
+ &lt;td style="text-align: left">The request does not have valid authentication credentials for the operation.&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>实现时，错误码范围控制在0&lt;del>255，将0&lt;/del>35留作预定义错误码，36~255留作自定义错误码。&lt;/p></description></item><item><title>Prometheus start failed</title><link>https://donnol.github.io/posts/2023/07/prometheus/</link><pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/prometheus/</guid><description>&lt;h2 id="question">
+ Question
+ &lt;a class="anchor" href="#question">#&lt;/a>
+&lt;/h2>
+&lt;p>prometheus start failed:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.871Z caller&lt;span style="color:#f92672">=&lt;/span>repair.go:57 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>tsdb msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Found healthy block&amp;#34;&lt;/span> mint&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1688493607159&lt;/span> maxt&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1688515200000&lt;/span> ulid&lt;span style="color:#f92672">=&lt;/span>01H4J6TB6NCBZFNR9XZ1R2P67H
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.871Z caller&lt;span style="color:#f92672">=&lt;/span>repair.go:57 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>tsdb msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Found healthy block&amp;#34;&lt;/span> mint&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1688529607159&lt;/span> maxt&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1688536800000&lt;/span> ulid&lt;span style="color:#f92672">=&lt;/span>01H4JDM4YR6J3TJVBY6P6EGZS4
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>repair.go:57 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>tsdb msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Found healthy block&amp;#34;&lt;/span> mint&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1688536807159&lt;/span> maxt&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1688544000000&lt;/span> ulid&lt;span style="color:#f92672">=&lt;/span>01H4JMFGKWY1MAM7GBFDQ89FRV
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:696 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Stopping scrape discovery manager...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:710 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Stopping notify discovery manager...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:732 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Stopping scrape manager...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>manager.go:946 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;rule manager&amp;#34;&lt;/span> msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Stopping rule manager...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>manager.go:956 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;rule manager&amp;#34;&lt;/span> msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Rule manager stopped&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>notifier.go:601 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>notifier msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Stopping notification manager...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:726 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Scrape manager stopped&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:692 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Scrape discovery manager stopped&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:907 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Notifier manager stopped&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:706 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Notify discovery manager stopped&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>tls_config.go:195 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>web msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;TLS is disabled.&amp;#34;&lt;/span> http2&lt;span style="color:#f92672">=&lt;/span>false
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:916 level&lt;span style="color:#f92672">=&lt;/span>error err&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;opening storage failed: get segment range: segments are not sequential&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Compare and Order</title><link>https://donnol.github.io/posts/2023/07/compare_order/</link><pubDate>Wed, 05 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/compare_order/</guid><description>&lt;p>比，争。&lt;/p>
+&lt;p>比较，争先。&lt;/p>
+&lt;p>拿他与她比，让他与她争。&lt;/p>
+&lt;p>做黄雀，做渔翁。&lt;/p>
+&lt;p>不比，不争。&lt;/p>
+&lt;p>不付出无收获？&lt;/p>
+&lt;p>丛林社会，谈何付出，谈何收获。&lt;/p>
+&lt;p>有付出也无收获。&lt;/p></description></item></channel></rss>

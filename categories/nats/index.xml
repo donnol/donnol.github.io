@@ -1,12 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NATS on 我的简单博客</title><link>https://donnol.github.io/categories/nats/</link><description>Recent content in NATS on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 24 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/nats/index.xml" rel="self" type="application/rss+xml"/><item><title>NATS</title><link>https://donnol.github.io/posts/2023/04/nats/</link><pubDate>Mon, 24 Apr 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/04/nats/</guid><description>是什么？ # Home, Github
-NATS 是一个简单、安全和高性能的通信系统，适用于数字系统、服务和设备。
-NATS 是一种允许以消息形式分段的数据交换的基础架构。
-基于主题 # 发布者将消息发到主题；订阅者订阅主题，在有消息到来时消费该消息。
-主题命名规则：
-基本字符：a to z, A to Z and 0 to 9 (区分大小写，不能包含空白字符).
-特殊字符: . (分割符，分割不同部分，每部分视为一个token)； * 和 &amp;gt; (通配符，*表示匹配一个token，&amp;gt;表示匹配一或多个token).
-保留主题名称: 以 $ 开头的用在系统内部 (如：$SYS, $JS, $KV &amp;hellip;)
-发布-订阅 # Core NATS: 一个主题，存在一个发布者，多个订阅者。
-消息会复制到多个订阅者。
-请求-响应 # A request is sent, and the application either waits on the response with a certain timeout, or receives a response asynchronously.
-&amp;ndash; 请求发出后，应用要不等待响应超时，要不就异步收到一个响应。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NATS on 我的简单博客</title><link>https://donnol.github.io/categories/nats/</link><description>Recent content in NATS on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 24 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/nats/index.xml" rel="self" type="application/rss+xml"/><item><title>NATS</title><link>https://donnol.github.io/posts/2023/04/nats/</link><pubDate>Mon, 24 Apr 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/04/nats/</guid><description>&lt;h2 id="是什么">
+ 是什么？
+ &lt;a class="anchor" href="#%e6%98%af%e4%bb%80%e4%b9%88">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://nats.io/about/">Home&lt;/a>, 
+ &lt;a href="https://github.com/nats-io/nats-server">Github&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>NATS 是一个简单、安全和高性能的通信系统，适用于数字系统、服务和设备。&lt;/p>
+&lt;p>NATS 是一种允许以消息形式分段的数据交换的基础架构。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="基于主题">
+ 基于主题
+ &lt;a class="anchor" href="#%e5%9f%ba%e4%ba%8e%e4%b8%bb%e9%a2%98">#&lt;/a>
+&lt;/h3>
+&lt;p>发布者将消息发到主题；订阅者订阅主题，在有消息到来时消费该消息。&lt;/p>
+&lt;blockquote>
+&lt;p>主题命名规则：&lt;/p>
+&lt;p>基本字符：a to z, A to Z and 0 to 9 (区分大小写，不能包含空白字符).&lt;/p>
+&lt;p>特殊字符: &lt;code>.&lt;/code> (分割符，分割不同部分，每部分视为一个token)； * 和 &amp;gt; (通配符，*表示匹配一个token，&amp;gt;表示匹配一或多个token).&lt;/p>
+&lt;p>保留主题名称: 以 $ 开头的用在系统内部 (如：$SYS, $JS, $KV &amp;hellip;)&lt;/p></description></item></channel></rss>

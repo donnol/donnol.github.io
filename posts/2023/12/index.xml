@@ -1,41 +1,91 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/12/index.xml" rel="self" type="application/rss+xml"/><item><title>dbeaver手动导入驱动</title><link>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</link><pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</guid><description>因为直接下载dbeaver的时候，是没有带上驱动文件的，所以需要在使用时下载。
-但是，如果刚好安装的环境是无法通网的，那么就需要手动传入驱动并安装。
-做法如下：
-现在本地有网环境下载驱动文件 用dbeaver下载mysql的驱动，会存放在目录：C:\Users\{用户名}\AppData\Roaming\DBeaverData\drivers\maven\maven-central\mysql.
-NOTE: 注意替换{用户名}为你本机实际名称。
-把下好的文件传入到无网机器上，同样放到以上目录。
-打开dbeaver，数据库-&amp;gt;驱动管理器，添加驱动
-选中MySQL，然后点击编辑；在弹出框里切到库，将已有内容全部删掉，再点击添加文件夹，然后选择上面驱动存放的目录，即可确定保存。
-如此，即可手动导入驱动文件。</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/do/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/do/</guid><description>做 # 直到烦躁、厌倦。
-休息、转移。
-然后继续。</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/</guid><description>双标的进入 # 通过反问的方式来面对别人的质问。
-如果对方拒绝回答，只顾质问，就开始进入双标了。
-此时还讲道理，已无意义。
-发动情绪，更为明智。</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/</guid><description>一人向他人索取
-一人向他人提交
-他人向他人索取
-他人向他人征收</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/</guid><description>和煦的风，轻抚岸边的你。
-生怕你不知，又怕被别人知道。
-叫唤多少声，才能引起你注意。跳跃多少次，才能吸引你目光。
-呱，呱呱······</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/</guid><description>docker和vm # docker是暖床，把环境warmup后，就离开了；
-vm则是泡浴缸，得一直泡着。</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/</guid><description>未来 # 未来会是怎样，会有什么？
-我如何在未来生存、发展？
-二极分化 # 财富、心智、观念。
-分化加深，则意味着断层；断层则意味着落差。
-不小心的俯视，看到了令人作呕的景象，急忙躲闪；
-不小心的仰望，目睹了令人艳羡的风景，急忙刹车。
-左边是自己一样的厌恶，右边是别人一样的匆忙。
-想停下来，却没有落脚之地。想飞起来，找不到可行航线。
-枯萎、败亡、凋零。
-终于有了新花，忍不住包裹、装饰、密封，最后依然破落。
-新花说：“我想感受世界”。却终于被“保护”在铜墙铁壁，等待枯萎。
-越珍贵，越保护；越保护，越顽固。
-活力 # 做己所想，志趣之友。事尽心，人尽礼。辩理，尽情。
-图文音画展俗世，琴棋诗画诉衷肠。</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</guid><description>规矩：
-名词 画圆形和方形的两种工具；比喻一定的标准、准则或惯例。 「要按 规矩办事」
-形容词 符合标准或常理；老实本分。
-何时订立、何时执行？
-何地订立、何地执行？
-何人订立、何人执行？
-如何订立、如何执行？</description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/</guid><description>驱虎吞狼与驱狼吞虎
-什么能又驱虎，又驱狼呢？</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>12 on 我的简单博客</title><link>https://donnol.github.io/posts/2023/12/</link><description>Recent content in 12 on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/posts/2023/12/index.xml" rel="self" type="application/rss+xml"/><item><title>dbeaver手动导入驱动</title><link>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</link><pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p>因为直接下载&lt;code>dbeaver&lt;/code>的时候，是没有带上驱动文件的，所以需要在使用时下载。&lt;/p>
+&lt;p>但是，如果刚好安装的环境是无法通网的，那么就需要手动传入驱动并安装。&lt;/p>
+&lt;p>做法如下：&lt;/p>
+&lt;ol>
+&lt;li>现在本地有网环境下载驱动文件&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>用&lt;code>dbeaver&lt;/code>下载&lt;code>mysql&lt;/code>的驱动，会存放在目录：&lt;code>C:\Users\{用户名}\AppData\Roaming\DBeaverData\drivers\maven\maven-central\mysql&lt;/code>.&lt;/p>
+&lt;/blockquote>
+&lt;p>NOTE: 注意替换&lt;code>{用户名}&lt;/code>为你本机实际名称。&lt;/p>
+&lt;ol start="2">
+&lt;li>
+&lt;p>把下好的文件传入到无网机器上，同样放到以上目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打开&lt;code>dbeaver&lt;/code>，&lt;code>数据库&lt;/code>-&amp;gt;&lt;code>驱动管理器&lt;/code>，添加驱动&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>选中&lt;code>MySQL&lt;/code>，然后点击编辑；在弹出框里切到&lt;code>库&lt;/code>，将已有内容全部删掉，再点击&lt;code>添加文件夹&lt;/code>，然后选择上面驱动存放的目录，即可确定保存。&lt;/p>
+&lt;/blockquote>
+&lt;p>如此，即可手动导入驱动文件。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/do/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/do/</guid><description>&lt;h1 id="做">
+ 做
+ &lt;a class="anchor" href="#%e5%81%9a">#&lt;/a>
+&lt;/h1>
+&lt;p>直到烦躁、厌倦。&lt;/p>
+&lt;p>休息、转移。&lt;/p>
+&lt;p>然后继续。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/</guid><description>&lt;h1 id="双标的进入">
+ 双标的进入
+ &lt;a class="anchor" href="#%e5%8f%8c%e6%a0%87%e7%9a%84%e8%bf%9b%e5%85%a5">#&lt;/a>
+&lt;/h1>
+&lt;p>通过反问的方式来面对别人的质问。&lt;/p>
+&lt;p>如果对方拒绝回答，只顾质问，就开始进入双标了。&lt;/p>
+&lt;p>此时还讲道理，已无意义。&lt;/p>
+&lt;p>发动情绪，更为明智。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/</guid><description>&lt;p>一人向他人索取&lt;/p>
+&lt;p>一人向他人提交&lt;/p>
+&lt;p>他人向他人索取&lt;/p>
+&lt;p>他人向他人征收&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/</guid><description>&lt;p>和煦的风，轻抚岸边的你。&lt;/p>
+&lt;p>生怕你不知，又怕被别人知道。&lt;/p>
+&lt;p>叫唤多少声，才能引起你注意。跳跃多少次，才能吸引你目光。&lt;/p>
+&lt;p>呱，呱呱······&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/</guid><description>&lt;h1 id="docker和vm">
+ docker和vm
+ &lt;a class="anchor" href="#docker%e5%92%8cvm">#&lt;/a>
+&lt;/h1>
+&lt;p>&lt;code>docker&lt;/code>是暖床，把环境&lt;code>warmup&lt;/code>后，就离开了；&lt;/p>
+&lt;p>&lt;code>vm&lt;/code>则是泡浴缸，得一直泡着。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/</guid><description>&lt;h1 id="未来">
+ 未来
+ &lt;a class="anchor" href="#%e6%9c%aa%e6%9d%a5">#&lt;/a>
+&lt;/h1>
+&lt;p>未来会是怎样，会有什么？&lt;/p>
+&lt;p>我如何在未来生存、发展？&lt;/p>
+&lt;h2 id="二极分化">
+ 二极分化
+ &lt;a class="anchor" href="#%e4%ba%8c%e6%9e%81%e5%88%86%e5%8c%96">#&lt;/a>
+&lt;/h2>
+&lt;p>财富、心智、观念。&lt;/p>
+&lt;p>分化加深，则意味着断层；断层则意味着落差。&lt;/p>
+&lt;p>不小心的俯视，看到了令人作呕的景象，急忙躲闪；&lt;/p>
+&lt;p>不小心的仰望，目睹了令人艳羡的风景，急忙刹车。&lt;/p>
+&lt;p>左边是自己一样的厌恶，右边是别人一样的匆忙。&lt;/p>
+&lt;p>想停下来，却没有落脚之地。想飞起来，找不到可行航线。&lt;/p>
+&lt;p>枯萎、败亡、凋零。&lt;/p>
+&lt;p>终于有了新花，忍不住包裹、装饰、密封，最后依然破落。&lt;/p>
+&lt;p>新花说：“我想感受世界”。却终于被“保护”在铜墙铁壁，等待枯萎。&lt;/p>
+&lt;p>越珍贵，越保护；越保护，越顽固。&lt;/p>
+&lt;h2 id="活力">
+ 活力
+ &lt;a class="anchor" href="#%e6%b4%bb%e5%8a%9b">#&lt;/a>
+&lt;/h2>
+&lt;p>做己所想，志趣之友。事尽心，人尽礼。辩理，尽情。&lt;/p>
+&lt;p>图文音画展俗世，琴棋诗画诉衷肠。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/</guid><description>&lt;p>规矩：&lt;/p>
+&lt;blockquote>
+&lt;ol>
+&lt;li>名词&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>画圆形和方形的两种工具；比喻一定的标准、准则或惯例。
+ 「要按 规矩办事」&lt;/p>
+&lt;/blockquote>
+&lt;ol start="2">
+&lt;li>形容词&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>符合标准或常理；老实本分。&lt;/p>
+&lt;/blockquote>
+&lt;/blockquote>
+&lt;p>何时订立、何时执行？&lt;/p>
+&lt;p>何地订立、何地执行？&lt;/p>
+&lt;p>何人订立、何人执行？&lt;/p>
+&lt;p>如何订立、如何执行？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/</guid><description>&lt;p>驱虎吞狼与驱狼吞虎&lt;/p>
+&lt;p>什么能又驱虎，又驱狼呢？&lt;/p></description></item></channel></rss>

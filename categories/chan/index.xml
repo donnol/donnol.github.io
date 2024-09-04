@@ -1,2 +1,244 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chan on 我的简单博客</title><link>https://donnol.github.io/categories/chan/</link><description>Recent content in Chan on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 11 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/chan/index.xml" rel="self" type="application/rss+xml"/><item><title>go runtime chan</title><link>https://donnol.github.io/posts/2022/02/go_runtime_chan/</link><pubDate>Fri, 11 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_runtime_chan/</guid><description>src/runtime/chan.go:
-// Invariants: // At least one of c.sendq and c.recvq is empty, // except for the case of an unbuffered channel with a single goroutine // blocked on it for both sending and receiving using a select statement, // in which case the length of c.sendq and c.recvq is limited only by the // size of the select statement. // // For buffered channels, also: // c.qcount &amp;gt; 0 implies that c.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chan on 我的简单博客</title><link>https://donnol.github.io/categories/chan/</link><description>Recent content in Chan on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 11 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/chan/index.xml" rel="self" type="application/rss+xml"/><item><title>go runtime chan</title><link>https://donnol.github.io/posts/2022/02/go_runtime_chan/</link><pubDate>Fri, 11 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_runtime_chan/</guid><description>&lt;p>&lt;code>src/runtime/chan.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Invariants:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// At least one of c.sendq and c.recvq is empty,
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// except for the case of an unbuffered channel with a single goroutine
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// blocked on it for both sending and receiving using a select statement,
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// in which case the length of c.sendq and c.recvq is limited only by the
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// size of the select statement.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// For buffered channels, also:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// c.qcount &amp;gt; 0 implies that c.recvq is empty.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// c.qcount &amp;lt; c.dataqsiz implies that c.sendq is empty.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 在文件开头，说明了几个不变量：
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// c.sendq和c.recvq中至少有一个是空的，
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 除非，一个无缓冲管道在一个goroutine里阻塞了，这个管道的发送和接收都使用了一个select语句，这时
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// c.sendq和c.recvq的长度被select语句限制。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 对于缓冲管道，同样地：
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// c.qcount &amp;gt; 0 表明c.recvq是空的。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// c.qcount &amp;lt; c.dataqsiz 表明c.sendq是空的。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 实际的chan类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">qcount&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// total data in the queue - 队列里的数据总数量
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">dataqsiz&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// size of the circular queue - 循环队列的大小，make时传进来的值
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">buf&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// points to an array of dataqsiz elements - dataqsiz元素组成的数组的指针
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">elemsize&lt;/span> &lt;span style="color:#66d9ef">uint16&lt;/span> &lt;span style="color:#75715e">// 元素大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">closed&lt;/span> &lt;span style="color:#66d9ef">uint32&lt;/span> &lt;span style="color:#75715e">// 是否关闭
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">elemtype&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">_type&lt;/span> &lt;span style="color:#75715e">// element type - 元素类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">sendx&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// send index - 发送索引
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">recvx&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// receive index - 接收索引
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">recvq&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#75715e">// list of recv waiters - 等待接收者列表，表明这个管道的接收者；一个链表，里面的每个元素代表一个g；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">sendq&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#75715e">// list of send waiters - 等待发送者列表，编码这个管道的发送者
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// lock protects all fields in hchan, as well as several
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// fields in sudogs blocked on this channel.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// Do not change another G&amp;#39;s status while holding this lock
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// (in particular, do not ready a G), as this can deadlock
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// with stack shrinking.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">lock&lt;/span> &lt;span style="color:#a6e22e">mutex&lt;/span> &lt;span style="color:#75715e">// 保护chan里的所有字段，以及阻塞在本管道里的sudog；当持有这个锁时，不要改变其它G的状态，因为在栈收缩时可能引起死锁。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">first&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">last&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// sudog represents a g in a wait list, such as for sending/receiving
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// on a channel. - 代表了一个在等待列表的g
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// sudog is necessary because the g ↔ synchronization object relation
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// is many-to-many. A g can be on many wait lists, so there may be
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// many sudogs for one g; and many gs may be waiting on the same
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// synchronization object, so there may be many sudogs for one object.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// - sudog是必须的，因为g和同步对象关系是多对多。一个g可以在多个等待列表里，因此一个g对应有多个sudog；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 多个g可以等待同一个同步对象，因此一个对象会对应多个sudog。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// sudogs are allocated from a special pool. Use acquireSudog and
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// releaseSudog to allocate and free them.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// - sudog从一个特殊池子里分配，使用acquireSudog分配和releaseSudog释放它们。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">sudog&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// The following fields are protected by the hchan.lock of the
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// channel this sudog is blocking on. shrinkstack depends on
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// this for sudogs involved in channel ops.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// - 以下字段由hchan.lock来保护。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">g&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">g&lt;/span> &lt;span style="color:#75715e">// 代表的g
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span> &lt;span style="color:#75715e">// 链表中的下一个
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">prev&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span> &lt;span style="color:#75715e">// 链表中的上一个
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">elem&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// data element (may point to stack) - 数据元素，可能是指向栈的指针
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// The following fields are never accessed concurrently.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// For channels, waitlink is only accessed by g.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// For semaphores, all fields (including the ones above)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// are only accessed when holding a semaRoot lock.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// - 以下字段永远不会被并发访问。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 对于管道，waitlink只会被g访问。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 对于信号量，所有字段（包括上面的）只有在持有semaRoot锁时才能被访问
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">acquiretime&lt;/span> &lt;span style="color:#66d9ef">int64&lt;/span> &lt;span style="color:#75715e">// 获取时间
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">releasetime&lt;/span> &lt;span style="color:#66d9ef">int64&lt;/span> &lt;span style="color:#75715e">// 释放时间
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">ticket&lt;/span> &lt;span style="color:#66d9ef">uint32&lt;/span> &lt;span style="color:#75715e">// 票据
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// isSelect indicates g is participating in a select, so
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// g.selectDone must be CAS&amp;#39;d to win the wake-up race.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">isSelect&lt;/span> &lt;span style="color:#66d9ef">bool&lt;/span> &lt;span style="color:#75715e">// 表明g是否参与到了一个select里，从而使得g.selectDone必须CAS地去赢得唤醒竞赛
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// success indicates whether communication over channel c
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// succeeded. It is true if the goroutine was awoken because a
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// value was delivered over channel c, and false if awoken
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// because c was closed.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">success&lt;/span> &lt;span style="color:#66d9ef">bool&lt;/span> &lt;span style="color:#75715e">// 表明管道的通信是否成功了，如果goroutine因为一个值被管道传送到来而唤醒即为成功
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">parent&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span> &lt;span style="color:#75715e">// semaRoot binary tree - 根信号量二叉树
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">waitlink&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span> &lt;span style="color:#75715e">// g.waiting list or semaRoot - g的等待列表或semaRoot
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">waittail&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span> &lt;span style="color:#75715e">// semaRoot
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#75715e">// channel - 所属管道
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 新建
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">makechan&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">chantype&lt;/span>, &lt;span style="color:#a6e22e">size&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">elem&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">elem&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// compiler checks this but be safe.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">elem&lt;/span>.&lt;span style="color:#a6e22e">size&lt;/span> &lt;span style="color:#f92672">&amp;gt;=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">16&lt;/span> { &lt;span style="color:#75715e">// 管道的元素大小不能太大
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">throw&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;makechan: invalid channel element type&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// const hchanSize uintptr = 96
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">hchanSize&lt;/span>&lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#a6e22e">maxAlign&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">||&lt;/span> &lt;span style="color:#a6e22e">elem&lt;/span>.&lt;span style="color:#a6e22e">align&lt;/span> &amp;gt; &lt;span style="color:#a6e22e">maxAlign&lt;/span> { &lt;span style="color:#75715e">// 对齐检查
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">throw&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;makechan: bad alignment&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 元素大小乘以管道大小，计算出来所需内存大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">mem&lt;/span>, &lt;span style="color:#a6e22e">overflow&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">math&lt;/span>.&lt;span style="color:#a6e22e">MulUintptr&lt;/span>(&lt;span style="color:#a6e22e">elem&lt;/span>.&lt;span style="color:#a6e22e">size&lt;/span>, uintptr(&lt;span style="color:#a6e22e">size&lt;/span>)) 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">overflow&lt;/span> &lt;span style="color:#f92672">||&lt;/span> &lt;span style="color:#a6e22e">mem&lt;/span> &amp;gt; &lt;span style="color:#a6e22e">maxAlloc&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">hchanSize&lt;/span> &lt;span style="color:#f92672">||&lt;/span> &lt;span style="color:#a6e22e">size&lt;/span> &amp;lt; &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		panic(&lt;span style="color:#a6e22e">plainError&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;makechan: size out of range&amp;#34;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// Hchan does not contain pointers interesting for GC when elements stored in buf do not contain pointers.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// buf points into the same allocation, elemtype is persistent.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// SudoG&amp;#39;s are referenced from their owning thread so they can&amp;#39;t be collected.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// TODO(dvyukov,rlh): Rethink when collector can move allocated objects.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">switch&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#a6e22e">mem&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// Queue or element size is zero.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">c&lt;/span> = (&lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span>)(&lt;span style="color:#a6e22e">mallocgc&lt;/span>(&lt;span style="color:#a6e22e">hchanSize&lt;/span>, &lt;span style="color:#66d9ef">nil&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// Race detector uses this location for synchronization.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">buf&lt;/span> = &lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">raceaddr&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#a6e22e">elem&lt;/span>.&lt;span style="color:#a6e22e">ptrdata&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// Elements do not contain pointers. -- 元素没有包含指针
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#75715e">// Allocate hchan and buf in one call.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">c&lt;/span> = (&lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span>)(&lt;span style="color:#a6e22e">mallocgc&lt;/span>(&lt;span style="color:#a6e22e">hchanSize&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">mem&lt;/span>, &lt;span style="color:#66d9ef">nil&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">buf&lt;/span> = &lt;span style="color:#a6e22e">add&lt;/span>(&lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>), &lt;span style="color:#a6e22e">hchanSize&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">default&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// Elements contain pointers. -- 元素包含指针
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">c&lt;/span> = new(&lt;span style="color:#a6e22e">hchan&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">buf&lt;/span> = &lt;span style="color:#a6e22e">mallocgc&lt;/span>(&lt;span style="color:#a6e22e">mem&lt;/span>, &lt;span style="color:#a6e22e">elem&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">elemsize&lt;/span> = uint16(&lt;span style="color:#a6e22e">elem&lt;/span>.&lt;span style="color:#a6e22e">size&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">elemtype&lt;/span> = &lt;span style="color:#a6e22e">elem&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">dataqsiz&lt;/span> = uint(&lt;span style="color:#a6e22e">size&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">lockInit&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">lock&lt;/span>, &lt;span style="color:#a6e22e">lockRankHchan&lt;/span>) &lt;span style="color:#75715e">// 初始化锁
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">debugChan&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		print(&lt;span style="color:#e6db74">&amp;#34;makechan: chan=&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">c&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;; elemsize=&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">elem&lt;/span>.&lt;span style="color:#a6e22e">size&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;; dataqsiz=&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">size&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;\n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 发送
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">sendDirect&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">_type&lt;/span>, &lt;span style="color:#a6e22e">sg&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">sudog&lt;/span>, &lt;span style="color:#a6e22e">src&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// src is on our stack, dst is a slot on another stack.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// - src是在我们的栈上，dst是另一个栈上的槽
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// Once we read sg.elem out of sg, it will no longer
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// be updated if the destination&amp;#39;s stack gets copied (shrunk).
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// So make sure that no preemption points can happen between read &amp;amp; use.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">dst&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">elem&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">typeBitsBulkBarrier&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span>, uintptr(&lt;span style="color:#a6e22e">dst&lt;/span>), uintptr(&lt;span style="color:#a6e22e">src&lt;/span>), &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">size&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// No need for cgo write barrier checks because dst is always
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// Go memory.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">memmove&lt;/span>(&lt;span style="color:#a6e22e">dst&lt;/span>, &lt;span style="color:#a6e22e">src&lt;/span>, &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">size&lt;/span>) &lt;span style="color:#75715e">// 移动src到dst
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 接收 -- 请看源码
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 关闭
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">closechan&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		panic(&lt;span style="color:#a6e22e">plainError&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;close of nil channel&amp;#34;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">lock&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">lock&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">closed&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> { &lt;span style="color:#75715e">// 已关闭的chan，如果再次关闭会panic
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">unlock&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">lock&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		panic(&lt;span style="color:#a6e22e">plainError&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;close of closed channel&amp;#34;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">raceenabled&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">callerpc&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">getcallerpc&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">racewritepc&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">raceaddr&lt;/span>(), &lt;span style="color:#a6e22e">callerpc&lt;/span>, &lt;span style="color:#a6e22e">abi&lt;/span>.&lt;span style="color:#a6e22e">FuncPCABIInternal&lt;/span>(&lt;span style="color:#a6e22e">closechan&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">racerelease&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">raceaddr&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">closed&lt;/span> = &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#75715e">// 设为关闭
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">glist&lt;/span> &lt;span style="color:#a6e22e">gList&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 先释放接收者，再释放发送者
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// release all readers
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">sg&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">recvq&lt;/span>.&lt;span style="color:#a6e22e">dequeue&lt;/span>() &lt;span style="color:#75715e">// 逐个出队sudog
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">elem&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">typedmemclr&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">elemtype&lt;/span>, &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">elem&lt;/span>) &lt;span style="color:#75715e">// 清理元素
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>			&lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">elem&lt;/span> = &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">releasetime&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">releasetime&lt;/span> = &lt;span style="color:#a6e22e">cputicks&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">gp&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">g&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">gp&lt;/span>.&lt;span style="color:#a6e22e">param&lt;/span> = &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span>(&lt;span style="color:#a6e22e">sg&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">success&lt;/span> = &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">raceenabled&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">raceacquireg&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>, &lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">raceaddr&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">glist&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>) &lt;span style="color:#75715e">// 把关联的g存到glist里
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// release all writers (they will panic)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">sg&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">sendq&lt;/span>.&lt;span style="color:#a6e22e">dequeue&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">elem&lt;/span> = &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">releasetime&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">releasetime&lt;/span> = &lt;span style="color:#a6e22e">cputicks&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">gp&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">g&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">gp&lt;/span>.&lt;span style="color:#a6e22e">param&lt;/span> = &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span>(&lt;span style="color:#a6e22e">sg&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">sg&lt;/span>.&lt;span style="color:#a6e22e">success&lt;/span> = &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">raceenabled&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">raceacquireg&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>, &lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">raceaddr&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">glist&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">unlock&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">c&lt;/span>.&lt;span style="color:#a6e22e">lock&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// Ready all Gs now that we&amp;#39;ve dropped the channel lock.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">for&lt;/span> !&lt;span style="color:#a6e22e">glist&lt;/span>.&lt;span style="color:#a6e22e">empty&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">gp&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">glist&lt;/span>.&lt;span style="color:#a6e22e">pop&lt;/span>() &lt;span style="color:#75715e">// 逐个处理g
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">gp&lt;/span>.&lt;span style="color:#a6e22e">schedlink&lt;/span> = &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">goready&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">// 因为我们已经释放了这些g所关联的chan，所以让这些g进入ready状态，准备运行 -- Mark gp ready to run.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

@@ -1,7 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Restart-Remote-Service on 我的简单博客</title><link>https://donnol.github.io/tags/restart-remote-service/</link><description>Recent content in Restart-Remote-Service on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 25 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/restart-remote-service/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows restart remote service</title><link>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</guid><description>Windows如何方便的重启远程服务器里的服务，在不使用远程连接的情况下？
-注意：服务(名称：service-name)已在远程机器上创建。
-在本机新建映射网络驱动器.
-打开映射好的文件夹，在其中添加bat和ps1文件:
-restart.bat:
-@echo off for %%i in (service-name) do ( echo the service &amp;#39;%%i&amp;#39; is being starting... sc query %%i net stop %%i net start %%i sc query %%i echo service &amp;#39;%%i&amp;#39; started. ) pause restart.ps1:
-$Username = &amp;#39;Name&amp;#39; $Password = &amp;#39;Password&amp;#39; $pass = ConvertTo-SecureString -AsPlainText $Password -Force $Cred = New-Object System.Management.Automation.PSCredential -ArgumentList $Username,$pass Invoke-Command -ComputerName [Remote-IP] -ScriptBlock { Get-Service WinRM } -credential $Cred Invoke-Command -ComputerName [Remote-IP] -credential $Cred -ScriptBlock { E:\win-dms4\restart.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Restart-Remote-Service on 我的简单博客</title><link>https://donnol.github.io/tags/restart-remote-service/</link><description>Recent content in Restart-Remote-Service on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 25 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/restart-remote-service/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows restart remote service</title><link>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</link><pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/windows_restart_remote_service/</guid><description>&lt;p>Windows如何方便的重启远程服务器里的服务，在不使用远程连接的情况下？&lt;/p>
+&lt;p>注意：服务(名称：service-name)已在远程机器上创建。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在本机新建&lt;code>映射网络驱动器&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打开映射好的文件夹，在其中添加&lt;code>bat&lt;/code>和&lt;code>ps1&lt;/code>文件:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>restart.bat&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bat" data-lang="bat">&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#66d9ef">echo&lt;/span> off
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#ae81ff">%%&lt;/span>i &lt;span style="color:#66d9ef">in&lt;/span> (service-name) &lt;span style="color:#66d9ef">do&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">echo&lt;/span> the service &amp;#39;&lt;span style="color:#ae81ff">%%&lt;/span>i&amp;#39; is being starting...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sc query &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> net stop &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> net start &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sc query &lt;span style="color:#ae81ff">%%&lt;/span>i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">echo&lt;/span> service &amp;#39;&lt;span style="color:#ae81ff">%%&lt;/span>i&amp;#39; started.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">pause&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

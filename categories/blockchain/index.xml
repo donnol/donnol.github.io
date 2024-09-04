@@ -1,11 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blockchain on 我的简单博客</title><link>https://donnol.github.io/categories/blockchain/</link><description>Recent content in Blockchain on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 26 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/blockchain/index.xml" rel="self" type="application/rss+xml"/><item><title>智能合约</title><link>https://donnol.github.io/posts/2022/01/smart_contract/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/smart_contract/</guid><description>智能合约 # 智能合约wiki
-（英语：Smart contract）是一种特殊协议，在区块链内制定合约时使用，当中内含了代码函数 (Function)，亦能与其他合约进行交互、做决策、存储资料及发送以太币等功能。智能合约主要提供验证及执行合约内所订立的条件。智能合约允许在没有第三方的情况下进行可信交易。这些交易可追踪且不可逆转。
-安全问题 # 智能合约是“执行合约条款的计算机交易协议”。区块链上的所有用户都可以看到基于区块链的智能合约。但是，这会导致包括安全漏洞在内的所有漏洞都可见，并且可能无法迅速修复。
-这样的攻击难以迅速解决，例如：
-2016年6月The DAOEther的漏洞造成损失5000万美元，而开发者试图达成共识的解决方案。DAO的程序在黑客删除资金之前有一段时间的延迟。以太坊软件的一个硬分叉在时限到期之前完成了攻击者的资金回收工作。
-以太坊智能合约中的问题包括合约编程Solidity、编译器错误、以太坊虚拟机错误、对区块链网络的攻击、程序错误的不变性以及其他尚无文档记录的攻击。
-2018年4月22日， BeautyChain智能合约出现重大漏洞，黑客通过此漏洞无限生成代币，导致 BitEclipse (BEC)的价值接近归零。同月25日，SmartMesh出现疑似重大安全漏洞，宣布暂停所有SMT交易和转账直至另行通知，导致损失约1.4亿美金。28日，EOS被指可能存在BEC代币合约类似的整数溢出漏洞，但没消息详细说明。5月24日， BAI交易存在大量异常问题， 损失金额未知。8月22日， GODGAME 合约被黑客入侵，GOD智能合约上的以太坊总数归零。
-合约开发、测试和部署 # eth智能合约文档
-vending machine(自动售货机): money + snack selection = snack dispensed, 给钱并选择小吃，小吃就会出来 &amp;ndash; 是给刚好的钱，还是过量的钱，过量了在发放小吃的同时退钱呢？
-合约长这样：
-// 表明使用的sol版本 pragma solidity 0.8.7; // Solidity 合约类似于面向对象语言中的类。合约中有用于数据持久化的状态变量，和可以修改状态变量的函数。 调用另一个合约实例的函数时，会执行一个 EVM 函数调用，这个操作会切换执行时的上下文，这样，前一个合约的状态变量就不能访问了。 contract VendingMachine { // Declare state variables of the contract address public owner; // owner变量 mapping (address =&amp;gt; uint) public cupcakeBalances; // cupcakeBalances变量 // 创建合约时，合约的构造函数会执行一次。构造函数是可选的。只允许有一个构造函数，这意味着不支持重载。 // When &amp;#39;VendingMachine&amp;#39; contract is deployed: // 1.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blockchain on 我的简单博客</title><link>https://donnol.github.io/categories/blockchain/</link><description>Recent content in Blockchain on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 26 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/blockchain/index.xml" rel="self" type="application/rss+xml"/><item><title>智能合约</title><link>https://donnol.github.io/posts/2022/01/smart_contract/</link><pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/smart_contract/</guid><description>&lt;h2 id="智能合约">
+ 智能合约
+ &lt;a class="anchor" href="#%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://zh.wikipedia.org/wiki/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6">智能合约wiki&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>（英语：Smart contract）是一种特殊协议，在区块链内制定合约时使用，当中内含了代码函数 (Function)，亦能与其他合约进行交互、做决策、存储资料及发送以太币等功能。智能合约主要提供&lt;strong>验证及执行合约内所订立的条件&lt;/strong>。智能合约允许在没有第三方的情况下进行可信交易。这些&lt;strong>交易可追踪且不可逆转&lt;/strong>。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="安全问题">
+ 安全问题
+ &lt;a class="anchor" href="#%e5%ae%89%e5%85%a8%e9%97%ae%e9%a2%98">#&lt;/a>
+&lt;/h3>
+&lt;blockquote>
+&lt;p>智能合约是“执行合约条款的计算机交易协议”。区块链上的&lt;strong>所有用户都可以看到&lt;/strong>基于区块链的智能合约。但是，这会导致包括安全漏洞在内的所有漏洞都可见，并且可能无法迅速修复。&lt;/p>
+&lt;p>这样的攻击难以迅速解决，例如：&lt;/p>
+&lt;blockquote>
+&lt;p>2016年6月The DAOEther的漏洞造成损失5000万美元，而开发者试图达成共识的解决方案。DAO的程序在黑客删除资金之前有一段时间的延迟。以太坊软件的一个硬分叉在时限到期之前完成了攻击者的资金回收工作。&lt;/p>
+&lt;/blockquote>
+&lt;p>以太坊智能合约中的问题包括合约编程Solidity、编译器错误、以太坊虚拟机错误、对区块链网络的攻击、程序错误的不变性以及其他尚无文档记录的攻击。&lt;/p>
+&lt;blockquote>
+&lt;p>2018年4月22日， BeautyChain智能合约出现重大漏洞，黑客通过此漏洞无限生成代币，导致 BitEclipse (BEC)的价值接近归零。同月25日，SmartMesh出现疑似重大安全漏洞，宣布暂停所有SMT交易和转账直至另行通知，导致损失约1.4亿美金。28日，EOS被指可能存在BEC代币合约类似的整数溢出漏洞，但没消息详细说明。5月24日， BAI交易存在大量异常问题， 损失金额未知。8月22日， GODGAME 合约被黑客入侵，GOD智能合约上的以太坊总数归零。&lt;/p>
+&lt;/blockquote>
+&lt;/blockquote>
+&lt;h3 id="合约开发测试和部署">
+ 合约开发、测试和部署
+ &lt;a class="anchor" href="#%e5%90%88%e7%ba%a6%e5%bc%80%e5%8f%91%e6%b5%8b%e8%af%95%e5%92%8c%e9%83%a8%e7%bd%b2">#&lt;/a>
+&lt;/h3>
+&lt;p>
+ &lt;a href="https://ethereum.org/en/developers/docs/smart-contracts/">eth智能合约文档&lt;/a>&lt;/p></description></item></channel></rss>

@@ -1,14 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Calculate on 我的简单博客</title><link>https://donnol.github.io/tags/calculate/</link><description>Recent content in Calculate on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 20 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/calculate/index.xml" rel="self" type="application/rss+xml"/><item><title>数字计算之分摊</title><link>https://donnol.github.io/posts/2022/07/number_calculate/</link><pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/07/number_calculate/</guid><description>背景：分多次把一批货全部出清。
-要求：需要确保这批货多次出清跟一次出清收的钱一样。
-现有三个数字(可整数，可小数)：a b c，其中：a 为数量，b 为价格，c 为折扣。
-则总额为: t, t = a*b*c
-假设分三次，每次数量为：a1 a2 a3，则有：a = a1 + a2 + a3
-直接计算： 第 1 次.
-a1*b*c 第 2 次.
-a2*b*c 第 3 次.
-a3*b*c (a1+a2+a3)bc 不就等于 abc 了吗？
-但是，如果考虑到小数乘法计算时的精度，比如：1.22*2.33 相乘后再取精度（保留两位小数），不就会导致数量误差了吗？
-那如果取精度导致结果误差，那我不取精度，直接用所有小数位数来计算呢。
-虽说可以，但小数位数是有可能非常多的，占用的空间也是一笔不小的开销。
-引入中间量(可称为&amp;rsquo;余额&amp;rsquo;): x y z x = a y = x*b z = y*c 第 1 次.
-x1 = (x-a1) y1 = (y-y*a1/x) z1 = (z-z*a1/x) t1 = z*a1/x 第 2 次.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Calculate on 我的简单博客</title><link>https://donnol.github.io/tags/calculate/</link><description>Recent content in Calculate on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 20 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/calculate/index.xml" rel="self" type="application/rss+xml"/><item><title>数字计算之分摊</title><link>https://donnol.github.io/posts/2022/07/number_calculate/</link><pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/07/number_calculate/</guid><description>&lt;p>背景：分多次把一批货全部出清。&lt;/p>
+&lt;p>要求：需要确保这批货多次出清跟一次出清收的钱一样。&lt;/p>
+&lt;p>现有三个数字(可整数，可小数)：a b c，其中：a 为数量，b 为价格，c 为折扣。&lt;/p>
+&lt;p>则总额为: t, &lt;code>t = a*b*c&lt;/code>&lt;/p>
+&lt;p>假设分三次，每次数量为：a1 a2 a3，则有：a = a1 + a2 + a3&lt;/p>
+&lt;ol>
+&lt;li>直接计算：&lt;/li>
+&lt;/ol>
+&lt;p>第 1 次.&lt;/p>
+&lt;pre tabindex="0">&lt;code>a1*b*c
+&lt;/code>&lt;/pre>&lt;p>第 2 次.&lt;/p>
+&lt;pre tabindex="0">&lt;code>a2*b*c
+&lt;/code>&lt;/pre>&lt;p>第 3 次.&lt;/p>
+&lt;pre tabindex="0">&lt;code>a3*b*c
+&lt;/code>&lt;/pre>&lt;p>(a1+a2+a3)&lt;em>b&lt;/em>c 不就等于 a&lt;em>b&lt;/em>c 了吗？&lt;/p>
+&lt;p>但是，如果考虑到小数乘法计算时的精度，比如：1.22*2.33 相乘后再取精度（保留两位小数），不就会导致数量误差了吗？&lt;/p>
+&lt;p>那如果取精度导致结果误差，那我不取精度，直接用所有小数位数来计算呢。&lt;/p>
+&lt;p>虽说可以，但小数位数是有可能非常多的，占用的空间也是一笔不小的开销。&lt;/p>
+&lt;ol start="2">
+&lt;li>引入中间量(可称为&amp;rsquo;余额&amp;rsquo;): x y z&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>x = a
+y = x*b
+z = y*c
+&lt;/code>&lt;/pr</description></item></channel></rss>

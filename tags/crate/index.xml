@@ -1,15 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Crate on 我的简单博客</title><link>https://donnol.github.io/tags/crate/</link><description>Recent content in Crate on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 10 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/crate/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust常用库</title><link>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</guid><description>crossbeam # crossbeam: Tools for concurrent programming in Rust.
-Atomics
-Data structures
-Memory management: epoch
-Thread synchronization: channel, Parker, ShardedLock, WaitGroup
-Utilities
-channel example # use crossbeam_channel::unbounded; let (s, r) = unbounded(); s.send(&amp;#34;Hello, world!&amp;#34;).unwrap(); assert_eq!(r.recv(), Ok(&amp;#34;Hello, world!&amp;#34;)); unbounded(无限) channel发送时不用等接收端就绪。
-另外还有bounded channel可在新建时指定容量，后续发送的消息数不能超过该数据 &amp;ndash; 除非中间有消息被取走了
-当bounded channel容量设为0时，发送前必须等接收端就绪，一般可用于线程间等待。
-更多介绍
-与标准库的sync::mpsc对比
-epoch # Pin 做了什么？
-crossbeam在实现无锁并发结构时，采用了基于代的内存回收方式1，这种算法的内存管理开销和数据对象的数量无关，只和线程的数量相关，因此在 以上模型中可以表现出更好的一致性和可预测性。不过Rust中的所有权系统已经保证了内存安全，那为什么还需要做额外的内存回收呢？这个问题的关键点 就在要实现无锁并发结构。如果使用标准库中的Arc自然就不会有内存回收的问题，但对Arc进行读写是需要锁的。
-crossbeam-channel文章
-digest # This crate provides traits which describe functionality of cryptographic hash functions and Message Authentication algorithms.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Crate on 我的简单博客</title><link>https://donnol.github.io/tags/crate/</link><description>Recent content in Crate on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 10 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/crate/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust常用库</title><link>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</guid><description>&lt;h2 id="crossbeam">
+ crossbeam
+ &lt;a class="anchor" href="#crossbeam">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://github.com/crossbeam-rs/crossbeam">crossbeam&lt;/a>: &lt;strong>Tools for concurrent programming in Rust&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Atomics&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Data structures&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Memory management: epoch&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Thread synchronization: channel, Parker, ShardedLock, WaitGroup&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Utilities&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="channel-example">
+ channel example
+ &lt;a class="anchor" href="#channel-example">#&lt;/a>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rust" data-lang="rust">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">use&lt;/span> crossbeam_channel::unbounded;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> (s, r) &lt;span style="color:#f92672">=&lt;/span> unbounded();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>s.send(&lt;span style="color:#e6db74">&amp;#34;Hello, world!&amp;#34;&lt;/span>).unwrap();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>assert_eq!(r.recv(), Ok(&lt;span style="color:#e6db74">&amp;#34;Hello, world!&amp;#34;&lt;/span>));
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

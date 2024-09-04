@@ -1,28 +1,162 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mysql on 我的简单博客</title><link>https://donnol.github.io/tags/mysql/</link><description>Recent content in Mysql on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 01 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description> wsl2版本 # &amp;gt; wsl.exe -v WSL version: 1.2.5.0 Kernel version: 5.15.90.1 WSLg version: 1.0.51 MSRDC version: 1.2.3770 Direct3D version: 1.608.2-61064218 DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp Windows version: 10.0.19045.3031 使用过程中，因为磁盘空间问题，把子系统安装位置从C盘转移到了其它盘。
-操作 # 把sql目录里的*.sql文件逐一导入到8.0.33版本的Mysql。
-尽管sql文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的INSERT IGNORE语句，更是用了将近12分钟才完成。
-怎么办？ # 改为通过网络访问本机的数据库。
-端口 # 一文中提到：
-根据我的观察, 如果Windows本地启动了指定端口, 这时WSL2中虽然可以使用相同的端口, 但是localhost:port 将指向Windows的服务, WSL的服务将会被覆盖!
-当然了, 如果我们配置了端口转发, 转发的IP是WSL的地址, 而不是localhost, 那么WSL将会覆盖Windows的服务!
-而我的观察是，
-我发现本地起了数据库服务之后，在wsl2里起数据库服务（mysql服务，端口都是3306）的情况下，是不会报端口重复绑定错误的。
-但是如果我在wsl2里先起一个服务，绑定端口14222后，再在主机起相同服务，想绑定相同端口时，则会报错端口已被绑定。
-如果我是先在主机起上述服务，然后再在wsl2起该服务，则能正常启动。那在主机访问localhost:[port]时会访问到哪个呢？此时访问到的是主机的服务。
-所以端口是否占用会不会还跟服务起的顺序有关呢？
-暂时未看到有确切的描述。
-但是，经过上面的实验，可以认为：
-先在主机起服务，再在wsl2起服务绑定相同端口时，服务可正常启动；在主机访问`localhost:[port]`时访问的是主机的服务；在wsl2里访问的则是wsl2的服务，除非手动指定主机IP。 而如果先在wsl2里起了服务，再在主机起服务（绑定相同端口: 14222），则会报错端口已被绑定。 但是，如果在wsl2里先起的mysql服务，再在主机起，则不会报错，所以还跟端口值有关？</description></item><item><title>缓存和数据库如何保持一致</title><link>https://donnol.github.io/posts/2022/01/cache/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/cache/</guid><description>缓存读 # 从缓存读，如果读到了，直接返回；如果读不到，继续去数据库读（singleflight），读到后，更新缓存，返回结果。
-缓存写 # 为什么是删缓存，而不是更新缓存呢？
-主要是怕两个并发的写操作导致脏数据。
-删除缓存和更新磁盘谁先谁后呢？
-1.如果先删除缓存，再更新磁盘时的问题：
-数据发生了变更，先删除了缓存，然后要去修改数据库，此时还没修改。 &amp;ndash; 删了缓存，未完成数据库修改 另一个请求过来，去读缓存，发现缓存空了，去查询数据库，查到了修改前的旧数据，放到了缓存中。 &amp;ndash; 因为上面的请求里修改数据库的部分还未完成 随后数据变更的程序完成了数据库的修改。&amp;ndash; 这时才完成，可缓存已经填充了之前的旧值了 来到这，数据库和缓存中的数据就不一样了。
-2.先更新磁盘，再删除缓存的问题：
-先更新数据库，再删除缓存，如果数据库更新了，但是缓存删除失败了，那么缓存中的数据还是旧数据，出现数据不一致
-先删除缓存，再更新数据库。如果数据库更新失败了，那么数据库中是旧数据，缓存中是空的，那么数据不会不一致。
-比如，一个是读操作，但是没有命中缓存，然后就到数据库中取数据，此时来了一个写操作，写完数据库后，让缓存失效，然后，之前的那个读操作再把老的数据放进去，所以，会造成脏数据。
-但，这个case理论上会出现，不过，实际上出现的概率可能非常低，因为这个条件需要发生在读缓存时缓存失效，而且并发着有一个写操作。而实际上数据库的写操作会比读操作慢得多，而且还要锁表，而读操作必需在写操作前进入数据库操作，而又要晚于写操作更新缓存，所有的这些条件都具备的概率基本并不大。
-所以，这也就是Quora上的那个答案里说的，要么通过2PC或是Paxos协议保证一致性，要么就是拼命的降低并发时脏数据的概率，而Facebook使用了这个降低概率的玩法，因为2PC太慢，而Paxos太复杂。当然，最好还是为缓存设置上过期时间。
-参照
-代码 # package cache // 缓存，一般先将数据从磁盘读出来写到内存里，供用户高速访问，减少读磁盘 -- 快取 // 另有缓冲，将数据先写到内存里，待装满后一次性写入磁盘，可以少写很多次 -- 缓冲 // // 不难看出，无论快取还是缓冲，都涉及到内存和磁盘的读写。 // // 首先，对于缓存，目前使用较多的中间件是redis、memcached等，当然也有自己在程序中内置map充当缓存的。 // 那么，下面来看下如何在内存和磁盘之间同步数据： type Cache interface { // exp表示当前时间后的exp秒后过期，传0则无过期 Set(key, value string, exp int) error Del(key string) error Get(key string) (value string, err error) } type Store interface { Create(key, value string, exp int) error Delete(key string) error Update(key, value string, exp int) error Get(key string) (vlaue string, err error) } // 用户 有增删改查四个操作，在操作时，对应的缓存和磁盘如何变化呢？ type Client struct { cache Cache store Store } func NewClient( cache Cache, store Store, ) *Client { return &amp;amp;Client{ cache: cache, store: store, } } const ( defExp = 300 ) // Add 先写磁盘还是缓存呢？ func (client *Client) Add(key, value string) { // 会不会已经在Store里存在了呢？ // 先从Store Get一次？ // 一般来说，key都是唯一的： // 此时，必须请求一次Store，确认数据不存在；如果此时数据存在，直接返回错误 if v, err := client.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mysql on 我的简单博客</title><link>https://donnol.github.io/tags/mysql/</link><description>Recent content in Mysql on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 01 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description>&lt;h2 id="wsl2版本">
+ wsl2版本
+ &lt;a class="anchor" href="#wsl2%e7%89%88%e6%9c%ac">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&amp;gt; wsl.exe -v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WSL version: 1.2.5.0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Kernel version: 5.15.90.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WSLg version: 1.0.51
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MSRDC version: 1.2.3770
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Direct3D version: 1.608.2-61064218
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DXCore version: 10.0.25131.1002-220531-1700.rs-onecore-base2-hyp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Windows version: 10.0.19045.3031
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用过程中，因为磁盘空间问题，把子系统安装位置从&lt;code>C盘&lt;/code>转移到了其它盘。&lt;/p>
+&lt;h2 id="操作">
+ 操作
+ &lt;a class="anchor" href="#%e6%93%8d%e4%bd%9c">#&lt;/a>
+&lt;/h2>
+&lt;p>把&lt;code>sql&lt;/code>目录里的&lt;code>*.sql&lt;/code>文件逐一导入到&lt;code>8.0.33&lt;/code>版本的&lt;code>Mysql&lt;/code>。&lt;/p>
+&lt;p>尽管&lt;code>sql&lt;/code>文件不多也不大，但是整个过程非常慢。其中一个有一千个左右的&lt;code>INSERT IGNORE&lt;/code>语句，更是用了将近12分钟才完成。&lt;/p>
+&lt;h2 id="怎么办">
+ 怎么办？
+ &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e">#&lt;/a>
+&lt;/h2>
+&lt;p>改为通过网络访问本机的数据库。&lt;/p></description></item><item><title>缓存和数据库如何保持一致</title><link>https://donnol.github.io/posts/2022/01/cache/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/cache/</guid><description>&lt;h2 id="缓存读">
+ 缓存读
+ &lt;a class="anchor" href="#%e7%bc%93%e5%ad%98%e8%af%bb">#&lt;/a>
+&lt;/h2>
+&lt;p>从缓存读，如果读到了，直接返回；如果读不到，继续去数据库读（singleflight），读到后，更新缓存，返回结果。&lt;/p>
+&lt;h2 id="缓存写">
+ 缓存写
+ &lt;a class="anchor" href="#%e7%bc%93%e5%ad%98%e5%86%99">#&lt;/a>
+&lt;/h2>
+&lt;p>为什么是删缓存，而不是更新缓存呢？&lt;/p>
+&lt;p>主要是怕两个并发的写操作导致脏数据。&lt;/p>
+&lt;p>删除缓存和更新磁盘谁先谁后呢？&lt;/p>
+&lt;p>1.如果先删除缓存，再更新磁盘时的问题：&lt;/p>
+&lt;p>数据发生了变更，先删除了缓存，然后要去修改数据库，此时还没修改。 &amp;ndash; 删了缓存，未完成数据库修改
+另一个请求过来，去读缓存，发现缓存空了，去查询数据库，查到了修改前的旧数据，放到了缓存中。 &amp;ndash; 因为上面的请求里修改数据库的部分还未完成
+随后数据变更的程序完成了数据库的修改。&amp;ndash; 这时才完成，可缓存已经填充了之前的旧值了
+来到这，数据库和缓存中的数据就不一样了。&lt;/p>
+&lt;p>2.先更新磁盘，再删除缓存的问题：&lt;/p>
+&lt;p>先更新数据库，再删除缓存，如果数据库更新了，但是缓存删除失败了，那么缓存中的数据还是旧数据，出现数据不一致&lt;/p>
+&lt;p>先删除缓存，再更新数据库。如果数据库更新失败了，那么数据库中是旧数据，缓存中是空的，那么数据不会不一致。&lt;/p>
+&lt;p>比如，一个是读操作，但是没有命中缓存，然后就到数据库中取数据，此时来了一个写操作，写完数据库后，让缓存失效，然后，之前的那个读操作再把老的数据放进去，所以，会造成脏数据。&lt;/p>
+&lt;p>但，这个case理论上会出现，不过，实际上出现的概率可能非常低，因为这个条件需要发生在读缓存时缓存失效，而且并发着有一个写操作。而实际上数据库的写操作会比读操作慢得多，而且还要锁表，而读操作必需在写操作前进入数据库操作，而又要晚于写操作更新缓存，所有的这些条件都具备的概率基本并不大。&lt;/p>
+&lt;p>所以，这也就是Quora上的那个答案里说的，要么通过2PC或是Paxos协议保证一致性，要么就是拼命的降低并发时脏数据的概率，而Facebook使用了这个降低概率的玩法，因为2PC太慢，而Paxos太复杂。当然，最好还是为缓存设置上过期时间。&lt;/p>
+&lt;p>
+ &lt;a href="https://coolshell.cn/articles/17416.html">参照&lt;/a>&lt;/p>
+&lt;h2 id="代码">
+ 代码
+ &lt;a class="anchor" href="#%e4%bb%a3%e7%a0%81">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">cache&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 缓存，一般先将数据从磁盘读出来写到内存里，供用户高速访问，减少读磁盘 -- 快取
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 另有缓冲，将数据先写到内存里，待装满后一次性写入磁盘，可以少写很多次 -- 缓冲
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 不难看出，无论快取还是缓冲，都涉及到内存和磁盘的读写。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 首先，对于缓存，目前使用较多的中间件是redis、memcached等，当然也有自己在程序中内置map充当缓存的。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 那么，下面来看下如何在内存和磁盘之间同步数据：
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Cache&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// exp表示当前时间后的exp秒后过期，传0则无过期
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">Set&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">exp&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#66d9ef">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Del&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#66d9ef">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Get&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) (&lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#66d9ef">error&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Store&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Create&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">exp&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#66d9ef">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Delete&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#66d9ef">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Update&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">exp&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#66d9ef">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">Get&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) (&lt;span style="color:#a6e22e">vlaue&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#66d9ef">error&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 用户 有增删改查四个操作，在操作时，对应的缓存和磁盘如何变化呢？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Client&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">cache&lt;/span> &lt;span style="color:#a6e22e">Cache&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">store&lt;/span> &lt;span style="color:#a6e22e">Store&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewClient&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">cache&lt;/span> &lt;span style="color:#a6e22e">Cache&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">store&lt;/span> &lt;span style="color:#a6e22e">Store&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Client&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Client&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">cache&lt;/span>: &lt;span style="color:#a6e22e">cache&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">store&lt;/span>: &lt;span style="color:#a6e22e">store&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">defExp&lt;/span> = &lt;span style="color:#ae81ff">300&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Add 先写磁盘还是缓存呢？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">client&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Client&lt;/span>) &lt;span style="color:#a6e22e">Add&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 会不会已经在Store里存在了呢？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 先从Store Get一次？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 一般来说，key都是唯一的：
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 此时，必须请求一次Store，确认数据不存在；如果此时数据存在，直接返回错误
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">store&lt;/span>.&lt;span style="color:#a6e22e">Get&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>); &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 缓存里会不会也有呢？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 先从Cache里读一次？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 如果能通过业务检查，正常来说，缓存里是没有的；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 写磁盘
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">store&lt;/span>.&lt;span style="color:#a6e22e">Create&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span>, &lt;span style="color:#a6e22e">defExp&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 1. 写缓存
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// client.cache.Set(key, value, defExp)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 2. 不写，等获取时从磁盘取
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">client&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Client&lt;/span>) &lt;span style="color:#a6e22e">Mod&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 更新磁盘
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">store&lt;/span>.&lt;span style="color:#a6e22e">Update&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span>, &lt;span style="color:#a6e22e">defExp&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 1. 更新缓存
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// client.cache.Set(key, value, defExp)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#75715e">// 2. 不更新，删掉缓存，等获取时从磁盘取 -- Cache Aside Pattern(旁路缓存方案): 一个 lazy 计算的思想，不要每次都重新做复杂的计算，而是让它到需要被使用的时候再重新计算
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">cache&lt;/span>.&lt;span style="color:#a6e22e">Del&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">client&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Client&lt;/span>) &lt;span style="color:#a6e22e">Del&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 从磁盘删除
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">store&lt;/span>.&lt;span style="color:#a6e22e">Delete&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 1. 从缓存删除
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">cache&lt;/span>.&lt;span style="color:#a6e22e">Del&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">client&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Client&lt;/span>) &lt;span style="color:#a6e22e">Get&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) (&lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 从Cache获取
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">cache&lt;/span>.&lt;span style="color:#a6e22e">Get&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// 以SingleFlight方式从Store读:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#75715e">// https://pkg.go.dev/golang.org/x/sync/singleflight
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#75715e">// 这个库的主要作用就是将一组相同的请求合并成一个请求，实际上只会去请求一次，然后对所有的请求返回相同的结果。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#75715e">// 在一个请求的时间周期内实际上只会向底层的数据库发起一次请求大大减少对数据库的压力。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">valueFromStore&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">store&lt;/span>.&lt;span style="color:#a6e22e">Get&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">v&lt;/span> = &lt;span style="color:#a6e22e">valueFromStore&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// 设置Cache
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">cache&lt;/span>.&lt;span style="color:#a6e22e">Set&lt;/span>(&lt;span style="color:#a6e22e">key&lt;/span>, &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">defExp&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

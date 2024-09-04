@@ -1,1 +1,68 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cpu on 我的简单博客</title><link>https://donnol.github.io/tags/cpu/</link><description>Recent content in Cpu on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 09 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/cpu/index.xml" rel="self" type="application/rss+xml"/><item><title>burn cpu use golang</title><link>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</guid><description>虚假的 burn # package main func fakeBurn() { for { } } 真正的 burn # package main import ( &amp;#34;flag&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; &amp;#34;time&amp;#34; ) var ( numBurn int updateInterval int ) func cpuBurn() { for { for i := 0; i &amp;lt; 2147483647; i++ { } // Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically. // Gosched让当前goroutine让出处理器，从而使得其它goroutine可以运行。它不会挂起/暂停当前的goroutine，它会自动恢复执行。 runtime.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cpu on 我的简单博客</title><link>https://donnol.github.io/tags/cpu/</link><description>Recent content in Cpu on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 09 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/cpu/index.xml" rel="self" type="application/rss+xml"/><item><title>burn cpu use golang</title><link>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/burn_cpu_use_golang/</guid><description>&lt;h2 id="虚假的-burn">
+ 虚假的 burn
+ &lt;a class="anchor" href="#%e8%99%9a%e5%81%87%e7%9a%84-burn">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">fakeBurn&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="真正的-burn">
+ 真正的 burn
+ &lt;a class="anchor" href="#%e7%9c%9f%e6%ad%a3%e7%9a%84-burn">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;flag&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;runtime&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;time&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">var&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">numBurn&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">updateInterval&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">cpuBurn&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#ae81ff">2147483647&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// Gosched让当前goroutine让出处理器，从而使得其它goroutine可以运行。它不会挂起/暂停当前的goroutine，它会自动恢复执行。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">Gosched&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">init&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">flag&lt;/span>.&lt;span style="color:#a6e22e">IntVar&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">numBurn&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">0&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;number of cores to burn (0 = all)&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">flag&lt;/span>.&lt;span style="color:#a6e22e">IntVar&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">updateInterval&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;u&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">10&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;seconds between updates (0 = don&amp;#39;t update)&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">flag&lt;/span>.&lt;span style="color:#a6e22e">Parse&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">numBurn&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">numBurn&lt;/span> = &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">NumCPU&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">GOMAXPROCS&lt;/span>(&lt;span style="color:#a6e22e">numBurn&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Burning %d CPUs/cores\n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">numBurn&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">numBurn&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">go&lt;/span> &lt;span style="color:#a6e22e">cpuBurn&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 一直执行，区别是其中一个会定期打印，另一个不会打印
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">updateInterval&lt;/span> &amp;gt; &lt;span style="color:#ae81ff">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Tick&lt;/span>(&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>(&lt;span style="color:#a6e22e">updateInterval&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Second&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">secs&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">updateInterval&lt;/span>; ; &lt;span style="color:#a6e22e">secs&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">updateInterval&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">t&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%d seconds\n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">secs&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">select&lt;/span> {} &lt;span style="color:#75715e">// wait forever
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

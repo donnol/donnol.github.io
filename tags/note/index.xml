@@ -1,6 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Note on 我的简单博客</title><link>https://donnol.github.io/tags/note/</link><description>Recent content in Note on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 20 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/note/index.xml" rel="self" type="application/rss+xml"/><item><title>Go escape analysis</title><link>https://donnol.github.io/posts/2023/09/go_escape_analysis/</link><pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_escape_analysis/</guid><description>The meaning of escapes to the heap is variables needs to be shared across the function stack frames [between main() and Println()] &amp;hellip;
-&amp;hellip; So globally access variables must be moved to heap as it requires runtime. So the output line 11:2 shows the same as the data variable moved to the heap memory.
-From</description></item><item><title>What are you preparing to do?</title><link>https://donnol.github.io/posts/2023/09/do/</link><pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/do/</guid><description>他想做的事情，与你想他做的事情，与你在做的事情。
-这些事情之间是否存在交集，如果一点都没有，那不就是事与愿违了吗？</description></item><item><title>查找并杀掉运行中事务</title><link>https://donnol.github.io/posts/2023/09/mysql/</link><pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/mysql/</guid><description>查找并杀掉运行中事务 # -- 获取线程id然后杀掉 SELECT * FROM information_schema.innodb_trx; -- 优先找到其中耗时最长的删 kill 36272; kill 36275; kill 35971; kill 35972; -- 其它 select * from performance_schema.events_statements_current; show processlist; 查看锁使用情况 # SELECT object_name, index_name, lock_type, lock_mode, lock_data FROM performance_schema.data_locks; Windows环境下死锁时重启数据库导致数据库出现“启动后停止” # 后面重启服务器也不行，一直提示：
-&amp;gt; net start mysql MYSQL服务正在启动 MYSQL服务无法启动 服务没有报告任何错误。 请键入 MET HELPMSG 3534 以获得更多的帮助。 解决办法：
-将data目录移走，再重新初始化数据库，此时可正常启动数据库；然后停止数据库，将旧data数据库里的数据库和索引文件复制回新的data目录里，再启动数据库。 # 重新初始化数据库 mysqld --initialize-insecure --user=mysql mysqld -install # 停止和启动 net stop mysql net start mysql 参考</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Note on 我的简单博客</title><link>https://donnol.github.io/tags/note/</link><description>Recent content in Note on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 20 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/note/index.xml" rel="self" type="application/rss+xml"/><item><title>Go escape analysis</title><link>https://donnol.github.io/posts/2023/09/go_escape_analysis/</link><pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_escape_analysis/</guid><description>&lt;blockquote>
+&lt;p>The meaning of &lt;code>escapes to the heap&lt;/code> is variables needs to &lt;code>be shared across the function stack frames&lt;/code> [between main() and Println()]
+&amp;hellip;&lt;/p>
+&lt;p>&amp;hellip;
+So &lt;code>globally access variables&lt;/code> must be &lt;code>moved to heap&lt;/code> as it requires runtime. So the output line 11:2 shows the same as the data variable moved to the heap memory.&lt;/p>
+&lt;/blockquote>
+&lt;p>
+ &lt;a href="https://mayurwadekar2.medium.com/escape-analysis-in-golang-ee40a1c064c1">From&lt;/a>&lt;/p></description></item><item><title>What are you preparing to do?</title><link>https://donnol.github.io/posts/2023/09/do/</link><pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/do/</guid><description>&lt;p>他想做的事情，与你想他做的事情，与你在做的事情。&lt;/p>
+&lt;p>这些事情之间是否存在交集，如果一点都没有，那不就是事与愿违了吗？&lt;/p></description></item><item><title>查找并杀掉运行中事务</title><link>https://donnol.github.io/posts/2023/09/mysql/</link><pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/mysql/</guid><description>&lt;h2 id="查找并杀掉运行中事务">
+ 查找并杀掉运行中事务
+ &lt;a class="anchor" href="#%e6%9f%a5%e6%89%be%e5%b9%b6%e6%9d%80%e6%8e%89%e8%bf%90%e8%a1%8c%e4%b8%ad%e4%ba%8b%e5%8a%a1">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 获取线程id然后杀掉
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">SELECT&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">FROM&lt;/span> information_schema.innodb_trx;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 优先找到其中耗时最长的删
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>kill &lt;span style="color:#ae81ff">36272&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kill &lt;span style="color:#ae81ff">36275&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kill &lt;span style="color:#ae81ff">35971&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kill &lt;span style="color:#ae81ff">35972&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 其它
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> performance_schema.events_statements_current;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">show&lt;/span> processlist;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

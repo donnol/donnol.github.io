@@ -1,137 +1,893 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024 on 我的简单博客</title><link>https://donnol.github.io/posts/2024/</link><description>Recent content in 2024 on 我的简单博客</description><generator>Hugo</generator><language>en</language><atom:link href="https://donnol.github.io/posts/2024/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>https://donnol.github.io/posts/2024/01/gopls-hightlight-template/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/gopls-hightlight-template/</guid><description>Gopls高亮template # 配置 # { &amp;#34;gopls&amp;#34;: { &amp;#34;templateExtensions&amp;#34;: [ &amp;#34;tpl&amp;#34;, &amp;#34;tmpl&amp;#34;, ], &amp;#34;ui.semanticTokens&amp;#34;: true }, &amp;#34;files.associations&amp;#34;: { &amp;#34;*.tpl&amp;#34;: &amp;#34;gotmpl&amp;#34;, &amp;#34;*.tmpl&amp;#34;: &amp;#34;gotmpl&amp;#34; } // ... } 当文件扩展名为tpl, tmpl时，均会视为是符合Go的template文件。
-在编辑器里会有变量的高亮和智能提示。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</guid><description> vscode选中所有匹配项 # 快捷键：ctrl+shift+l
-使用ctrl+f，找到匹配内容后，使用上述快捷键即可将所有匹配内容选中。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/wsl2_config/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/wsl2_config/</guid><description>wsl2的一些配置 # 以下是在wsl虚拟机里面的配置
-配置 # $ cat /etc/wsl.conf [boot] systemd=true # 启用systemd [interop] appendWindowsPath = false [network] generateResolvConf = false # 关闭自动生成resolv.conf 更新resolv.conf # $ cat Script/generateResolvConf.sh #!/bin/sh echo &amp;#39;nameserver 192.168.8.44&amp;#39; &amp;gt; /etc/resolv.conf 以systemd service在开机时执行脚本：
-$ cat /etc/systemd/system/generateResolvConf.service [Unit] Description=Run generateResolvConf.sh to set dns of wsl2 at Startup [Service] ExecStart=/home/jd/Script/generateResolvConf.sh [Install] WantedBy=default.target 更新wslhost # wsl启动时，注册虚拟机ip到主机hosts：
-$ cat Script/wsl2host.sh #!/bin/bash HOSTS_FILE_WIN=&amp;#39;/mnt/c/Windows/System32/drivers/etc/hosts&amp;#39; TEMP_DIR_PATH=&amp;#39;~/tmp/dns&amp;#39; TEMP_FILE_PATH=${TEMP_DIR_PATH}&amp;#39;/dns_back&amp;#39; # inetIp=`ifconfig eth0 | grep -o &amp;#34;inet [0-9]*\.</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</guid><description>刺破的过程 # 拥挤，互相推搡；
-往外走，发现气壁；
-尝试推，遭遇阻挠；
-用力打，鼻青脸肿；
-怎么办？陷入迷茫&amp;hellip;
-带路人，合力突刺。
-更多人，集齐元气！</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</guid><description>如果世界真的有好坏，那么坏人的猖狂就来源于好人的软弱。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%8C%96/</guid><description>模块化和服务化 # 面向接口
-模块化 # type I interface { A() B() C() } 服务化 # GET /user POST /user PUT /user DELETE /user 在多人协作开发过程中，先定义接口，达到并行开发的目的。
-存在单人单服务的开发模式，也存在单人单模块的开发模式。
-存在多人单服务的开发模式，也存在多人单模块的开发模式。
-更存在存在多人多服务的开发模式，也存在多人多模块的开发模式。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</guid><description>算数 # 定义（数）
-计算（数）
-使用（数）
-期望和方差 # 定义 期望(Expectation)：度量一个随机变量取值的集中位置或平均水平。
-方差(Variance)：是表示随机变量取值的分散性的一个数字特征。
-怎么算？ 怎么用？ 方差越大，说明随机变量的取值分布越不均匀，变化性越强；方差越小，说明随机变量的取值越趋近于均值，即期望值。</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E8%BD%AC%E5%90%91/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E8%BD%AC%E5%90%91/</guid><description>技术 -&amp;gt; 图文音画的技术 图文音画的技术 -&amp;gt; 内容</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E8%BD%AF%E5%BC%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E8%BD%AF%E5%BC%B1/</guid><description>软弱 # 容易被包装为心慈仁善，实则是放虎归山、助纣为虐。</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E5%A8%81%E6%9C%9B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E5%A8%81%E6%9C%9B/</guid><description>威望 # 权力、财富、名声。
-威望带来威亚。
-可以快速达成一致，也会阻碍想象和实践。</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</guid><description>排列组合 # 可能出现的情况总数。
-排列：是指从给定个数的元素中取出指定个数的元素进行排序。&amp;ndash; n个中取m个，需要考虑排序：n!/(n-m)!
-组合：是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。&amp;ndash; n个中取m个，不考虑排序：n!/m!*(n-m)!
-例如 # 3个球里取1个，有多少种排列呢？根据公式有：3*2*1/2*1 = 3，跟直觉一致。组合呢？根据公式有：3*2*1/1*2*1 = 3. 当取1个的时候，排列和组合是一样的，因为此时m! = 1.
-3个球里取2个，排列：3*2*1/(3-2) = 6; 组合：3*2*1/2*1*1 = 3. 此时，排列数比组合数多。
-如果用A、B、C分别表示3个球，则排列情况有：AB、AC、BC、BA、CA、CB；组合情况有：AB、AC、BC。
-当n和m都很大时，需要借助计算机来计算： package main func factorial(n int) (s int) { s = 1 for i := 1; i &amp;lt;= n; i++ { s *= i } return } func main() { s := factorial(10) / factorial(10-4) println(&amp;#34;10个取4个的排列&amp;#34;, s) // 10个取4个的排列 5040 p := factorial(10) / factorial(10-4) * factorial(4) println(&amp;#34;10个取4个的组合&amp;#34;, p) // 10个取4个的组合 120960 } 执行</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>物极必反 # 追求极限的方法：
-以人的意志，忽略自然规律。
-尊重自然规律，科学寻找。
-尽情发挥想象力，实现时必须遵循规律。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/3.10/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/3.10/</guid><description>昨天体验了一会自助购物。
-扫码开门、自助购物、扫码出门。
-可惜门开的时间稍短，稍不注意又要再扫一次。
-因为下着雨，也没注意哪里有胶袋。匆忙买完东西就得赶着送去了。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/ffmpeg/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/ffmpeg/</guid><description>ffmpeg # 图片加水印 # ffmpeg -i C:\Users\Pictures\1.png -vf &amp;quot;drawtext=fontfile=simhei.ttf:fontcolor=blue:fontsize=100:text='EGHI':x=W-tw-100:y=H-th-100:shadowy=2&amp;quot; C:\Users\Pictures\8x.jpg
-截图 # windows: ffmpeg -f gdigrab -s 500x500 -offset_x 100 -offset_y 100 -i desktop -frames:v 1 C:\Users\Pictures\screen.png
-录屏 # windows: ffmpeg -f gdigrab -framerate 20 -i desktop C:\Users\Pictures\out.avi
-分割 # ffmpeg -i C:\Users\Pictures\output.mp4 -f segment -segment_time 60 -segment_format mpegts -segment_list C:\Users\Pictures\video_name.m3u8 -c copy -bsf:v h264_mp4toannexb -map 0 C:\Users\Pictures\course-%04d.ts
-将视频每60秒分割为一个ts文件。其中video_name.m3u8文件为ts清单，播放器会根据它按序播放ts文件：
-#EXTM3U #EXT-X-VERSION:3 #EXT-X-MEDIA-SEQUENCE:0 #EXT-X-ALLOW-CACHE:YES #EXT-X-TARGETDURATION:63 #EXTINF:62.600000, course-0000.ts #EXTINF:1.200000, course-0001.ts #EXT-X-ENDLIST 为什么要这样分割呢？主要是为了提高并发。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/match/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/match/</guid><description>Match # 虚空克星：冰龙、骷髅王、毒狗、黑鸟……</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E4%B8%83%E6%97%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E4%B8%83%E6%97%A5/</guid><description>上5休2,5天里遇到4次无礼让，最后一次礼让。
-则习惯不礼让。
-所以，点样的人更多，就会有点样的习惯。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E4%B8%AD%E5%86%9B%E4%B9%8B%E5%BF%97/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E4%B8%AD%E5%86%9B%E4%B9%8B%E5%BF%97/</guid><description>中军之志 # mark</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E5%85%B1%E6%80%A7%E5%92%8C%E4%B8%AA%E6%80%A7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E5%85%B1%E6%80%A7%E5%92%8C%E4%B8%AA%E6%80%A7/</guid><description>共性 # 人物属性，天生造就。
-个性 # 知行技能，后天培训。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E5%89%A5%E5%89%8A%E7%9A%84%E4%B8%A4%E6%9E%81/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E5%89%A5%E5%89%8A%E7%9A%84%E4%B8%A4%E6%9E%81/</guid><description>贵族、无赖。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%83%B3%E6%B3%95-%E5%AE%9E%E7%8E%B0-%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%83%B3%E6%B3%95-%E5%AE%9E%E7%8E%B0-%E4%BD%BF%E7%94%A8/</guid><description/></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%8B%B3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%8B%B3/</guid><description>以子之矛攻子之盾
-四两拨千斤
-奋力死斗</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%97%A2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%97%A2/</guid><description>既不能早起，又不敢迟到。
-只好在扶梯上蹿下跳。
-活脱脱的兔子。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%9C%89%E6%83%B3%E6%B3%95-%E5%81%9A%E5%87%BA%E6%9D%A5-%E6%9C%89%E4%BA%BA%E7%94%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%9C%89%E6%83%B3%E6%B3%95-%E5%81%9A%E5%87%BA%E6%9D%A5-%E6%9C%89%E4%BA%BA%E7%94%A8/</guid><description/></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84-%E7%BB%99%E4%BA%BA%E7%9C%8B%E7%9A%84/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84-%E7%BB%99%E4%BA%BA%E7%9C%8B%E7%9A%84/</guid><description/></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E8%8B%B1%E9%9B%84%E5%B0%8F%E5%85%B5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E8%8B%B1%E9%9B%84%E5%B0%8F%E5%85%B5/</guid><description>自我意识的觉醒、自我行为的实现，即为英雄。
-反之则是小兵。</description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E8%B6%85%E8%B5%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E8%B6%85%E8%B5%B6/</guid><description>超赶 # 一来就提超赶，不就承认自己落后了吗？
-而且必须跟在别人屁股后面，屁颠屁颠的追赶。
-后面发现跟不合适，进而出来了弯道超车。
-再来就是遥遥领先了。
-既然领先了，为什么还是那么焦虑？
-因为又害怕被别人超赶了。
-所以竞争到底是为了什么，为了焦虑，还是为了享受。
-还是为了自己享受，让别人焦虑呢？</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/oneline/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/oneline/</guid><description> 一行 # 怎么样的一行才是好的OneLineCode呢？
-a().await.b()?.match{Some(x) =&amp;gt; x+1}.c() try a().b().c() A().B().C()</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/procfile/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/procfile/</guid><description>ls /proc/58607
-manual
-文件名 内容 是否需要root权限 说明 arch_status 空 clear_refs 需 cpuset / fd 文件描述符目录，里面有名称为0~18的链接文件 limits 四列数据：Limit, Soft Limit, Hard Limit, Units，关于cpu, 文件, 栈等配额信息 mem cat: /proc/58607/mem: Input/output error net 目录，有各种协议的文件: tcp, udp, icmp&amp;hellip; oom_score_adj 0 root 目录，指向系统根目录的链接 setgroups allow stat 58607 (jdmgr) S 58382 58382 9872 34820 58382 1077936128 6387 0 26 0 6552 6932 0 0 20 0 15 0 95648476 1838948352 11496 18446744073709551615 4300800 25256385 140731858714304 0 0 0 0 0 2143420159 0 0 0 17 8 0 0 0 0 0 49557040 50499008 83853312 140731858719703 140731858719777 140731858719777 140731858722800 0 task 目录，里面的子目录与本进程的目录结构类似 uid_map 0 0 4294967295 attr 目录，里面有：current, execr, fscreate, keycreate, prev, sockcreate cmdline .</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E4%BA%B2%E7%96%8F%E4%B9%8B%E5%88%AB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E4%BA%B2%E7%96%8F%E4%B9%8B%E5%88%AB/</guid><description>亲则同，疏则异。
-同声同气好说话，异口同声有诡计。
-索性不改继续用，除非大变在眼前。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid><description>将循环执行过程中的阶段结果保存到数组里以供后续执行使用。
-func DP[T, R any](n int, list []T, f func(T) R) R { s := make([]R, len(list)) for i, item := range list { // exec and save result to s s[i] = f(item) } return s[n] } 解决一系列小问题，直到解决一个大问题。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</guid><description>怎样可谓之好时代，
-好时代是怎么来，又怎么去的呢？</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%B0%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%B0%B1/</guid><description>想看就看，想吹就吹，想喷就喷，想做就想。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%BB%BA%E8%AE%BE%E8%BF%98%E6%98%AF%E7%A0%B4%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%BB%BA%E8%AE%BE%E8%BF%98%E6%98%AF%E7%A0%B4%E5%9D%8F/</guid><description>搞建设能来钱，搞破坏也可以。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%94%B6%E5%85%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%94%B6%E5%85%A5/</guid><description>挣也好，亏也好，必须要有收入；
-没收入就什么都没了。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%97%A0%E7%A9%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%97%A0%E7%A9%B7/</guid><description>都要自杀了，为什么不敢干它？
-都要在70岁时去打螺丝了，为什么不敢干它？
-都要在60岁时去打螺丝了，为什么不敢干它？
-都要在50岁时去打螺丝了，为什么不敢干它？ 都要在40岁时去打螺丝了，为什么不敢干它？ 都要在30岁时去打螺丝了，为什么不敢干它？ 都要在20岁时去打螺丝了，为什么不敢干它？
-不敢就是不敢，问再多就是不敢。
-当然，也有比较“高尚的”：只找自己原因，不找外界原因。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%97%B6%E7%A9%BA%E4%BA%BA%E7%89%A9%E4%BA%8B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%97%B6%E7%A9%BA%E4%BA%BA%E7%89%A9%E4%BA%8B/</guid><description>时刻、时长；时效、时延。
-空间、空挡；空缺、空白。
-人体、人性；人选、人际。
-物体、物品；物质、物流。
-事情、事业；事务、事实。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%B6%88%E9%81%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%B6%88%E9%81%A3/</guid><description>有闲有钱有消遣，无钱有闲也消遣。
-总会得闲去消遣，消遣供应永不够。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%BB%A1%E8%B6%B3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%BB%A1%E8%B6%B3/</guid><description>吃喝玩乐，直到满足。
-慢慢漏失，重新再来。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%86%AC%E5%A4%9C%E6%89%93%E6%B8%B8%E6%88%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%86%AC%E5%A4%9C%E6%89%93%E6%B8%B8%E6%88%8F/</guid><description>打游戏就打游戏，为什么非得熬夜呢？
-怕打完这次就没下次了，所以这么拼命？</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%9F%A5%E8%AF%86-%E9%BB%84%E9%87%91-%E6%AD%A6%E5%99%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%9F%A5%E8%AF%86-%E9%BB%84%E9%87%91-%E6%AD%A6%E5%99%A8/</guid><description>失去了这三个，则失去了全部。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%A4%BE%E4%BC%9A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%A4%BE%E4%BC%9A/</guid><description>意见不一定对，但声音很重要。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%A8%B3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%A8%B3/</guid><description>逆水行舟怎么稳，稍有不慎不单不进还退。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%A9%BA%E9%A5%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%A9%BA%E9%A5%B7/</guid><description>多劳多得，少劳少得。
-空饷，则是不劳多得。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%AE%A1%E7%90%86/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%AE%A1%E7%90%86/</guid><description>利用已有的资源达成所要的效果。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%BC%96%E5%AF%BC%E6%BC%94/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%BC%96%E5%AF%BC%E6%BC%94/</guid><description>编、导、演。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%87%AA%E6%88%91%E8%B4%AC%E4%BD%8E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%87%AA%E6%88%91%E8%B4%AC%E4%BD%8E/</guid><description>威压使得所有人自我怀疑，自我贬低，自我伤害。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%8C%A7%E6%88%BF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%8C%A7%E6%88%BF/</guid><description>铺天盖地，层层封胶，环环相扣。
-如此严密控制，为了决策时的任性、出错后的免责。
-迷信权威，又被权威愚弄。
-怎样才是一个好的氛围呢？</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%8E%BD%E7%AD%89%E5%86%B2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%8E%BD%E7%AD%89%E5%86%B2/</guid><description>一代人的跟，换一代人的莽；
-一代人的莽，换一代人的等；
-一代人的等，换一代人的冲。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%AE%A4%E7%88%B6%E5%B0%81%E7%A5%9E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%AE%A4%E7%88%B6%E5%B0%81%E7%A5%9E/</guid><description>认贼作父，求神拜佛。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E9%94%99%E8%AF%AF%E6%81%A2%E5%A4%8D-%E4%BA%89%E6%89%A7%E6%81%A2%E5%A4%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E9%94%99%E8%AF%AF%E6%81%A2%E5%A4%8D-%E4%BA%89%E6%89%A7%E6%81%A2%E5%A4%8D/</guid><description>错误可以恢复，恐慌不行；
-争执可以恢复，背刺不行。</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E9%9A%8F%E7%BC%98/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E9%9A%8F%E7%BC%98/</guid><description>你你我我随缘曾邂逅，笑笑喊喊想起总荒谬。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/go-iter/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/go-iter/</guid><description>Go range over func # Play
-// You can edit this code! // Click here and start typing. package main import ( &amp;#34;fmt&amp;#34; &amp;#34;iter&amp;#34; ) func count(n int) iter.Seq[int] { return func(yield func(int) bool) { for i := range n { if !yield(i) { break } } } } // Tree is a binary tree. type Tree[E any] struct { val E left, right *Tree[E] } // All may be used in a for/range loop to iterate // through all the values of the tree.</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</guid><description>如何通俗易懂地解释卷积？ - 1335的回答
-作用速度
-作用效果
-一个对象（本文中的吃冰淇凌）对一个系统（本文中的体重）的作用效果满足线性原理、累加原理。
-该对象对这个系统连续作用了一段时间后，求该系统的状态。
-这个时候，一个卷积就可以求出来了！
-在卷积 W(T)=integral(g(τ)f(T−τ), 0, T) 中，
-第一个函数 表示这个对象对系统的作用速度。
-第二个函数 表示当作用速度为单位冲击函数时这个对象对系统的作用效果。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E5%BC%BA%E5%BA%A6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E5%BC%BA%E5%BA%A6/</guid><description>竞技：主动/被动地在极短时间内将强度提高。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%81%A9%E5%A8%81/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%81%A9%E5%A8%81/</guid><description>恩威、奖惩、权责
-无威不听，无恩不动。
-阳奉阴违，变本加厉。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%9D%83%E5%88%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%9D%83%E5%88%A9/</guid><description>在别人攻城略地的同时，选择步步退让，自我安慰再让一步就会好起来。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%B1%82%E5%AE%9E%E5%8A%A1%E8%99%9A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%B1%82%E5%AE%9E%E5%8A%A1%E8%99%9A/</guid><description>求实，则新变化从容应对；
-务虚，则大祸临无所适从。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%BC%A0%E8%A7%86/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%BC%A0%E8%A7%86/</guid><description>对它，对他，对她，对TA；
-对己，对挤，对急，对纪。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%9F%9B%E7%9B%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%9F%9B%E7%9B%BE/</guid><description>个性化必然导致矛盾，
-自然法则必然导致个性化。
-矛盾必然存在的话，怎么缓解、怎么解决呢？
-略之？惑之？堵之？疏之？灭之？解之？
-可问题是，你有得选吗！</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</guid><description>简化是一种本事，也是一种病。
-为了简化，逐渐失真、扭曲、捏造。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</guid><description>任何统治要想长期维系，都必须要从统治行为中获益，就算统治者本人无欲无求也一样，否则统治本身无法维系。
-而统治者的收益，都来自于对被统治者经济价值的盘剥。
-所以，要有效地瓦解统治行为，其中一个就是消除被统治者的经济价值。
-被统治者以低成本的方式拉高统治者的统治成本，降低统治者的统治收益，拒绝配合统治者的统治行为，从而使其统治难以为继。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E8%A1%8C/</guid><description>每一次行动都全力以赴；
-每一次行动都硕果累累。</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E9%99%B7%E9%98%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E9%99%B7%E9%98%B1/</guid><description>掉入陷阱，而不自知。</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/vscode-go-version/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/vscode-go-version/</guid><description>vscode里为不同项目配置不同的Go版本 # 在项目根目录里添加.vscode/settings.json，并添加如下内容：
-{ &amp;#34;go.goroot&amp;#34;: &amp;#34;/usr/local/go1.22.2&amp;#34;, &amp;#34;go.alternateTools&amp;#34;: { &amp;#34;go&amp;#34;: &amp;#34;/usr/local/go1.22.2/bin/go&amp;#34; }, &amp;#34;gopls&amp;#34;: { &amp;#34;build.env&amp;#34;: { &amp;#34;GOROOT&amp;#34;: &amp;#34;/usr/local/go1.22.2&amp;#34; } } } 即可为该项目配置使用go1.22.2版本。</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</guid><description>分工明确，各司其职；
-混乱重叠，前后不一。</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%BC%AF%E9%81%93%E8%B6%85%E8%BD%A6%E5%92%8C%E4%BC%BA%E6%9C%BA%E8%B6%85%E8%B6%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%BC%AF%E9%81%93%E8%B6%85%E8%BD%A6%E5%92%8C%E4%BC%BA%E6%9C%BA%E8%B6%85%E8%B6%8A/</guid><description>一个是急得焦躁，一个是稳中求变。</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1-%E5%AE%9E%E7%8E%B0%E5%88%86%E5%9D%97/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1-%E5%AE%9E%E7%8E%B0%E5%88%86%E5%9D%97/</guid><description>接口抽象
-type Animal interface { Eat() Sleep() Run() } 实现分块
-type cat struct {} func (c *cat) Eat() { // before // ing // after } func (c *cat) Sleep() { // before // ing // after } func (c *cat) Run() { // before // ing // after }</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</guid><description>数据：data
-网络：net
-展示：view</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9C%BA%E5%88%B6%E5%92%8C%E7%AD%96%E7%95%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9C%BA%E5%88%B6%E5%92%8C%E7%AD%96%E7%95%A5/</guid><description>机制：如何做？
-策略：做什么，何时做？
-type Policy struct { mechanisms []Mechanism } func (p *Policy) Do() { // ... for _, item := range p.mechanisms { // ... item.Before() // ... item.Run() // ... item.After() // ... } // ... } type Mechanism interface { Before() Run() After() } type mechanism struct {} func (m *mechanism) Before() {} func (m *mechanism) Run() {} func (m *mechanism) After() {}</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</guid><description>是非不分、奖罚不明、权责不等。</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</guid><description>一方水土养育一方人，
-一方人制造一方水土。</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E8%87%B4%E6%95%AC%E5%92%8C%E8%BF%BD%E9%9A%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E8%87%B4%E6%95%AC%E5%92%8C%E8%BF%BD%E9%9A%8F/</guid><description>说一两句好听的话，做一两件认可的事。</description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E4%B8%93%E5%88%B6%E5%92%8C%E7%A7%91%E5%AD%A6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E4%B8%93%E5%88%B6%E5%92%8C%E7%A7%91%E5%AD%A6/</guid><description>专制时有科学，科学时有专制吗？</description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E5%80%BC%E4%B8%8E%E4%B8%8D%E5%80%BC/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E5%80%BC%E4%B8%8E%E4%B8%8D%E5%80%BC/</guid><description>值还是不值
-认为值就奋不顾身；认为不值就静观其变。
-营造值的氛围，加大值的得益，赚取值的利润。
-用什么来营造呢？
-爱国、爱族、爱人、爱己。
-造一个舆论，引一群羔羊。
-煮一锅鲜汤，添一把烧柴。</description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E5%AE%9E%E4%BA%8B%E6%B1%82%E6%98%AF%E5%92%8C%E5%AF%BB%E6%A0%B9%E9%97%AE%E5%BA%95/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E5%AE%9E%E4%BA%8B%E6%B1%82%E6%98%AF%E5%92%8C%E5%AF%BB%E6%A0%B9%E9%97%AE%E5%BA%95/</guid><description>科学</description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E7%94%B3%E8%AF%B7%E4%BD%BF%E7%94%A8%E6%B8%85%E6%B4%97%E9%87%8A%E6%94%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E7%94%B3%E8%AF%B7%E4%BD%BF%E7%94%A8%E6%B8%85%E6%B4%97%E9%87%8A%E6%94%BE/</guid><description>life:
-申请
-使用
-清洗
-释放</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/go-error-check/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/go-error-check/</guid><description>func Call(a, b, c, d, e any) (any, error) { // 1 v, err := call(a) check err // if err != nil { return } // Nomarlly, `check` will return if err != nil, it will continue if err == nil. // the `return` will auto match the function&amp;#39;s result // // If we want to handle err, we can use a code block to do that. // 2 v, err := call(b) check err { log.</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</guid><description>半真半假糊弄学，
-伪造作假交差学。</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%9B%BD%E5%AE%B6%E4%BC%9A%E5%87%BA%E6%89%8B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%9B%BD%E5%AE%B6%E4%BC%9A%E5%87%BA%E6%89%8B/</guid><description>潜台词是：继续当个忍者吧！</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%A5%89%E7%8C%AE%E7%89%BA%E7%89%B2%E5%BF%8D%E8%80%90%E4%BB%A3%E4%BB%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%A5%89%E7%8C%AE%E7%89%BA%E7%89%B2%E5%BF%8D%E8%80%90%E4%BB%A3%E4%BB%B7/</guid><description>奉献一下，牺牲一下，忍耐一下，
-谁的代价？</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E6%A8%A1%E5%9D%97%E5%8C%96-%E4%BE%9D%E8%B5%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E6%A8%A1%E5%9D%97%E5%8C%96-%E4%BE%9D%E8%B5%96/</guid><description>模块化使得复用更容易，也会带来依赖的问题。
-全局依赖和局部依赖
-技术依赖和业务依赖</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E7%8E%AF%E5%A2%83%E4%B8%8E%E4%BA%BA%E7%89%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E7%8E%AF%E5%A2%83%E4%B8%8E%E4%BA%BA%E7%89%A9/</guid><description>人或物生活的地方，叫环境，有家庭、社会、学校、公司、商场。
-活在其中，可以改造它，亦会受它影响。
-太差而又改造不动，为何不换一个。
-环境换人，人换环境，莫不如是。
-生于淮北则为枳，生于淮南则为橘。
-物挪则死，人挪则活。</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%89%A7%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%89%A7%E8%A1%8C/</guid><description>制度设计和实施执行
-边个重要？
-共识重要。</description></item><item><title/><link>https://donnol.github.io/posts/2024/09/%E6%8E%A8%E6%BC%94/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/09/%E6%8E%A8%E6%BC%94/</guid><description>推理和演化
-在设计时，推算流程，理清线索。
-演化，将可能出现的多种情况思索一番，寻找其中能更好持续执行的一种。
-最优路径，在起点和终点的多条路径之中，选择路程最短/耗时最少/花费最少/...的路径。</description></item><item><title/><link>https://donnol.github.io/posts/2024/09/%E7%89%B9%E6%9D%83%E6%91%A7%E6%AF%81%E8%A7%84%E7%9F%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/09/%E7%89%B9%E6%9D%83%E6%91%A7%E6%AF%81%E8%A7%84%E7%9F%A9/</guid><description>在有规矩的时候有人无需遵守，规矩自然就被摧毁了。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024 on 我的简单博客</title><link>https://donnol.github.io/posts/2024/</link><description>Recent content in 2024 on 我的简单博客</description><generator>Hugo</generator><language>en</language><atom:link href="https://donnol.github.io/posts/2024/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>https://donnol.github.io/posts/2024/01/gopls-hightlight-template/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/gopls-hightlight-template/</guid><description>&lt;h1 id="gopls高亮template">
+ Gopls高亮template
+ &lt;a class="anchor" href="#gopls%e9%ab%98%e4%ba%aetemplate">#&lt;/a>
+&lt;/h1>
+&lt;h2 id="配置">
+ 配置
+ &lt;a class="anchor" href="#%e9%85%8d%e7%bd%ae">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;gopls&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;templateExtensions&amp;#34;&lt;/span>: [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;tpl&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;tmpl&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;ui.semanticTokens&amp;#34;&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;files.associations&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;*.tpl&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;gotmpl&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;*.tmpl&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;gotmpl&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</guid><description>&lt;h1 id="vscode选中所有匹配项">
+ vscode选中所有匹配项
+ &lt;a class="anchor" href="#vscode%e9%80%89%e4%b8%ad%e6%89%80%e6%9c%89%e5%8c%b9%e9%85%8d%e9%a1%b9">#&lt;/a>
+&lt;/h1>
+&lt;p>快捷键：&lt;code>ctrl+shift+l&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>使用&lt;code>ctrl+f&lt;/code>，找到匹配内容后，使用上述快捷键即可将所有匹配内容选中。&lt;/li>
+&lt;/ul></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/wsl2_config/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/wsl2_config/</guid><description>&lt;h1 id="wsl2的一些配置">
+ wsl2的一些配置
+ &lt;a class="anchor" href="#wsl2%e7%9a%84%e4%b8%80%e4%ba%9b%e9%85%8d%e7%bd%ae">#&lt;/a>
+&lt;/h1>
+&lt;p>以下是在wsl虚拟机里面的配置&lt;/p>
+&lt;h2 id="配置">
+ 配置
+ &lt;a class="anchor" href="#%e9%85%8d%e7%bd%ae">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ cat /etc/wsl.conf 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>boot&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>systemd&lt;span style="color:#f92672">=&lt;/span>true &lt;span style="color:#75715e"># 启用systemd&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>interop&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>appendWindowsPath &lt;span style="color:#f92672">=&lt;/span> false
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>network&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>generateResolvConf &lt;span style="color:#f92672">=&lt;/span> false &lt;span style="color:#75715e"># 关闭自动生成resolv.conf&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</guid><description>&lt;h1 id="刺破的过程">
+ 刺破的过程
+ &lt;a class="anchor" href="#%e5%88%ba%e7%a0%b4%e7%9a%84%e8%bf%87%e7%a8%8b">#&lt;/a>
+&lt;/h1>
+&lt;p>拥挤，互相推搡；&lt;/p>
+&lt;p>往外走，发现气壁；&lt;/p>
+&lt;p>尝试推，遭遇阻挠；&lt;/p>
+&lt;p>用力打，鼻青脸肿；&lt;/p>
+&lt;p>怎么办？陷入迷茫&amp;hellip;&lt;/p>
+&lt;p>带路人，合力突刺。&lt;/p>
+&lt;p>更多人，集齐元气！&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%A5%BD%E5%9D%8F/</guid><description>&lt;p>如果世界真的有好坏，那么坏人的猖狂就来源于好人的软弱。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%8C%96/</guid><description>&lt;h1 id="模块化和服务化">
+ 模块化和服务化
+ &lt;a class="anchor" href="#%e6%a8%a1%e5%9d%97%e5%8c%96%e5%92%8c%e6%9c%8d%e5%8a%a1%e5%8c%96">#&lt;/a>
+&lt;/h1>
+&lt;p>面向接口&lt;/p>
+&lt;h2 id="模块化">
+ 模块化
+ &lt;a class="anchor" href="#%e6%a8%a1%e5%9d%97%e5%8c%96">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">I&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">A&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">B&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">C&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="服务化">
+ 服务化
+ &lt;a class="anchor" href="#%e6%9c%8d%e5%8a%a1%e5%8c%96">#&lt;/a>
+&lt;/h2>
+&lt;ul>
+&lt;li>&lt;code>GET /user&lt;/code>&lt;/li>
+&lt;li>&lt;code>POST /user&lt;/code>&lt;/li>
+&lt;li>&lt;code>PUT /user&lt;/code>&lt;/li>
+&lt;li>&lt;code>DELETE /user&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>在多人协作开发过程中，先定义接口，达到并行开发的目的。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</guid><description>&lt;h1 id="算数">
+ 算数
+ &lt;a class="anchor" href="#%e7%ae%97%e6%95%b0">#&lt;/a>
+&lt;/h1>
+&lt;ol start="0">
+&lt;li>
+&lt;p>定义（数）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>计算（数）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用（数）&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="期望和方差">
+ 期望和方差
+ &lt;a class="anchor" href="#%e6%9c%9f%e6%9c%9b%e5%92%8c%e6%96%b9%e5%b7%ae">#&lt;/a>
+&lt;/h2>
+&lt;ol start="0">
+&lt;li>定义&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>期望(Expectation)：度量一个随机变量取值的集中位置或平均水平。&lt;/p>
+&lt;p>方差(Variance)：是表示随机变量取值的分散性的一个数字特征。&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>怎么算？&lt;/li>
+&lt;/ol>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/%e6%9c%9f%e6%9c%9b%e5%92%8c%e6%96%b9%e5%b7%ae%e5%85%ac%e5%bc%8f.png" alt="公式" />&lt;/p>
+&lt;ol start="2">
+&lt;li>怎么用？&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>方差越大，说明随机变量的取值分布越不均匀，变化性越强；方差越小，说明随机变量的取值越趋近于均值，即期望值。&lt;/p>
+&lt;/blockquote></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E8%BD%AC%E5%90%91/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E8%BD%AC%E5%90%91/</guid><description>&lt;p>技术 -&amp;gt; 图文音画的技术
+图文音画的技术 -&amp;gt; 内容&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E8%BD%AF%E5%BC%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E8%BD%AF%E5%BC%B1/</guid><description>&lt;h1 id="软弱">
+ 软弱
+ &lt;a class="anchor" href="#%e8%bd%af%e5%bc%b1">#&lt;/a>
+&lt;/h1>
+&lt;p>容易被包装为心慈仁善，实则是放虎归山、助纣为虐。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E5%A8%81%E6%9C%9B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E5%A8%81%E6%9C%9B/</guid><description>&lt;h1 id="威望">
+ 威望
+ &lt;a class="anchor" href="#%e5%a8%81%e6%9c%9b">#&lt;/a>
+&lt;/h1>
+&lt;p>权力、财富、名声。&lt;/p>
+&lt;p>威望带来威亚。&lt;/p>
+&lt;p>可以快速达成一致，也会阻碍想象和实践。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</guid><description>&lt;h1 id="排列组合">
+ 排列组合
+ &lt;a class="anchor" href="#%e6%8e%92%e5%88%97%e7%bb%84%e5%90%88">#&lt;/a>
+&lt;/h1>
+&lt;p>可能出现的情况总数。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>排列：是指从给定个数的元素中取出指定个数的元素进行排序。&amp;ndash; n个中取m个，需要考虑排序：&lt;code>n!/(n-m)!&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>组合：是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。&amp;ndash; n个中取m个，不考虑排序：&lt;code>n!/m!*(n-m)!&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="例如">
+ 例如
+ &lt;a class="anchor" href="#%e4%be%8b%e5%a6%82">#&lt;/a>
+&lt;/h2>
+&lt;ol>
+&lt;li>3个球里取1个，有多少种排列呢？根据公式有：&lt;code>3*2*1/2*1 = 3&lt;/code>，跟直觉一致。组合呢？根据公式有：&lt;code>3*2*1/1*2*1 = 3&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>当取1个的时候，排列和组合是一样的，因为此时&lt;code>m! = 1&lt;/code>.&lt;/p>
+&lt;ol start="2">
+&lt;li>3个球里取2个，排列：&lt;code>3*2*1/(3-2) = 6&lt;/code>; 组合：&lt;code>3*2*1/2*1*1 = 3&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>此时，排列数比组合数多。&lt;/p>
+&lt;p>如果用A、B、C分别表示3个球，则排列情况有：&lt;code>AB、AC、BC、BA、CA、CB&lt;/code>；组合情况有：&lt;code>AB、AC、BC&lt;/code>。&lt;/p>
+&lt;ol start="3">
+&lt;li>当n和m都很大时，需要借助计算机来计算：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) (&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">s&lt;/span> = &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> &lt;span style="color:#a6e22e">n&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">*=&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>) &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">4&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	println(&lt;span style="color:#e6db74">&amp;#34;10个取4个的排列&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">s&lt;/span>) &lt;span style="color:#75715e">// 10个取4个的排列 5040
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>) &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">4&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">4&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	println(&lt;span style="color:#e6db74">&amp;#34;10个取4个的组合&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">p&lt;/span>) &lt;span style="color:#75715e">// 10个取4个的组合 120960
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>&lt;h1 id="物极必反">
+ 物极必反
+ &lt;a class="anchor" href="#%e7%89%a9%e6%9e%81%e5%bf%85%e5%8f%8d">#&lt;/a>
+&lt;/h1>
+&lt;p>追求极限的方法：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>以人的意志，忽略自然规律。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>尊重自然规律，科学寻找。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>尽情发挥想象力，实现时必须遵循规律。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/3.10/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/3.10/</guid><description>&lt;p>昨天体验了一会自助购物。&lt;/p>
+&lt;p>扫码开门、自助购物、扫码出门。&lt;/p>
+&lt;p>可惜门开的时间稍短，稍不注意又要再扫一次。&lt;/p>
+&lt;p>因为下着雨，也没注意哪里有胶袋。匆忙买完东西就得赶着送去了。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/ffmpeg/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/ffmpeg/</guid><description>&lt;h1 id="ffmpeg">
+ ffmpeg
+ &lt;a class="anchor" href="#ffmpeg">#&lt;/a>
+&lt;/h1>
+&lt;h2 id="图片加水印">
+ 图片加水印
+ &lt;a class="anchor" href="#%e5%9b%be%e7%89%87%e5%8a%a0%e6%b0%b4%e5%8d%b0">#&lt;/a>
+&lt;/h2>
+&lt;p>&lt;code>ffmpeg -i C:\Users\Pictures\1.png -vf &amp;quot;drawtext=fontfile=simhei.ttf:fontcolor=blue:fontsize=100:text='EGHI':x=W-tw-100:y=H-th-100:shadowy=2&amp;quot; C:\Users\Pictures\8x.jpg&lt;/code>&lt;/p>
+&lt;h2 id="截图">
+ 截图
+ &lt;a class="anchor" href="#%e6%88%aa%e5%9b%be">#&lt;/a>
+&lt;/h2>
+&lt;p>windows: &lt;code>ffmpeg -f gdigrab -s 500x500 -offset_x 100 -offset_y 100 -i desktop -frames:v 1 C:\Users\Pictures\screen.png&lt;/code>&lt;/p>
+&lt;h2 id="录屏">
+ 录屏
+ &lt;a class="anchor" href="#%e5%bd%95%e5%b1%8f">#&lt;/a>
+&lt;/h2>
+&lt;p>windows: &lt;code>ffmpeg -f gdigrab -framerate 20 -i desktop C:\Users\Pictures\out.avi&lt;/code>&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/match/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/match/</guid><description>&lt;h1 id="match">
+ Match
+ &lt;a class="anchor" href="#match">#&lt;/a>
+&lt;/h1>
+&lt;p>虚空克星：冰龙、骷髅王、毒狗、黑鸟……&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E4%B8%83%E6%97%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E4%B8%83%E6%97%A5/</guid><description>&lt;p>上5休2,5天里遇到4次无礼让，最后一次礼让。&lt;/p>
+&lt;p>则习惯不礼让。&lt;/p>
+&lt;p>所以，点样的人更多，就会有点样的习惯。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E4%B8%AD%E5%86%9B%E4%B9%8B%E5%BF%97/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E4%B8%AD%E5%86%9B%E4%B9%8B%E5%BF%97/</guid><description>&lt;h1 id="中军之志">
+ 中军之志
+ &lt;a class="anchor" href="#%e4%b8%ad%e5%86%9b%e4%b9%8b%e5%bf%97">#&lt;/a>
+&lt;/h1>
+&lt;p>mark&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E5%85%B1%E6%80%A7%E5%92%8C%E4%B8%AA%E6%80%A7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E5%85%B1%E6%80%A7%E5%92%8C%E4%B8%AA%E6%80%A7/</guid><description>&lt;h1 id="共性">
+ 共性
+ &lt;a class="anchor" href="#%e5%85%b1%e6%80%a7">#&lt;/a>
+&lt;/h1>
+&lt;p>人物属性，天生造就。&lt;/p>
+&lt;h1 id="个性">
+ 个性
+ &lt;a class="anchor" href="#%e4%b8%aa%e6%80%a7">#&lt;/a>
+&lt;/h1>
+&lt;p>知行技能，后天培训。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E5%89%A5%E5%89%8A%E7%9A%84%E4%B8%A4%E6%9E%81/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E5%89%A5%E5%89%8A%E7%9A%84%E4%B8%A4%E6%9E%81/</guid><description>&lt;p>贵族、无赖。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%83%B3%E6%B3%95-%E5%AE%9E%E7%8E%B0-%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%83%B3%E6%B3%95-%E5%AE%9E%E7%8E%B0-%E4%BD%BF%E7%94%A8/</guid><description/></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%8B%B3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%8B%B3/</guid><description>&lt;ol>
+&lt;li>
+&lt;p>以子之矛攻子之盾&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>四两拨千斤&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>奋力死斗&lt;/p>
+&lt;/li>
+&lt;/ol></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%97%A2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%97%A2/</guid><description>&lt;p>既不能早起，又不敢迟到。&lt;/p>
+&lt;p>只好在扶梯上蹿下跳。&lt;/p>
+&lt;p>活脱脱的兔子。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E6%9C%89%E6%83%B3%E6%B3%95-%E5%81%9A%E5%87%BA%E6%9D%A5-%E6%9C%89%E4%BA%BA%E7%94%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E6%9C%89%E6%83%B3%E6%B3%95-%E5%81%9A%E5%87%BA%E6%9D%A5-%E6%9C%89%E4%BA%BA%E7%94%A8/</guid><description/></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84-%E7%BB%99%E4%BA%BA%E7%9C%8B%E7%9A%84/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84-%E7%BB%99%E4%BA%BA%E7%9C%8B%E7%9A%84/</guid><description/></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E8%8B%B1%E9%9B%84%E5%B0%8F%E5%85%B5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E8%8B%B1%E9%9B%84%E5%B0%8F%E5%85%B5/</guid><description>&lt;p>自我意识的觉醒、自我行为的实现，即为英雄。&lt;/p>
+&lt;p>反之则是小兵。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/%E8%B6%85%E8%B5%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/%E8%B6%85%E8%B5%B6/</guid><description>&lt;h1 id="超赶">
+ 超赶
+ &lt;a class="anchor" href="#%e8%b6%85%e8%b5%b6">#&lt;/a>
+&lt;/h1>
+&lt;p>一来就提超赶，不就承认自己落后了吗？&lt;/p>
+&lt;p>而且必须跟在别人屁股后面，屁颠屁颠的追赶。&lt;/p>
+&lt;p>后面发现&lt;code>跟&lt;/code>不合适，进而出来了&lt;code>弯道超车&lt;/code>。&lt;/p>
+&lt;p>再来就是遥遥领先了。&lt;/p>
+&lt;p>既然领先了，为什么还是那么焦虑？&lt;/p>
+&lt;p>因为又害怕被别人超赶了。&lt;/p>
+&lt;p>所以竞争到底是为了什么，为了焦虑，还是为了享受。&lt;/p>
+&lt;p>还是为了自己享受，让别人焦虑呢？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/oneline/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/oneline/</guid><description>&lt;h1 id="一行">
+ 一行
+ &lt;a class="anchor" href="#%e4%b8%80%e8%a1%8c">#&lt;/a>
+&lt;/h1>
+&lt;p>怎么样的一行才是好的&lt;code>OneLineCode&lt;/code>呢？&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rust" data-lang="rust">&lt;span style="display:flex;">&lt;span>a().&lt;span style="color:#66d9ef">await&lt;/span>.b()&lt;span style="color:#f92672">?&lt;/span>.&lt;span style="color:#66d9ef">match&lt;/span>{Some(x) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> x&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>}.c()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-swift" data-lang="swift">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">try&lt;/span> a().b().c()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">A&lt;/span>().&lt;span style="color:#a6e22e">B&lt;/span>().&lt;span style="color:#a6e22e">C&lt;/span>()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/procfile/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/procfile/</guid><description>&lt;p>ls /proc/58607&lt;/p>
+&lt;p>
+ &lt;a href="https://man7.org/linux/man-pages/man5/proc.5.html">manual&lt;/a>&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">文件名&lt;/th>
+ &lt;th style="text-align: left">内容&lt;/th>
+ &lt;th style="text-align: left">是否需要root权限&lt;/th>
+ &lt;th style="text-align: left">说明&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">arch_status&lt;/td>
+ &lt;td style="text-align: left">空&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">clear_refs&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">需&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">cpuset&lt;/td>
+ &lt;td style="text-align: left">/&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">fd&lt;/td>
+ &lt;td style="text-align: left">文件描述符目录，里面有名称为0~18的链接文件&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">limits&lt;/td>
+ &lt;td style="text-align: left">四列数据：Limit, Soft Limit, Hard Limit, Units，关于cpu, 文件, 栈等配额信息&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">mem&lt;/td>
+ &lt;td style="text-align: left">cat: /proc/58607/mem: Input/output error&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">net&lt;/td>
+ &lt;td style="text-align: left">目录，有各种协议的文件: tcp, udp, icmp&amp;hellip;&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">oom_score_adj&lt;/td>
+ &lt;td style="text-align: left">0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">root&lt;/td>
+ &lt;td style="text-align: left">目录，指向系统根目录的链接&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">setgroups&lt;/td>
+ &lt;td style="text-align: left">allow&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">stat&lt;/td>
+ &lt;td style="text-align: left">58607 (jdmgr) S 58382 58382 9872 34820 58382 1077936128 6387 0 26 0 6552 6932 0 0 20 0 15 0 95648476 1838948352 11496 18446744073709551615 4300800 25256385 140731858714304 0 0 0 0 0 2143420159 0 0 0 17 8 0 0 0 0 0 49557040 50499008 83853312 140731858719703 140731858719777 140731858719777 140731858722800 0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">task&lt;/td>
+ &lt;td style="text-align: left">目录，里面的子目录与本进程的目录结构类似&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">uid_map&lt;/td>
+ &lt;td style="text-align: left">0 0 4294967295&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">attr&lt;/td>
+ &lt;td style="text-align: left">目录，里面有：current, execr, fscreate, keycreate, prev, sockcreate&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">cmdline&lt;/td>
+ &lt;td style="text-align: left">./jdmgr&amp;ndash;config=/home/jd/Project/jdmgr/data/conf/jdmgr-local.tomlserver&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">cwd&lt;/td>
+ &lt;td style="text-align: left">目录，里面有启动进程所在目录的文件&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">fdinfo&lt;/td>
+ &lt;td style="text-align: left">目录，里面有名称为0~18的文件，每个文件里有以下信息：pos, flags, mnt_id, ino&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">loginuid&lt;/td>
+ &lt;td style="text-align: left">4294967295&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">mountinfo&lt;/td>
+ &lt;td style="text-align: left">磁盘挂载情况&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">ns&lt;/td>
+ &lt;td style="text-align: left">目录，里面有：cgroup, net, time, uts, ipc, pid, time_for_children, mnt, pid_for_children, user&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">pagemap&lt;/td>
+ &lt;td style="text-align: left">一堆问号&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">sched&lt;/td>
+ &lt;td style="text-align: left">jdmgr (58607, #threads: 15) 和一系列键值&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">smaps&lt;/td>
+ &lt;td style="text-align: left">很多键值数据&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">statm&lt;/td>
+ &lt;td style="text-align: left">448962 11467 6999 5117 0 46089 0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">timens_offsets&lt;/td>
+ &lt;td style="text-align: left">monotonic 0 0; boottime 0 0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">wchan&lt;/td>
+ &lt;td style="text-align: left">futex_wait_queue_me&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">auxv&lt;/td>
+ &lt;td style="text-align: left">一堆问号&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">comm&lt;/td>
+ &lt;td style="text-align: left">jdmgr&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">environ&lt;/td>
+ &lt;td style="text-align: left">环境变量&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">gid_map&lt;/td>
+ &lt;td style="text-align: left">0 0 4294967295&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">map_files&lt;/td>
+ &lt;td style="text-align: left">目录&lt;/td>
+ &lt;td style="text-align: left">需&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">mounts&lt;/td>
+ &lt;td style="text-align: left">挂载情况：none /mnt/wsl tmpfs rw,relatime 0 0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">oom_adj&lt;/td>
+ &lt;td style="text-align: left">0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">personality&lt;/td>
+ &lt;td style="text-align: left">00000000&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">schedstat&lt;/td>
+ &lt;td style="text-align: left">14831015600 63888900 226226&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">smaps_rollup&lt;/td>
+ &lt;td style="text-align: left">一系列键值：Rss: 47844 kB;Pss: 47781 kB;&amp;hellip;&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">status&lt;/td>
+ &lt;td style="text-align: left">Name: jdmgr; Umask: 0022; State: S (sleeping); Tgid: 58607&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">timers&lt;/td>
+ &lt;td style="text-align: left">空&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">cgroup&lt;/td>
+ &lt;td style="text-align: left">15:name=systemd:/; 14:misc:/; 13:rdma:/; 12:pids:/; 11:hugetlb:/; 10:net_prio:/; 9:perf_event:/; 8:net_cls:/; 7:freezer:/; 6:devices:/; 5:memory:/; 4:blkio:/; 3:cpuacct:/; 2:cpu:/; 1:cpuset:/; 0::/&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">coredump_filter&lt;/td>
+ &lt;td style="text-align: left">00000033&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">exe&lt;/td>
+ &lt;td style="text-align: left">一堆问号&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">io&lt;/td>
+ &lt;td style="text-align: left">rchar: 65191135; wchar: 10478455; syscr: 668811; syscw: 233308; read_bytes: 352256; write_bytes: 1781760; cancelled_write_bytes: 0&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">maps&lt;/td>
+ &lt;td style="text-align: left">00400000-0041a000 r&amp;ndash;p 00000000 08:20 2198269 /home/jd/Project/jdmgr/jdmgr; &amp;hellip;&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">mountstats&lt;/td>
+ &lt;td style="text-align: left">device none mounted on /mnt/wsl with fstype tmpfs; &amp;hellip;&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">oom_score&lt;/td>
+ &lt;td style="text-align: left">668&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">projid_map&lt;/td>
+ &lt;td style="text-align: left">0 0 4294967295&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">sessionid&lt;/td>
+ &lt;td style="text-align: left">4294967295&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">stack&lt;/td>
+ &lt;td style="text-align: left">[&amp;lt;0&amp;gt;] do_epoll_wait+0x5ce/0x710; [&amp;lt;0&amp;gt;] do_compat_epoll_pwait.part.0+0xe/0x80; [&amp;lt;0&amp;gt;] __x64_sys_epoll_pwait+0x7f/0x130; [&amp;lt;0&amp;gt;] do_syscall_64+0x38/0xc0; [&amp;lt;0&amp;gt;] entry_SYSCALL_64_after_hwframe+0x62/0xcc&lt;/td>
+ &lt;td style="text-align: left">需&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">syscall&lt;/td>
+ &lt;td style="text-align: left">202 0x303c728 0x80 0x0 0x0 0x0 0x0 0x7ffeb0727b10 0x48d183&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">timerslack_ns&lt;/td>
+ &lt;td style="text-align: left">50000&lt;/td>
+ &lt;td style="text-align: left">需&lt;/td>
+ &lt;td style="text-align: left">&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E4%BA%B2%E7%96%8F%E4%B9%8B%E5%88%AB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E4%BA%B2%E7%96%8F%E4%B9%8B%E5%88%AB/</guid><description>&lt;p>亲则同，疏则异。&lt;/p>
+&lt;p>同声同气好说话，异口同声有诡计。&lt;/p>
+&lt;p>索性不改继续用，除非大变在眼前。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid><description>&lt;p>将循环执行过程中的阶段结果保存到数组里以供后续执行使用。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">DP&lt;/span>[&lt;span style="color:#a6e22e">T&lt;/span>, &lt;span style="color:#a6e22e">R&lt;/span> &lt;span style="color:#a6e22e">any&lt;/span>](&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#a6e22e">list&lt;/span> []&lt;span style="color:#a6e22e">T&lt;/span>, &lt;span style="color:#a6e22e">f&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>(&lt;span style="color:#a6e22e">T&lt;/span>) &lt;span style="color:#a6e22e">R&lt;/span>) &lt;span style="color:#a6e22e">R&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make([]&lt;span style="color:#a6e22e">R&lt;/span>, len(&lt;span style="color:#a6e22e">list&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">list&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// exec and save result to s
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span>[&lt;span style="color:#a6e22e">i&lt;/span>] = &lt;span style="color:#a6e22e">f&lt;/span>(&lt;span style="color:#a6e22e">item&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span>[&lt;span style="color:#a6e22e">n&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</guid><description>&lt;p>怎样可谓之好时代，&lt;/p>
+&lt;p>好时代是怎么来，又怎么去的呢？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%B0%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%B0%B1/</guid><description>&lt;p>想看就看，想吹就吹，想喷就喷，想做就想。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%BB%BA%E8%AE%BE%E8%BF%98%E6%98%AF%E7%A0%B4%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%BB%BA%E8%AE%BE%E8%BF%98%E6%98%AF%E7%A0%B4%E5%9D%8F/</guid><description>&lt;p>搞建设能来钱，搞破坏也可以。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%94%B6%E5%85%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%94%B6%E5%85%A5/</guid><description>&lt;p>挣也好，亏也好，必须要有收入；&lt;/p>
+&lt;p>没收入就什么都没了。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%97%A0%E7%A9%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%97%A0%E7%A9%B7/</guid><description>&lt;p>都要自杀了，为什么不敢干它？&lt;/p>
+&lt;p>都要在70岁时去打螺丝了，为什么不敢干它？&lt;/p>
+&lt;p>都要在60岁时去打螺丝了，为什么不敢干它？&lt;/p>
+&lt;p>都要在50岁时去打螺丝了，为什么不敢干它？
+都要在40岁时去打螺丝了，为什么不敢干它？
+都要在30岁时去打螺丝了，为什么不敢干它？
+都要在20岁时去打螺丝了，为什么不敢干它？&lt;/p>
+&lt;p>不敢就是不敢，问再多就是不敢。&lt;/p>
+&lt;p>当然，也有比较“高尚的”：只找自己原因，不找外界原因。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%97%B6%E7%A9%BA%E4%BA%BA%E7%89%A9%E4%BA%8B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%97%B6%E7%A9%BA%E4%BA%BA%E7%89%A9%E4%BA%8B/</guid><description>&lt;p>时刻、时长；时效、时延。&lt;/p>
+&lt;p>空间、空挡；空缺、空白。&lt;/p>
+&lt;p>人体、人性；人选、人际。&lt;/p>
+&lt;p>物体、物品；物质、物流。&lt;/p>
+&lt;p>事情、事业；事务、事实。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%B6%88%E9%81%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%B6%88%E9%81%A3/</guid><description>&lt;p>有闲有钱有消遣，无钱有闲也消遣。&lt;/p>
+&lt;p>总会得闲去消遣，消遣供应永不够。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%BB%A1%E8%B6%B3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%BB%A1%E8%B6%B3/</guid><description>&lt;p>吃喝玩乐，直到满足。&lt;/p>
+&lt;p>慢慢漏失，重新再来。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%86%AC%E5%A4%9C%E6%89%93%E6%B8%B8%E6%88%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%86%AC%E5%A4%9C%E6%89%93%E6%B8%B8%E6%88%8F/</guid><description>&lt;p>打游戏就打游戏，为什么非得熬夜呢？&lt;/p>
+&lt;p>怕打完这次就没下次了，所以这么拼命？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%9F%A5%E8%AF%86-%E9%BB%84%E9%87%91-%E6%AD%A6%E5%99%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%9F%A5%E8%AF%86-%E9%BB%84%E9%87%91-%E6%AD%A6%E5%99%A8/</guid><description>&lt;p>失去了这三个，则失去了全部。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%A4%BE%E4%BC%9A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%A4%BE%E4%BC%9A/</guid><description>&lt;p>意见不一定对，但声音很重要。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%A8%B3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%A8%B3/</guid><description>&lt;p>逆水行舟怎么稳，稍有不慎不单不进还退。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%A9%BA%E9%A5%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%A9%BA%E9%A5%B7/</guid><description>&lt;p>多劳多得，少劳少得。&lt;/p>
+&lt;p>空饷，则是不劳多得。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%AE%A1%E7%90%86/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%AE%A1%E7%90%86/</guid><description>&lt;p>利用已有的资源&lt;code>达成&lt;/code>所要的效果。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E7%BC%96%E5%AF%BC%E6%BC%94/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E7%BC%96%E5%AF%BC%E6%BC%94/</guid><description>&lt;p>编、导、演。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%87%AA%E6%88%91%E8%B4%AC%E4%BD%8E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%87%AA%E6%88%91%E8%B4%AC%E4%BD%8E/</guid><description>&lt;p>威压使得所有人自我怀疑，自我贬低，自我伤害。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%8C%A7%E6%88%BF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%8C%A7%E6%88%BF/</guid><description>&lt;p>铺天盖地，层层封胶，环环相扣。&lt;/p>
+&lt;p>如此严密控制，为了决策时的任性、出错后的免责。&lt;/p>
+&lt;p>迷信权威，又被权威愚弄。&lt;/p>
+&lt;p>怎样才是一个好的氛围呢？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%8E%BD%E7%AD%89%E5%86%B2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%8E%BD%E7%AD%89%E5%86%B2/</guid><description>&lt;p>一代人的跟，换一代人的莽；&lt;/p>
+&lt;p>一代人的莽，换一代人的等；&lt;/p>
+&lt;p>一代人的等，换一代人的冲。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E8%AE%A4%E7%88%B6%E5%B0%81%E7%A5%9E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E8%AE%A4%E7%88%B6%E5%B0%81%E7%A5%9E/</guid><description>&lt;p>认贼作父，求神拜佛。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E9%94%99%E8%AF%AF%E6%81%A2%E5%A4%8D-%E4%BA%89%E6%89%A7%E6%81%A2%E5%A4%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E9%94%99%E8%AF%AF%E6%81%A2%E5%A4%8D-%E4%BA%89%E6%89%A7%E6%81%A2%E5%A4%8D/</guid><description>&lt;p>错误可以恢复，恐慌不行；&lt;/p>
+&lt;p>争执可以恢复，背刺不行。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E9%9A%8F%E7%BC%98/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E9%9A%8F%E7%BC%98/</guid><description>&lt;p>你你我我随缘曾邂逅，笑笑喊喊想起总荒谬。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/go-iter/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/go-iter/</guid><description>&lt;h1 id="go-range-over-func">
+ Go range over func
+ &lt;a class="anchor" href="#go-range-over-func">#&lt;/a>
+&lt;/h1>
+&lt;p>
+ &lt;a href="https://go.dev/play/p/BR1sVgX_ZSn?v=gotip">Play&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// You can edit this code!
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Click here and start typing.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;iter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">count&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#a6e22e">iter&lt;/span>.&lt;span style="color:#a6e22e">Seq&lt;/span>[&lt;span style="color:#66d9ef">int&lt;/span>] {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>(&lt;span style="color:#a6e22e">yield&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#66d9ef">bool&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">n&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">if&lt;/span> !&lt;span style="color:#a6e22e">yield&lt;/span>(&lt;span style="color:#a6e22e">i&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#66d9ef">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// Tree is a binary tree.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#a6e22e">E&lt;/span> &lt;span style="color:#a6e22e">any&lt;/span>] &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#a6e22e">E&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">left&lt;/span>, &lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#a6e22e">E&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// All may be used in a for/range loop to iterate
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// through all the values of the tree.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// This implementation does an in-order traversal.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#a6e22e">E&lt;/span>]) &lt;span style="color:#a6e22e">All&lt;/span>(&lt;span style="color:#a6e22e">yield&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>(&lt;span style="color:#a6e22e">E&lt;/span>) &lt;span style="color:#66d9ef">bool&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">doAll&lt;/span>(&lt;span style="color:#a6e22e">yield&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// doAll is a helper for All, to make it easier
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// to know when the iteration stopped in a subtree.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#a6e22e">E&lt;/span>]) &lt;span style="color:#a6e22e">doAll&lt;/span>(&lt;span style="color:#a6e22e">yield&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>(&lt;span style="color:#a6e22e">E&lt;/span>) &lt;span style="color:#66d9ef">bool&lt;/span>) &lt;span style="color:#66d9ef">bool&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">left&lt;/span>.&lt;span style="color:#a6e22e">doAll&lt;/span>(&lt;span style="color:#a6e22e">yield&lt;/span>) &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#a6e22e">yield&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">val&lt;/span>) &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">right&lt;/span>.&lt;span style="color:#a6e22e">doAll&lt;/span>(&lt;span style="color:#a6e22e">yield&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">SumTree&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#66d9ef">int&lt;/span>]) &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">All&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">SumTreeSeq&lt;/span>(&lt;span style="color:#a6e22e">seq&lt;/span> &lt;span style="color:#a6e22e">iter&lt;/span>.&lt;span style="color:#a6e22e">Seq&lt;/span>[&lt;span style="color:#66d9ef">int&lt;/span>]) &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">seq&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Hello, 世界&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#75715e">// 函数body会被转为yield函数传入到iter.Seq里 -- 当`body`没有控制流语句时，一律视为`return true`
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">k&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">count&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// 请注意，这里的defer不会被移入yield函数里，而是会保留在本函数内
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>		&lt;span style="color:#66d9ef">defer&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;defer2&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">k&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">defer&lt;/span> &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;defer&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">k&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#a6e22e">k&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#66d9ef">int&lt;/span>]{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">val&lt;/span>: &lt;span style="color:#ae81ff">2&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">left&lt;/span>: &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#66d9ef">int&lt;/span>]{&lt;span style="color:#a6e22e">val&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">right&lt;/span>: &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Tree&lt;/span>[&lt;span style="color:#66d9ef">int&lt;/span>]{&lt;span style="color:#a6e22e">val&lt;/span>: &lt;span style="color:#ae81ff">3&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">r&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">SumTree&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#a6e22e">r&lt;/span>, &lt;span style="color:#a6e22e">SumTreeSeq&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">All&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</guid><description>&lt;p>
+ &lt;a href="https://www.zhihu.com/question/22298352/answer/1071892762">如何通俗易懂地解释卷积？ - 1335的回答&lt;/a>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>作用速度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>作用效果&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>一个对象（本文中的吃冰淇凌）对一个系统（本文中的体重）的作用效果满足线性原理、累加原理。&lt;/p>
+&lt;p>该对象对这个系统连续作用了一段时间后，求该系统的状态。&lt;/p>
+&lt;p>这个时候，一个卷积就可以求出来了！&lt;/p>
+&lt;p>在卷积 &lt;code>W(T)=integral(g(τ)f(T−τ), 0, T)&lt;/code> 中，&lt;/p>
+&lt;p>第一个函数 表示这个对象对系统的作用速度。&lt;/p>
+&lt;p>第二个函数 表示当作用速度为单位冲击函数时这个对象对系统的作用效果。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E5%BC%BA%E5%BA%A6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E5%BC%BA%E5%BA%A6/</guid><description>&lt;p>竞技：主动/被动地在极短时间内将强度提高。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%81%A9%E5%A8%81/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%81%A9%E5%A8%81/</guid><description>&lt;p>恩威、奖惩、权责&lt;/p>
+&lt;p>无威不听，无恩不动。&lt;/p>
+&lt;p>阳奉阴违，变本加厉。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%9D%83%E5%88%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%9D%83%E5%88%A9/</guid><description>&lt;p>在别人攻城略地的同时，选择步步退让，自我安慰再让一步就会好起来。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%B1%82%E5%AE%9E%E5%8A%A1%E8%99%9A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%B1%82%E5%AE%9E%E5%8A%A1%E8%99%9A/</guid><description>&lt;p>求实，则新变化从容应对；&lt;/p>
+&lt;p>务虚，则大祸临无所适从。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E6%BC%A0%E8%A7%86/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E6%BC%A0%E8%A7%86/</guid><description>&lt;p>对它，对他，对她，对TA；&lt;/p>
+&lt;p>对己，对挤，对急，对纪。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%9F%9B%E7%9B%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%9F%9B%E7%9B%BE/</guid><description>&lt;p>个性化必然导致矛盾，&lt;/p>
+&lt;p>自然法则必然导致个性化。&lt;/p>
+&lt;p>矛盾必然存在的话，怎么缓解、怎么解决呢？&lt;/p>
+&lt;p>略之？惑之？堵之？疏之？灭之？解之？&lt;/p>
+&lt;p>可问题是，你有得选吗！&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%AE%80%E5%8C%96/</guid><description>&lt;p>简化是一种本事，也是一种病。&lt;/p>
+&lt;p>为了简化，逐渐失真、扭曲、捏造。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E7%BB%9F%E6%B2%BB/</guid><description>&lt;p>任何统治要想长期&lt;code>维系&lt;/code>，都必须要从统治行为中&lt;code>获益&lt;/code>，就算统治者本人无欲无求也一样，否则统治本身无法维系。&lt;/p>
+&lt;p>而统治者的&lt;code>收益&lt;/code>，都来自于对被统治者经济价值的&lt;code>盘剥&lt;/code>。&lt;/p>
+&lt;p>所以，要有效地瓦解统治行为，其中一个就是消除被统治者的经济价值。&lt;/p>
+&lt;p>被统治者以低成本的方式拉高统治者的统治成本，降低统治者的统治收益，拒绝配合统治者的统治行为，从而使其统治难以为继。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E8%A1%8C/</guid><description>&lt;ol>
+&lt;li>
+&lt;p>每一次行动都全力以赴；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>每一次行动都硕果累累。&lt;/p>
+&lt;/li>
+&lt;/ol></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E9%99%B7%E9%98%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E9%99%B7%E9%98%B1/</guid><description>&lt;p>掉入陷阱，而不自知。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/vscode-go-version/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/vscode-go-version/</guid><description>&lt;h2 id="vscode里为不同项目配置不同的go版本">
+ &lt;code>vscode&lt;/code>里为不同项目配置不同的&lt;code>Go&lt;/code>版本
+ &lt;a class="anchor" href="#vscode%e9%87%8c%e4%b8%ba%e4%b8%8d%e5%90%8c%e9%a1%b9%e7%9b%ae%e9%85%8d%e7%bd%ae%e4%b8%8d%e5%90%8c%e7%9a%84go%e7%89%88%e6%9c%ac">#&lt;/a>
+&lt;/h2>
+&lt;p>在项目根目录里添加&lt;code>.vscode/settings.json&lt;/code>，并添加如下内容：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;go.goroot&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/usr/local/go1.22.2&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;go.alternateTools&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;go&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/usr/local/go1.22.2/bin/go&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;gopls&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;build.env&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;GOROOT&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/usr/local/go1.22.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</guid><description>&lt;p>分工明确，各司其职；&lt;/p>
+&lt;p>混乱重叠，前后不一。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%BC%AF%E9%81%93%E8%B6%85%E8%BD%A6%E5%92%8C%E4%BC%BA%E6%9C%BA%E8%B6%85%E8%B6%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%BC%AF%E9%81%93%E8%B6%85%E8%BD%A6%E5%92%8C%E4%BC%BA%E6%9C%BA%E8%B6%85%E8%B6%8A/</guid><description>&lt;p>一个是急得焦躁，一个是稳中求变。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1-%E5%AE%9E%E7%8E%B0%E5%88%86%E5%9D%97/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1-%E5%AE%9E%E7%8E%B0%E5%88%86%E5%9D%97/</guid><description>&lt;p>接口抽象&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Animal&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Eat&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Sleep&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Run&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>实现分块&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">cat&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">cat&lt;/span>) &lt;span style="color:#a6e22e">Eat&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// before
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ing
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// after
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">cat&lt;/span>) &lt;span style="color:#a6e22e">Sleep&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// before
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ing
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// after
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">cat&lt;/span>) &lt;span style="color:#a6e22e">Run&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// before
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ing
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// after
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</guid><description>&lt;p>数据：data&lt;/p>
+&lt;p>网络：net&lt;/p>
+&lt;p>展示：view&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9C%BA%E5%88%B6%E5%92%8C%E7%AD%96%E7%95%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9C%BA%E5%88%B6%E5%92%8C%E7%AD%96%E7%95%A5/</guid><description>&lt;p>机制：如何做？&lt;/p>
+&lt;p>策略：做什么，何时做？&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Policy&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">mechanisms&lt;/span> []&lt;span style="color:#a6e22e">Mechanism&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Policy&lt;/span>) &lt;span style="color:#a6e22e">Do&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">_&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">mechanisms&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">item&lt;/span>.&lt;span style="color:#a6e22e">Before&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">item&lt;/span>.&lt;span style="color:#a6e22e">Run&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">item&lt;/span>.&lt;span style="color:#a6e22e">After&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Mechanism&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Before&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Run&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">After&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">mechanism&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">mechanism&lt;/span>) &lt;span style="color:#a6e22e">Before&lt;/span>() {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">mechanism&lt;/span>) &lt;span style="color:#a6e22e">Run&lt;/span>() {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">mechanism&lt;/span>) &lt;span style="color:#a6e22e">After&lt;/span>() {}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</guid><description>&lt;p>是非不分、奖罚不明、权责不等。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</guid><description>&lt;p>一方水土养育一方人，&lt;/p>
+&lt;p>一方人制造一方水土。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E8%87%B4%E6%95%AC%E5%92%8C%E8%BF%BD%E9%9A%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E8%87%B4%E6%95%AC%E5%92%8C%E8%BF%BD%E9%9A%8F/</guid><description>&lt;p>说一两句好听的话，做一两件认可的事。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E4%B8%93%E5%88%B6%E5%92%8C%E7%A7%91%E5%AD%A6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E4%B8%93%E5%88%B6%E5%92%8C%E7%A7%91%E5%AD%A6/</guid><description>&lt;p>专制时有科学，科学时有专制吗？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E5%80%BC%E4%B8%8E%E4%B8%8D%E5%80%BC/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E5%80%BC%E4%B8%8E%E4%B8%8D%E5%80%BC/</guid><description>&lt;p>值还是不值&lt;/p>
+&lt;p>认为值就奋不顾身；认为不值就静观其变。&lt;/p>
+&lt;p>营造值的氛围，加大值的得益，赚取值的利润。&lt;/p>
+&lt;p>用什么来营造呢？&lt;/p>
+&lt;p>爱国、爱族、爱人、爱己。&lt;/p>
+&lt;p>造一个舆论，引一群羔羊。&lt;/p>
+&lt;p>煮一锅鲜汤，添一把烧柴。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E5%AE%9E%E4%BA%8B%E6%B1%82%E6%98%AF%E5%92%8C%E5%AF%BB%E6%A0%B9%E9%97%AE%E5%BA%95/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E5%AE%9E%E4%BA%8B%E6%B1%82%E6%98%AF%E5%92%8C%E5%AF%BB%E6%A0%B9%E9%97%AE%E5%BA%95/</guid><description>&lt;p>科学&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E7%94%B3%E8%AF%B7%E4%BD%BF%E7%94%A8%E6%B8%85%E6%B4%97%E9%87%8A%E6%94%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E7%94%B3%E8%AF%B7%E4%BD%BF%E7%94%A8%E6%B8%85%E6%B4%97%E9%87%8A%E6%94%BE/</guid><description>&lt;p>life:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>申请&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>清洗&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>释放&lt;/p>
+&lt;/li>
+&lt;/ul></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/go-error-check/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/go-error-check/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">Call&lt;/span>(&lt;span style="color:#a6e22e">a&lt;/span>, &lt;span style="color:#a6e22e">b&lt;/span>, &lt;span style="color:#a6e22e">c&lt;/span>, &lt;span style="color:#a6e22e">d&lt;/span>, &lt;span style="color:#a6e22e">e&lt;/span> &lt;span style="color:#a6e22e">any&lt;/span>) (&lt;span style="color:#a6e22e">any&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#a6e22e">a&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">check&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#75715e">// if err != nil { return }
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// Nomarlly, `check` will return if err != nil, it will continue if err == nil.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// the `return` will auto match the function&amp;#39;s result
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// If we want to handle err, we can use a code block to do that.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 2
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#a6e22e">b&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">check&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> { &lt;span style="color:#a6e22e">log&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;call failed: %v&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span>) } &lt;span style="color:#75715e">// print error and continue, because no `return` in block
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 3
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">check&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> { &lt;span style="color:#a6e22e">log&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;call failed: %v&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span>); &lt;span style="color:#66d9ef">return&lt;/span> } &lt;span style="color:#75715e">// print error and return, because `return` in block
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 4
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#a6e22e">d&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">check&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> { &lt;span style="color:#a6e22e">err&lt;/span> = &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Errorf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;call failed: %w&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span>); &lt;span style="color:#66d9ef">return&lt;/span> } &lt;span style="color:#75715e">// wrap error and return
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 5
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#a6e22e">e&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">check&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> { panic(&lt;span style="color:#a6e22e">err&lt;/span>) } &lt;span style="color:#75715e">// panic
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</guid><description>&lt;p>半真半假糊弄学，&lt;/p>
+&lt;p>伪造作假交差学。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%9B%BD%E5%AE%B6%E4%BC%9A%E5%87%BA%E6%89%8B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%9B%BD%E5%AE%B6%E4%BC%9A%E5%87%BA%E6%89%8B/</guid><description>&lt;p>潜台词是：继续当个忍者吧！&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%A5%89%E7%8C%AE%E7%89%BA%E7%89%B2%E5%BF%8D%E8%80%90%E4%BB%A3%E4%BB%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%A5%89%E7%8C%AE%E7%89%BA%E7%89%B2%E5%BF%8D%E8%80%90%E4%BB%A3%E4%BB%B7/</guid><description>&lt;p>奉献一下，牺牲一下，忍耐一下，&lt;/p>
+&lt;p>谁的代价？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E6%A8%A1%E5%9D%97%E5%8C%96-%E4%BE%9D%E8%B5%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E6%A8%A1%E5%9D%97%E5%8C%96-%E4%BE%9D%E8%B5%96/</guid><description>&lt;p>&lt;code>模块化&lt;/code>使得&lt;code>复用&lt;/code>更容易，也会带来&lt;code>依赖&lt;/code>的问题。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>全局依赖和局部依赖&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>技术依赖和业务依赖&lt;/p>
+&lt;/li>
+&lt;/ul></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E7%8E%AF%E5%A2%83%E4%B8%8E%E4%BA%BA%E7%89%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E7%8E%AF%E5%A2%83%E4%B8%8E%E4%BA%BA%E7%89%A9/</guid><description>&lt;p>人或物生活的地方，叫环境，有家庭、社会、学校、公司、商场。&lt;/p>
+&lt;p>活在其中，可以改造它，亦会受它影响。&lt;/p>
+&lt;p>太差而又改造不动，为何不换一个。&lt;/p>
+&lt;p>环境换人，人换环境，莫不如是。&lt;/p>
+&lt;p>生于淮北则为枳，生于淮南则为橘。&lt;/p>
+&lt;p>物挪则死，人挪则活。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%89%A7%E8%A1%8C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%89%A7%E8%A1%8C/</guid><description>&lt;p>制度设计和实施执行&lt;/p>
+&lt;p>边个重要？&lt;/p>
+&lt;p>共识重要。&lt;/p>
+&lt;p>人设计的，人执行的。&lt;/p>
+&lt;p>设计的做得很好，执行的也做得很好。&lt;/p>
+&lt;p>怎么选择设计的人，怎么选择执行的人。&lt;/p>
+&lt;p>设计的人做得不好，或者执行的人做得不好，边个知？边个定？&lt;/p>
+&lt;p>做得不好，怎么办？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/09/%E6%8E%A8%E6%BC%94/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/09/%E6%8E%A8%E6%BC%94/</guid><description>&lt;p>推理和演化&lt;/p>
+&lt;p>在设计时，推算流程，理清线索。&lt;/p>
+&lt;p>演化，将可能出现的多种情况思索一番，寻找其中能更好持续执行的一种。&lt;/p>
+&lt;p>最优路径，在起点和终点的多条路径之中，选择&lt;code>路程最短/耗时最少/花费最少/...&lt;/code>的路径。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/09/%E7%89%B9%E6%9D%83%E6%91%A7%E6%AF%81%E8%A7%84%E7%9F%A9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/09/%E7%89%B9%E6%9D%83%E6%91%A7%E6%AF%81%E8%A7%84%E7%9F%A9/</guid><description>&lt;p>在有规矩的时候有人无需遵守，规矩自然就被摧毁了。&lt;/p></description></item></channel></rss>

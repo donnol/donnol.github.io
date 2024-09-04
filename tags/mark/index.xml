@@ -1,34 +1,211 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mark on 我的简单博客</title><link>https://donnol.github.io/tags/mark/</link><description>Recent content in Mark on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/mark/index.xml" rel="self" type="application/rss+xml"/><item><title>dbeaver手动导入驱动</title><link>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</link><pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</guid><description>因为直接下载dbeaver的时候，是没有带上驱动文件的，所以需要在使用时下载。
-但是，如果刚好安装的环境是无法通网的，那么就需要手动传入驱动并安装。
-做法如下：
-现在本地有网环境下载驱动文件 用dbeaver下载mysql的驱动，会存放在目录：C:\Users\{用户名}\AppData\Roaming\DBeaverData\drivers\maven\maven-central\mysql.
-NOTE: 注意替换{用户名}为你本机实际名称。
-把下好的文件传入到无网机器上，同样放到以上目录。
-打开dbeaver，数据库-&amp;gt;驱动管理器，添加驱动
-选中MySQL，然后点击编辑；在弹出框里切到库，将已有内容全部删掉，再点击添加文件夹，然后选择上面驱动存放的目录，即可确定保存。
-如此，即可手动导入驱动文件。</description></item><item><title>Mysql 8.0.33在使用窗口函数的同时不能用count(distinct *)</title><link>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</link><pubDate>Wed, 18 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</guid><description>Mysql 8.0.33在使用窗口函数的同时不能用count(distinct *)
-比如，我想在窗口函数里使用字段apply_unit_id分组，然后求project_id列不重复值的数量：
-select distinct apply_unit_id, count(distinct project_id) over (partition by apply_unit_id) from weia join weiag on weiag.apply_id = weia.id ; 此时报错：SQL 错误 [1235] [42000]: This version of MySQL doesn't yet support '&amp;lt;window function&amp;gt;(DISTINCT ..)'
-怎么办呢？ # 使用 dense_rank()间接计算：
-select distinct apply_unit_id, dense_rank() over (partition by apply_unit_id order by project_id) + dense_rank() over (partition by apply_unit_id order by project_id desc) - 1 from weia join weiag on weiag.apply_id = weia.</description></item><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>Wezterm极简配置文件
--- Pull in the wezterm API local wezterm = require &amp;#39;wezterm&amp;#39; -- This table will hold the configuration. local config = {} -- In newer versions of wezterm, use the config_builder which will -- help provide clearer error messages if wezterm.config_builder then config = wezterm.config_builder() end -- This is where you actually apply your config choices -- For example, changing the color scheme: config.color_scheme = &amp;#39;AdventureTime&amp;#39; -- config.color_scheme = &amp;#39;Batman&amp;#39; config.</description></item><item><title>雪花id的时钟回退问题</title><link>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 27 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</guid><description>雪花id由64位二进制组成，转成字符串则长为19. 它依赖于系统时钟，如果出现时钟回退，会导致已经在用的id再次被生成。
-怎么办呢？
-记录上次生成时间，在本次生成时比较时间，如果当前时间比上次生成时间要小，则认为时钟回拨，直接报错。也可以一直重试，直到当前时间不小于上次生成时间。
-采用历史时间则天然的不存在时间回拨问题。但是在超高并发情况下，历史的时间很快用完，时间一直保持在最新时间的话，这个时候还是会出现时间回拨。
-Go1.9开始，使用单调时钟: time.Now(), time.Since(), time.Until().
-// # Monotonic Clocks
-//
-// Operating systems provide both a “wall clock,” which is subject to
-// changes for clock synchronization, and a “monotonic clock,” which is
-// not. The general rule is that the wall clock is for telling time and
-// the monotonic clock is for measuring time. Rather than split the API,
-// in this package the Time returned by time.</description></item><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>今天发现在windows上的vscode一直提示找不到go：go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go。
-强制设置了go.goroot也不行，直到查看了GOENV文件（C:\Users\xxx\AppData\Roaming\go\env）之后，才发现里面有一行：GOROOT=c:\msys64\mingw64\lib\go，可能是当时在msys2安装go的时候加上的。
-去掉它就恢复正常了。
-$ go env set GOENV=C:\Users\xxx\AppData\Roaming\go\env set GOHOSTARCH=amd64 set GOHOSTOS=windows set GOMODCACHE=C:\Users\xxx\go\pkg\mod set GOOS=windows set GOPATH=C:\Users\xxx\go set GOPRIVATE= set GOPROXY=https://goproxy.cn,https://goproxy.io,direct set GOROOT=C:\Program Files\Go 应该是这样的，如果用go env -w 来设置goroot，那么这个值就会保存到GOENV对应的文件里，如果是$env:GOROOT=xxx的方式来设置则不会修改GOENV文件里的内容。这时候，如果vscode是优先从GOENV文件来获取GOROOT的话，就可能会导致与实际的GOROOT不一致。
-所以，如果再遇到以上错误，除了echo $env:GOROOT 看一下环境变量值之外，也要看一下GOENV文件。</description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>不同系统之间通过网络对接
-数据库事件 # 可以用个事件表来做，在事务执行过程中添加事件(确保事务完成时事件也存在)。
-在事务提交之后，先尝试做一次事件，如果成功了就把事件状态置为成功；如果失败了也没关系，另外开定时器来扫表进行重试执行。 &amp;ndash; 此时不影响正常业务执行
-在事件处理事务里的网络请求里加入超时控制，确保事件不会执行太久，导致接口过慢。
-网络请求支持幂等，防止事件处理事务请求成功了，但是事务挂了导致状态未变更，这种情况下会重复请求多次。
-skip locked实现 # -- 条件字段必须有索引(status, [name, status])，排序字段必须是主键(id)，此时刚好是所要锁定的行 start transaction; -- select * from w_event we where status in (1) order by create_time asc limit 1 for update skip locked; -- 引入create_time作为排序字段时，会将符合条件的行都锁住，`limit 1`不起作用 select * from w_event we where status in (1) order by id asc limit 1 for update skip locked; -- 使用主键字段作排序时，`limit 1`则起作用 select * from w_event we where name = &amp;#39;测试&amp;#39; and status in (1) order by id asc limit 1 for update skip locked; -- 如果有多个字段作为条件，需要建立组合索引 SELECT object_name, index_name, lock_type, lock_mode, lock_data FROM performance_schema.</description></item><item><title>Go Empty Struct</title><link>https://donnol.github.io/posts/2023/09/go_empty_struct/</link><pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_empty_struct/</guid><description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;unsafe&amp;#34; ) func main() { type A struct{} type B struct{} // 结构体里的字段都是`Empty Struct`时，占用空间为0 type S struct { A A B B } var s S fmt.Println(unsafe.Sizeof(s)) // prints 0 // 如果是指针，占用空间为8 fmt.Println(unsafe.Sizeof(&amp;amp;s)) // prints 8 var x [1000000000]struct{} // 可以同时存储A和B类型元素 x[0] = A{} x[1] = B{} fmt.Println(unsafe.Sizeof(x)) // prints 0 // 地址一样 fmt.Printf(&amp;#34;%p, %p&amp;#34;, &amp;amp;x[0], &amp;amp;x[1]) // 0x54e3a0, 0x54e3a0 } See also</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mark on 我的简单博客</title><link>https://donnol.github.io/tags/mark/</link><description>Recent content in Mark on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/mark/index.xml" rel="self" type="application/rss+xml"/><item><title>dbeaver手动导入驱动</title><link>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</link><pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p>因为直接下载&lt;code>dbeaver&lt;/code>的时候，是没有带上驱动文件的，所以需要在使用时下载。&lt;/p>
+&lt;p>但是，如果刚好安装的环境是无法通网的，那么就需要手动传入驱动并安装。&lt;/p>
+&lt;p>做法如下：&lt;/p>
+&lt;ol>
+&lt;li>现在本地有网环境下载驱动文件&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>用&lt;code>dbeaver&lt;/code>下载&lt;code>mysql&lt;/code>的驱动，会存放在目录：&lt;code>C:\Users\{用户名}\AppData\Roaming\DBeaverData\drivers\maven\maven-central\mysql&lt;/code>.&lt;/p>
+&lt;/blockquote>
+&lt;p>NOTE: 注意替换&lt;code>{用户名}&lt;/code>为你本机实际名称。&lt;/p>
+&lt;ol start="2">
+&lt;li>
+&lt;p>把下好的文件传入到无网机器上，同样放到以上目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打开&lt;code>dbeaver&lt;/code>，&lt;code>数据库&lt;/code>-&amp;gt;&lt;code>驱动管理器&lt;/code>，添加驱动&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>选中&lt;code>MySQL&lt;/code>，然后点击编辑；在弹出框里切到&lt;code>库&lt;/code>，将已有内容全部删掉，再点击&lt;code>添加文件夹&lt;/code>，然后选择上面驱动存放的目录，即可确定保存。&lt;/p>
+&lt;/blockquote>
+&lt;p>如此，即可手动导入驱动文件。&lt;/p></description></item><item><title>Mysql 8.0.33在使用窗口函数的同时不能用count(distinct *)</title><link>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</link><pubDate>Wed, 18 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/mysql_count_distinct_with_over/</guid><description>&lt;p>&lt;code>Mysql 8.0.33&lt;/code>在使用窗口函数的同时不能用&lt;code>count(distinct *)&lt;/code>&lt;/p>
+&lt;p>比如，我想在窗口函数里使用字段&lt;code>apply_unit_id&lt;/code>分组，然后求&lt;code>project_id&lt;/code>列不重复值的数量：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#66d9ef">distinct&lt;/span> apply_unit_id, &lt;span style="color:#66d9ef">count&lt;/span>(&lt;span style="color:#66d9ef">distinct&lt;/span> project_id) over (partition &lt;span style="color:#66d9ef">by&lt;/span> apply_unit_id)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">from&lt;/span> weia &lt;span style="color:#66d9ef">join&lt;/span> weiag &lt;span style="color:#66d9ef">on&lt;/span> weiag.apply_id &lt;span style="color:#f92672">=&lt;/span> weia.id 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时报错：&lt;code>SQL 错误 [1235] [42000]: This version of MySQL doesn't yet support '&amp;lt;window function&amp;gt;(DISTINCT ..)'&lt;/code>&lt;/p>
+&lt;h2 id="怎么办呢">
+ 怎么办呢？
+ &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e%e5%91%a2">#&lt;/a>
+&lt;/h2>
+&lt;p>使用
+ &lt;a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_dense-rank">&lt;code>dense_rank()&lt;/code>&lt;/a>间接计算：&lt;/p></description></item><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>&lt;p>&lt;code>Wezterm&lt;/code>极简配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lua" data-lang="lua">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Pull in the wezterm API&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> wezterm &lt;span style="color:#f92672">=&lt;/span> require &lt;span style="color:#e6db74">&amp;#39;wezterm&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- This table will hold the configuration.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> config &lt;span style="color:#f92672">=&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- In newer versions of wezterm, use the config_builder which will&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- help provide clearer error messages&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> wezterm.config_builder &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config &lt;span style="color:#f92672">=&lt;/span> wezterm.config_builder()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- This is where you actually apply your config choices&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- For example, changing the color scheme:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.color_scheme &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;AdventureTime&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- config.color_scheme = &amp;#39;Batman&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.enable_tab_bar &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.hide_tab_bar_if_only_one_tab &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.show_tab_index_in_tab_bar &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.tab_bar_at_bottom &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.tab_max_width &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Font&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- config.font = wezterm.font_with_fallback { &amp;#39;JetBrains Mono&amp;#39; }&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.font_size &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">14&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.freetype_load_target &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Light&amp;#34;&lt;/span> &lt;span style="color:#75715e">-- Possible alternatives are `HorizontalLcd`, `Light`, `Mono`, `Normal`, `VerticalLcd`.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.mouse_bindings &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#75715e">-- Paste on right-click&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Down &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Right&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;NONE&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> PasteFrom &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Clipboard&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }, &lt;span style="color:#75715e">-- Change the default click behavior so that it only selects&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Up &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Left&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;NONE&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CompleteSelection &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;PrimarySelection&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }, &lt;span style="color:#75715e">-- CTRL-Click open hyperlinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Up &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Left&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;CTRL&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;OpenLinkAtMouseCursor&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.keys &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">-- 使用 Ctrl+n 来新建标签页，而不是 Ctrl+Shift+T&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { SpawnTab &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;DefaultDomain&amp;#34;&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">-- 使用 Alt+左右箭头来切换标签页&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;LeftArrow&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { ActivateTabRelative &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;RightArrow&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { ActivateTabRelative &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 定义 Alt+数字 切换到对应标签页的快捷键&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> table.insert(config.keys, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> key &lt;span style="color:#f92672">=&lt;/span> tostring(i),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ALT&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action.ActivateTab(i &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- and finally, return the configuration to wezterm&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> config
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>雪花id的时钟回退问题</title><link>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 27 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</guid><description>&lt;p>雪花id由64位二进制组成，转成字符串则长为19. 它依赖于系统时钟，如果出现时钟回退，会导致已经在用的id再次被生成。&lt;/p>
+&lt;p>怎么办呢？&lt;/p>
+&lt;ol start="0">
+&lt;li>
+&lt;p>记录上次生成时间，在本次生成时比较时间，如果当前时间比上次生成时间要小，则认为时钟回拨，直接报错。也可以一直重试，直到当前时间不小于上次生成时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>采用历史时间则天然的不存在时间回拨问题。但是在超高并发情况下，历史的时间很快用完，时间一直保持在最新时间的话，这个时候还是会出现时间回拨。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Go1.9开始，使用单调时钟: time.Now(), time.Since(), time.Until().&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>// # Monotonic Clocks&lt;/p>
+&lt;p>//&lt;/p>
+&lt;p>// Operating systems provide both a “wall clock,” which is subject to&lt;/p>
+&lt;p>// changes for clock synchronization, and a “monotonic clock,” which is&lt;/p>
+&lt;p>// not. The general rule is that the wall clock is for telling time and&lt;/p></description></item><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>&lt;p>今天发现在windows上的vscode一直提示找不到go：&lt;code>go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go&lt;/code>。&lt;/p>
+&lt;p>强制设置了go.goroot也不行，直到查看了GOENV文件（C:\Users\xxx\AppData\Roaming\go\env）之后，才发现里面有一行：GOROOT=c:\msys64\mingw64\lib\go，可能是当时在msys2安装go的时候加上的。&lt;/p>
+&lt;p>去掉它就恢复正常了。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go env
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOENV&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\U&lt;/span>sers&lt;span style="color:#ae81ff">\x&lt;/span>xx&lt;span style="color:#ae81ff">\A&lt;/span>ppData&lt;span style="color:#ae81ff">\R&lt;/span>oaming&lt;span style="color:#ae81ff">\g&lt;/span>o&lt;span style="color:#ae81ff">\e&lt;/span>nv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOHOSTARCH&lt;span style="color:#f92672">=&lt;/span>amd64
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOHOSTOS&lt;span style="color:#f92672">=&lt;/span>windows
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOMODCACHE&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\U&lt;/span>sers&lt;span style="color:#ae81ff">\x&lt;/span>xx&lt;span style="color:#ae81ff">\g&lt;/span>o&lt;span style="color:#ae81ff">\p&lt;/span>kg&lt;span style="color:#ae81ff">\m&lt;/span>od
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOOS&lt;span style="color:#f92672">=&lt;/span>windows
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPATH&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\U&lt;/span>sers&lt;span style="color:#ae81ff">\x&lt;/span>xx&lt;span style="color:#ae81ff">\g&lt;/span>o
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPRIVATE&lt;span style="color:#f92672">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPROXY&lt;span style="color:#f92672">=&lt;/span>https://goproxy.cn,https://goproxy.io,direct
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOROOT&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\P&lt;/span>rogram Files&lt;span style="color:#ae81ff">\G&lt;/span>o
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>&lt;p>不同系统之间通过网络对接&lt;/p>
+&lt;h2 id="数据库事件">
+ 数据库事件
+ &lt;a class="anchor" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e4%ba%8b%e4%bb%b6">#&lt;/a>
+&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>可以用个&lt;code>事件表&lt;/code>来做，在事务执行过程中添加&lt;code>事件&lt;/code>(确保事务完成时事件也存在)。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在事务提交之后，先尝试做一次事件，如果成功了就把事件状态置为成功；如果失败了也没关系，另外开定时器来扫表进行&lt;code>重试&lt;/code>执行。 &amp;ndash; 此时不影响正常业务执行&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在事件处理事务里的网络请求里加入超时控制，确保事件不会执行太久，导致接口过慢。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>网络请求支持&lt;code>幂等&lt;/code>，防止事件处理事务请求成功了，但是事务挂了导致状态未变更，这种情况下会重复请求多次。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="skip-locked实现">
+ &lt;code>skip locked&lt;/code>实现
+ &lt;a class="anchor" href="#skip-locked%e5%ae%9e%e7%8e%b0">#&lt;/a>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 条件字段必须有索引(status, [name, status])，排序字段必须是主键(id)，此时刚好是所要锁定的行
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">start&lt;/span> &lt;span style="color:#66d9ef">transaction&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- select * from w_event we where status in (1) order by create_time asc limit 1 for update skip locked; -- 引入create_time作为排序字段时，会将符合条件的行都锁住，`limit 1`不起作用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">1&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked; &lt;span style="color:#75715e">-- 使用主键字段作排序时，`limit 1`则起作用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;测试&amp;#39;&lt;/span> &lt;span style="color:#66d9ef">and&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">1&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked; &lt;span style="color:#75715e">-- 如果有多个字段作为条件，需要建立组合索引
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">SELECT&lt;/span> object_name, index_name, lock_type, lock_mode, lock_data &lt;span style="color:#66d9ef">FROM&lt;/span> performance_schema.data_locks; &lt;span style="color:#75715e">-- 查看上锁情况
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">commit&lt;/span>;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Go Empty Struct</title><link>https://donnol.github.io/posts/2023/09/go_empty_struct/</link><pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_empty_struct/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;unsafe&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">B&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 结构体里的字段都是`Empty Struct`时，占用空间为0
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">S&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">A&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">B&lt;/span> &lt;span style="color:#a6e22e">B&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#a6e22e">S&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Sizeof&lt;/span>(&lt;span style="color:#a6e22e">s&lt;/span>)) &lt;span style="color:#75715e">// prints 0
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 如果是指针，占用空间为8
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Sizeof&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">s&lt;/span>)) &lt;span style="color:#75715e">// prints 8
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">x&lt;/span> [&lt;span style="color:#ae81ff">1000000000&lt;/span>]&lt;span style="color:#66d9ef">struct&lt;/span>{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 可以同时存储A和B类型元素
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">0&lt;/span>] = &lt;span style="color:#a6e22e">A&lt;/span>{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>] = &lt;span style="color:#a6e22e">B&lt;/span>{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Sizeof&lt;/span>(&lt;span style="color:#a6e22e">x&lt;/span>)) &lt;span style="color:#75715e">// prints 0
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 地址一样
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%p, %p&amp;#34;&lt;/span>, &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">0&lt;/span>], &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>]) &lt;span style="color:#75715e">// 0x54e3a0, 0x54e3a0
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

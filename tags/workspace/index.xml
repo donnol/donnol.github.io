@@ -1,8 +1,86 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Workspace on 我的简单博客</title><link>https://donnol.github.io/tags/workspace/</link><description>Recent content in Workspace on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 22 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/workspace/index.xml" rel="self" type="application/rss+xml"/><item><title>KMP</title><link>https://donnol.github.io/posts/2022/03/kmp/</link><pubDate>Tue, 22 Mar 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/03/kmp/</guid><description>KMP字符串匹配算法
-精确匹配
-状态机
-给定一个pattern，查找其在另一字符串s出现的最早位置。（找不到则返回-1）
-func index(s string, pattern string) int { return -1 } 状态推移
-func index(s string, pattern string) int { n := len(s) m := len(pattern) // 根据pattern构造dp var dp [n][m]int // 在s上应用dp，判断pattern位置 return -1 }</description></item><item><title>go work</title><link>https://donnol.github.io/posts/2022/02/go_work/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_work/</guid><description>go1.18将要推出workspace模式，此举是为了方便在本地开发多个不同module时的依赖管理。
-命令说明：
-$ go help work Go workspace provides access to operations on workspaces. Note that support for workspaces is built into many other commands, not just &amp;#39;go work&amp;#39;. See &amp;#39;go help modules&amp;#39; for information about Go\&amp;#39;s module system of which workspaces are a part. A workspace is specified by a go.work file that specifies a set of module directories with the &amp;#34;use&amp;#34; directive. These modules are used as root modules by the go command for builds and related operations.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Workspace on 我的简单博客</title><link>https://donnol.github.io/tags/workspace/</link><description>Recent content in Workspace on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 22 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/workspace/index.xml" rel="self" type="application/rss+xml"/><item><title>KMP</title><link>https://donnol.github.io/posts/2022/03/kmp/</link><pubDate>Tue, 22 Mar 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/03/kmp/</guid><description>&lt;p>KMP字符串匹配算法&lt;/p>
+&lt;p>精确匹配&lt;/p>
+&lt;p>状态机&lt;/p>
+&lt;p>给定一个pattern，查找其在另一字符串s出现的最早位置。（找不到则返回-1）&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">index&lt;/span>(&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">pattern&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>状态推移&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">index&lt;/span>(&lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">pattern&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> len(&lt;span style="color:#a6e22e">s&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> len(&lt;span style="color:#a6e22e">pattern&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 根据pattern构造dp
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">dp&lt;/span> [&lt;span style="color:#a6e22e">n&lt;/span>][&lt;span style="color:#a6e22e">m&lt;/span>]&lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 在s上应用dp，判断pattern位置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>go work</title><link>https://donnol.github.io/posts/2022/02/go_work/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_work/</guid><description>&lt;p>go1.18将要推出&lt;code>workspace&lt;/code>模式，此举是为了方便在本地开发多个不同&lt;code>module&lt;/code>时的依赖管理。&lt;/p>
+&lt;p>命令说明：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go help work
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Go workspace provides access to operations on workspaces.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Note that support &lt;span style="color:#66d9ef">for&lt;/span> workspaces is built into many other commands, not
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>just &lt;span style="color:#e6db74">&amp;#39;go work&amp;#39;&lt;/span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>See &lt;span style="color:#e6db74">&amp;#39;go help modules&amp;#39;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> information about Go&lt;span style="color:#ae81ff">\&amp;#39;&lt;/span>s module system of which
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>workspaces are a part.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>A workspace is specified by a go.work file that specifies a set of
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>module directories with the &lt;span style="color:#e6db74">&amp;#34;use&amp;#34;&lt;/span> directive. These modules are used as
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>root modules by the go command &lt;span style="color:#66d9ef">for&lt;/span> builds and related operations. A
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>workspace that does not specify modules to be used cannot be used to &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>builds from local modules.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go.work files are line-oriented. Each line holds a single directive,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>made up of a keyword followed by arguments. For example:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> go 1.18
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use ../foo/bar
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use ./baz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> replace example.com/foo v1.2.3 &lt;span style="color:#f92672">=&lt;/span>&amp;gt; example.com/bar v1.4.5
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>The leading keyword can be factored out of adjacent lines to create a block,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>like in Go imports.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use &lt;span style="color:#f92672">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ../foo/bar
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ./baz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>The use directive specifies a module to be included in the workspace&lt;span style="color:#ae81ff">\&amp;#39;&lt;/span>s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set of main modules. The argument to the use directive is the directory
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>containing the module&lt;span style="color:#ae81ff">\&amp;#39;&lt;/span>s go.mod file.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>The go directive specifies the version of Go the file was written at. It
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>is possible there may be future changes in the semantics of workspaces
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>that could be controlled by this version, but &lt;span style="color:#66d9ef">for&lt;/span> now the version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>specified has no effect.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>The replace directive has the same syntax as the replace directive in a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go.mod file and takes precedence over replaces in go.mod files. It is
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>primarily intended to override conflicting replaces in different workspace
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modules.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>To determine whether the go command is operating in workspace mode, use
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>the &lt;span style="color:#e6db74">&amp;#34;go env GOWORK&amp;#34;&lt;/span> command. This will specify the workspace file being
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>used.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Usage:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> go work &amp;lt;command&amp;gt; &lt;span style="color:#f92672">[&lt;/span>arguments&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>The commands are:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> edit edit go.work from tools or scripts
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> init initialize workspace file
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sync sync workspace build list to modules
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use add modules to workspace file
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Use &lt;span style="color:#e6db74">&amp;#34;go help work &amp;lt;command&amp;gt;&amp;#34;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> more information about a command.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

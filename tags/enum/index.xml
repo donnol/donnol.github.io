@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Enum on 我的简单博客</title><link>https://donnol.github.io/tags/enum/</link><description>Recent content in Enum on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 12 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml"/><item><title>Go enum</title><link>https://donnol.github.io/posts/2022/05/go_enum/</link><pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/go_enum/</guid><description>Go enum # Go是没有内置枚举类型的，那么，当需要使用枚举时，该怎么办呢？
-枚举说白了，就是一连串互斥的值，每个值代表一样事物或一个类型。
-比如，现在需要一个颜色枚举，可以这样定义：
-const ( Red = &amp;#34;Red&amp;#34; // 红色 Blue = &amp;#34;Blue&amp;#34; // 蓝色 Green = &amp;#34;Green&amp;#34; // 绿色 ) 也有这样定义的：
-type Color string // 定义一个特定类型 // 枚举常量均声明为该类型 const ( Red Color = &amp;#34;Red&amp;#34; // 红色 Blue Color = &amp;#34;Blue&amp;#34; // 蓝色 Green Color = &amp;#34;Green&amp;#34; // 绿色 ) 这样做的好处是可以通过这个类型来更明显的标记出枚举字段来：
-type Car struct { Name string Color Color // 颜色字段声明为Color类型，在阅读代码的时候就能知道这个字段正常的可选值范围 } 但是，上面的做法都需要面临一个问题，就是我需要一个返回全部枚举值的集合时，需要这样做：
-func All() []Color { return []Color{ Red, Blue, Green, } } func (color Color) Name() string { switch color { case Red: return &amp;#34;红色&amp;#34; case Blue: return &amp;#34;蓝色&amp;#34; case Green: return &amp;#34;绿色&amp;#34; } return &amp;#34;&amp;#34; } 当在定义处新增值时，All和Name也要同步添加，对于开发人员来说，非常容易遗漏。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Enum on 我的简单博客</title><link>https://donnol.github.io/tags/enum/</link><description>Recent content in Enum on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 12 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml"/><item><title>Go enum</title><link>https://donnol.github.io/posts/2022/05/go_enum/</link><pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/go_enum/</guid><description>&lt;h1 id="go-enum">
+ Go enum
+ &lt;a class="anchor" href="#go-enum">#&lt;/a>
+&lt;/h1>
+&lt;p>Go是没有内置枚举类型的，那么，当需要使用枚举时，该怎么办呢？&lt;/p>
+&lt;p>枚举说白了，就是一连串&lt;code>互斥的值&lt;/code>，每个值代表一样事物或一个类型。&lt;/p>
+&lt;p>比如，现在需要一个颜色枚举，可以这样定义：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Red&lt;/span> = &lt;span style="color:#e6db74">&amp;#34;Red&amp;#34;&lt;/span> &lt;span style="color:#75715e">// 红色
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">Blue&lt;/span> = &lt;span style="color:#e6db74">&amp;#34;Blue&amp;#34;&lt;/span> &lt;span style="color:#75715e">// 蓝色
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">Green&lt;/span> = &lt;span style="color:#e6db74">&amp;#34;Green&amp;#34;&lt;/span> &lt;span style="color:#75715e">// 绿色
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

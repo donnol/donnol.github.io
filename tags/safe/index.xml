@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Safe on 我的简单博客</title><link>https://donnol.github.io/tags/safe/</link><description>Recent content in Safe on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 28 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/safe/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust与安全</title><link>https://donnol.github.io/posts/2022/01/rust_safe/</link><pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_safe/</guid><description>有一些东西，做了一些事情。
-有什么东西，做了什么呢？
-有文件、结构体、特征、类型，调用了函数、方法，读了文件/读了body，算了结果，写了文件/答了请求。
-IO or 计算。
-或者说，更强调IO，还是计算。
-内存安全 # 并发安全 #</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Safe on 我的简单博客</title><link>https://donnol.github.io/tags/safe/</link><description>Recent content in Safe on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 28 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/safe/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust与安全</title><link>https://donnol.github.io/posts/2022/01/rust_safe/</link><pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_safe/</guid><description>&lt;p>有一些东西，做了一些事情。&lt;/p>
+&lt;p>有什么东西，做了什么呢？&lt;/p>
+&lt;p>有文件、结构体、特征、类型，调用了函数、方法，读了文件/读了body，算了结果，写了文件/答了请求。&lt;/p>
+&lt;p>IO or 计算。&lt;/p>
+&lt;p>或者说，更强调IO，还是计算。&lt;/p>
+&lt;h2 id="内存安全">
+ 内存安全
+ &lt;a class="anchor" href="#%e5%86%85%e5%ad%98%e5%ae%89%e5%85%a8">#&lt;/a>
+&lt;/h2>
+&lt;h2 id="并发安全">
+ 并发安全
+ &lt;a class="anchor" href="#%e5%b9%b6%e5%8f%91%e5%ae%89%e5%85%a8">#&lt;/a>
+&lt;/h2></description></item></channel></rss>

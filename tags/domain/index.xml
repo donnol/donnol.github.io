@@ -1,6 +1,142 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Domain on 我的简单博客</title><link>https://donnol.github.io/tags/domain/</link><description>Recent content in Domain on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 08 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/domain/index.xml" rel="self" type="application/rss+xml"/><item><title>Domain-oriented development</title><link>https://donnol.github.io/posts/2021/12/domain/</link><pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/domain/</guid><description>面向领域开发。
-将业务复杂度和技术复杂度分开，逐个击破。
-分离领域，各司其职。
-降低复杂度，容易测试。
-DDD 尝试 # order.go:
-package domain import ( &amp;#34;crypto/rand&amp;#34; &amp;#34;math/big&amp;#34; &amp;#34;github.com/pkg/errors&amp;#34; ) // 关键词：用户、店铺、商品、订单 // // 场景描述：店铺展示商品，其价格为P、库存为N，用户（余额为Y）看到商品觉得合适，于是下单购买B个； // 购买前，用户余额Y必须不小于P，商品库存N不小于B；购买后，用户余额减少P，库存减少B； // // 先不考虑并发情况，建立此时的领域模型 type User struct { name string // 名称 phone string // 电话 balance Money // 余额 } type Shop struct { name string // 名称 addr string // 地址 } type Product struct { name string // 名称 price Money // 价格 stock int // 库存 ownShop *Shop // 所属商铺 } type Order struct { name string // 名称 user *User // 用户 product *Product // 商品 } type Money int func NewUser(name, phone string, bal Money) *User { return &amp;amp;User{ name: name, phone: phone, balance: bal, } } func (u *User) Balance() Money { return u.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Domain on 我的简单博客</title><link>https://donnol.github.io/tags/domain/</link><description>Recent content in Domain on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 08 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/domain/index.xml" rel="self" type="application/rss+xml"/><item><title>Domain-oriented development</title><link>https://donnol.github.io/posts/2021/12/domain/</link><pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/domain/</guid><description>&lt;p>面向领域开发。&lt;/p>
+&lt;p>将业务复杂度和技术复杂度分开，逐个击破。&lt;/p>
+&lt;p>分离领域，各司其职。&lt;/p>
+&lt;p>降低复杂度，容易测试。&lt;/p>
+&lt;h2 id="ddd-尝试">
+ DDD 尝试
+ &lt;a class="anchor" href="#ddd-%e5%b0%9d%e8%af%95">#&lt;/a>
+&lt;/h2>
+&lt;p>order.go:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">domain&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;crypto/rand&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;math/big&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;github.com/pkg/errors&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 关键词：用户、店铺、商品、订单
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 场景描述：店铺展示商品，其价格为P、库存为N，用户（余额为Y）看到商品觉得合适，于是下单购买B个；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 购买前，用户余额Y必须不小于P，商品库存N不小于B；购买后，用户余额减少P，库存减少B；
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">//
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 先不考虑并发情况，建立此时的领域模型
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">User&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">phone&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 电话
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">balance&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span> &lt;span style="color:#75715e">// 余额
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Shop&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">addr&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 地址
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Product&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">price&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span> &lt;span style="color:#75715e">// 价格
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">stock&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#75715e">// 库存
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ownShop&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span> &lt;span style="color:#75715e">// 所属商铺
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Order&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#75715e">// 名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">user&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span> &lt;span style="color:#75715e">// 用户
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">product&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span> &lt;span style="color:#75715e">// 商品
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewUser&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>, &lt;span style="color:#a6e22e">phone&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">bal&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">phone&lt;/span>: &lt;span style="color:#a6e22e">phone&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">balance&lt;/span>: &lt;span style="color:#a6e22e">bal&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">u&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>) &lt;span style="color:#a6e22e">Balance&lt;/span>() &lt;span style="color:#a6e22e">Money&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">u&lt;/span>.&lt;span style="color:#a6e22e">balance&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">u&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>) &lt;span style="color:#a6e22e">DeductBalance&lt;/span>(&lt;span style="color:#a6e22e">amount&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">u&lt;/span>.&lt;span style="color:#a6e22e">balance&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">amount&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> panic(&lt;span style="color:#e6db74">&amp;#34;not enough money&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">u&lt;/span>.&lt;span style="color:#a6e22e">balance&lt;/span> &lt;span style="color:#f92672">-=&lt;/span> &lt;span style="color:#a6e22e">amount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewShop&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span>, &lt;span style="color:#a6e22e">addr&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">addr&lt;/span>: &lt;span style="color:#a6e22e">addr&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewProduct&lt;/span>(&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">price&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>, &lt;span style="color:#a6e22e">stock&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#a6e22e">shop&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Shop&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">price&lt;/span>: &lt;span style="color:#a6e22e">price&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">stock&lt;/span>: &lt;span style="color:#a6e22e">stock&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ownShop&lt;/span>: &lt;span style="color:#a6e22e">shop&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>) &lt;span style="color:#a6e22e">Stock&lt;/span>() &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">stock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>) &lt;span style="color:#a6e22e">DeductStock&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">stock&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">c&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> panic(&lt;span style="color:#e6db74">&amp;#34;not enough stock&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">stock&lt;/span> &lt;span style="color:#f92672">-=&lt;/span> &lt;span style="color:#a6e22e">c&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// NewOrder 用户对商品下单c个
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewOrder&lt;/span>(&lt;span style="color:#a6e22e">user&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span>, &lt;span style="color:#a6e22e">product&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span>, &lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">GenerateRandomString&lt;/span>(&lt;span style="color:#ae81ff">12&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> panic(&lt;span style="color:#a6e22e">err&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">user&lt;/span>.&lt;span style="color:#a6e22e">DeductBalance&lt;/span>(&lt;span style="color:#a6e22e">product&lt;/span>.&lt;span style="color:#a6e22e">price&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">Money&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">product&lt;/span>.&lt;span style="color:#a6e22e">DeductStock&lt;/span>(&lt;span style="color:#a6e22e">c&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">user&lt;/span>: &lt;span style="color:#a6e22e">user&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">product&lt;/span>: &lt;span style="color:#a6e22e">product&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">o&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span>) &lt;span style="color:#a6e22e">User&lt;/span>() &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">User&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">o&lt;/span>.&lt;span style="color:#a6e22e">user&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">o&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Order&lt;/span>) &lt;span style="color:#a6e22e">Product&lt;/span>() &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Product&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">o&lt;/span>.&lt;span style="color:#a6e22e">product&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// GenerateRandomString 随机字符串包含有数字和大小写字母
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">GenerateRandomString&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) (&lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">letters&lt;/span> = &lt;span style="color:#e6db74">&amp;#34;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">generate&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span>, &lt;span style="color:#a6e22e">letters&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">generate&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#a6e22e">letters&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) (&lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ret&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make([]&lt;span style="color:#66d9ef">byte&lt;/span>, &lt;span style="color:#a6e22e">n&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">n&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">num&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">rand&lt;/span>.&lt;span style="color:#a6e22e">Int&lt;/span>(&lt;span style="color:#a6e22e">rand&lt;/span>.&lt;span style="color:#a6e22e">Reader&lt;/span>, &lt;span style="color:#a6e22e">big&lt;/span>.&lt;span style="color:#a6e22e">NewInt&lt;/span>(int64(len(&lt;span style="color:#a6e22e">letters&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">errors&lt;/span>.&lt;span style="color:#a6e22e">WithStack&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ret&lt;/span>[&lt;span style="color:#a6e22e">i&lt;/span>] = &lt;span style="color:#a6e22e">letters&lt;/span>[&lt;span style="color:#a6e22e">num&lt;/span>.&lt;span style="color:#a6e22e">Int64&lt;/span>()]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> string(&lt;span style="color:#a6e22e">ret&lt;/span>), &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

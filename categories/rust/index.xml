@@ -1,21 +1,133 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rust on 我的简单博客</title><link>https://donnol.github.io/categories/rust/</link><description>Recent content in Rust on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>Wezterm极简配置文件
--- Pull in the wezterm API local wezterm = require &amp;#39;wezterm&amp;#39; -- This table will hold the configuration. local config = {} -- In newer versions of wezterm, use the config_builder which will -- help provide clearer error messages if wezterm.config_builder then config = wezterm.config_builder() end -- This is where you actually apply your config choices -- For example, changing the color scheme: config.color_scheme = &amp;#39;AdventureTime&amp;#39; -- config.color_scheme = &amp;#39;Batman&amp;#39; config.</description></item><item><title>Rust与安全</title><link>https://donnol.github.io/posts/2022/01/rust_safe/</link><pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_safe/</guid><description>有一些东西，做了一些事情。
-有什么东西，做了什么呢？
-有文件、结构体、特征、类型，调用了函数、方法，读了文件/读了body，算了结果，写了文件/答了请求。
-IO or 计算。
-或者说，更强调IO，还是计算。
-内存安全 # 并发安全 #</description></item><item><title>Rust常用库</title><link>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</guid><description>crossbeam # crossbeam: Tools for concurrent programming in Rust.
-Atomics
-Data structures
-Memory management: epoch
-Thread synchronization: channel, Parker, ShardedLock, WaitGroup
-Utilities
-channel example # use crossbeam_channel::unbounded; let (s, r) = unbounded(); s.send(&amp;#34;Hello, world!&amp;#34;).unwrap(); assert_eq!(r.recv(), Ok(&amp;#34;Hello, world!&amp;#34;)); unbounded(无限) channel发送时不用等接收端就绪。
-另外还有bounded channel可在新建时指定容量，后续发送的消息数不能超过该数据 &amp;ndash; 除非中间有消息被取走了
-当bounded channel容量设为0时，发送前必须等接收端就绪，一般可用于线程间等待。
-更多介绍
-与标准库的sync::mpsc对比
-epoch # Pin 做了什么？
-crossbeam在实现无锁并发结构时，采用了基于代的内存回收方式1，这种算法的内存管理开销和数据对象的数量无关，只和线程的数量相关，因此在 以上模型中可以表现出更好的一致性和可预测性。不过Rust中的所有权系统已经保证了内存安全，那为什么还需要做额外的内存回收呢？这个问题的关键点 就在要实现无锁并发结构。如果使用标准库中的Arc自然就不会有内存回收的问题，但对Arc进行读写是需要锁的。
-crossbeam-channel文章
-digest # This crate provides traits which describe functionality of cryptographic hash functions and Message Authentication algorithms.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rust on 我的简单博客</title><link>https://donnol.github.io/categories/rust/</link><description>Recent content in Rust on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/categories/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>&lt;p>&lt;code>Wezterm&lt;/code>极简配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lua" data-lang="lua">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Pull in the wezterm API&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> wezterm &lt;span style="color:#f92672">=&lt;/span> require &lt;span style="color:#e6db74">&amp;#39;wezterm&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- This table will hold the configuration.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> config &lt;span style="color:#f92672">=&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- In newer versions of wezterm, use the config_builder which will&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- help provide clearer error messages&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> wezterm.config_builder &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config &lt;span style="color:#f92672">=&lt;/span> wezterm.config_builder()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- This is where you actually apply your config choices&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- For example, changing the color scheme:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.color_scheme &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;AdventureTime&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- config.color_scheme = &amp;#39;Batman&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.enable_tab_bar &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.hide_tab_bar_if_only_one_tab &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.show_tab_index_in_tab_bar &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.tab_bar_at_bottom &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.tab_max_width &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">25&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Font&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- config.font = wezterm.font_with_fallback { &amp;#39;JetBrains Mono&amp;#39; }&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.font_size &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">14&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.freetype_load_target &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Light&amp;#34;&lt;/span> &lt;span style="color:#75715e">-- Possible alternatives are `HorizontalLcd`, `Light`, `Mono`, `Normal`, `VerticalLcd`.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.mouse_bindings &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#75715e">-- Paste on right-click&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Down &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Right&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;NONE&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> PasteFrom &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Clipboard&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }, &lt;span style="color:#75715e">-- Change the default click behavior so that it only selects&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Up &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Left&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;NONE&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CompleteSelection &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;PrimarySelection&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }, &lt;span style="color:#75715e">-- CTRL-Click open hyperlinks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> event &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Up &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> streak &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> button &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Left&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;CTRL&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;OpenLinkAtMouseCursor&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config.keys &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">-- 使用 Ctrl+n 来新建标签页，而不是 Ctrl+Shift+T&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { SpawnTab &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;DefaultDomain&amp;#34;&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">-- 使用 Alt+左右箭头来切换标签页&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;LeftArrow&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { ActivateTabRelative &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> { key &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;RightArrow&amp;#34;&lt;/span>, mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ALT&amp;#34;&lt;/span>, action &lt;span style="color:#f92672">=&lt;/span> wezterm.action { ActivateTabRelative &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 定义 Alt+数字 切换到对应标签页的快捷键&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> table.insert(config.keys, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> key &lt;span style="color:#f92672">=&lt;/span> tostring(i),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mods &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;ALT&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> action &lt;span style="color:#f92672">=&lt;/span> wezterm.action.ActivateTab(i &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- and finally, return the configuration to wezterm&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> config
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Rust与安全</title><link>https://donnol.github.io/posts/2022/01/rust_safe/</link><pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_safe/</guid><description>&lt;p>有一些东西，做了一些事情。&lt;/p>
+&lt;p>有什么东西，做了什么呢？&lt;/p>
+&lt;p>有文件、结构体、特征、类型，调用了函数、方法，读了文件/读了body，算了结果，写了文件/答了请求。&lt;/p>
+&lt;p>IO or 计算。&lt;/p>
+&lt;p>或者说，更强调IO，还是计算。&lt;/p>
+&lt;h2 id="内存安全">
+ 内存安全
+ &lt;a class="anchor" href="#%e5%86%85%e5%ad%98%e5%ae%89%e5%85%a8">#&lt;/a>
+&lt;/h2>
+&lt;h2 id="并发安全">
+ 并发安全
+ &lt;a class="anchor" href="#%e5%b9%b6%e5%8f%91%e5%ae%89%e5%85%a8">#&lt;/a>
+&lt;/h2></description></item><item><title>Rust常用库</title><link>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</link><pubDate>Mon, 10 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/rust_commonly_used_crate/</guid><description>&lt;h2 id="crossbeam">
+ crossbeam
+ &lt;a class="anchor" href="#crossbeam">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://github.com/crossbeam-rs/crossbeam">crossbeam&lt;/a>: &lt;strong>Tools for concurrent programming in Rust&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Atomics&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Data structures&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Memory management: epoch&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Thread synchronization: channel, Parker, ShardedLock, WaitGroup&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Utilities&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="channel-example">
+ channel example
+ &lt;a class="anchor" href="#channel-example">#&lt;/a>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rust" data-lang="rust">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">use&lt;/span> crossbeam_channel::unbounded;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> (s, r) &lt;span style="color:#f92672">=&lt;/span> unbounded();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>s.send(&lt;span style="color:#e6db74">&amp;#34;Hello, world!&amp;#34;&lt;/span>).unwrap();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>assert_eq!(r.recv(), Ok(&lt;span style="color:#e6db74">&amp;#34;Hello, world!&amp;#34;&lt;/span>));
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>

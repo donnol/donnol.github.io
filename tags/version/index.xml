@@ -1,3 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Version on 我的简单博客</title><link>https://donnol.github.io/tags/version/</link><description>Recent content in Version on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 27 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/version/index.xml" rel="self" type="application/rss+xml"/><item><title>Find out which Go version built your binary</title><link>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</link><pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</guid><description>根据二进制文件找出应用构建时使用的Go版本 # 使用 dlv:
-dlv exec ./app &amp;gt; p runtime.buildVerion 或者，在代码里调用runtime.Version():
-func main() { fmt.Println(&amp;#34;go version:&amp;#34;, runtime.Version()) } 参照</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Version on 我的简单博客</title><link>https://donnol.github.io/tags/version/</link><description>Recent content in Version on 我的简单博客</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 27 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://donnol.github.io/tags/version/index.xml" rel="self" type="application/rss+xml"/><item><title>Find out which Go version built your binary</title><link>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</link><pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/05/find_go_version_the_app_use/</guid><description>&lt;h1 id="根据二进制文件找出应用构建时使用的go版本">
+ 根据二进制文件找出应用构建时使用的&lt;code>Go&lt;/code>版本
+ &lt;a class="anchor" href="#%e6%a0%b9%e6%8d%ae%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%96%87%e4%bb%b6%e6%89%be%e5%87%ba%e5%ba%94%e7%94%a8%e6%9e%84%e5%bb%ba%e6%97%b6%e4%bd%bf%e7%94%a8%e7%9a%84go%e7%89%88%e6%9c%ac">#&lt;/a>
+&lt;/h1>
+&lt;p>使用
+ &lt;a href="https://github.com/go-delve/delve/blob/master/Documentation/installation">&lt;code>dlv&lt;/code>&lt;/a>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>dlv exec ./app
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt; p runtime.buildVerion
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者，在代码里调用&lt;code>runtime.Version()&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;go version:&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">runtime&lt;/span>.&lt;span style="color:#a6e22e">Version&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://dave.cheney.net/2017/06/20/how-to-find-out-which-go-version-built-your-binary">参照&lt;/a>&lt;/p></description></item></channel></rss>

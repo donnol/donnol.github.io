@@ -1,35 +1,39 @@
-<!doctype html><html lang=en dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content='etcd # raft # 介绍 # 由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
+<!doctype html><html lang=en dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  etcd
+  #
+
+
+  raft
+  #
+
+
+  
+  介绍
+  #
+
+
+由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。
+  可理解的共识算法
+状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
+
+
+  插曲
+  #
+
+人、联系、共识
+人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。
+当两个人面对面时，就某个想法达成一致或不一致，非常容易。
+如果两个人不是面对面呢？
+如果不只两个人，同坐在祠堂里呢？
+如果不止两个人，还分散在不同地点呢？"><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/etcd/"><meta property="og:site_name" content="我的简单博客"><meta property="og:title" content="etcd"><meta property="og:description" content=" etcd # raft # 介绍 # 由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
 状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
 插曲 # 人、联系、共识
 人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。
 当两个人面对面时，就某个想法达成一致或不一致，非常容易。
 如果两个人不是面对面呢？
 如果不只两个人，同坐在祠堂里呢？
-如果不止两个人，还分散在不同地点呢？
-那么，为什么要达成共识呢？
-因为有些事必须达成共识才能执行，比如，两个人双向奔赴。
-如果彼此异心，一个向东，一个往南，事情就办不成了。
-所以，共识是大伙成事的前提。
-共识，除了就某件事所要达成的结果，也要考虑所使用的方法。
-有可能是步步为营，走一步算一步，也就是每走一步再就下一步达成共识。
-也有可能是，一次性就接下来的几步均达成共识，然后各自执行。
-message type # // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用； // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号 // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据； // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）； // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点； // 发给candidate的话，它们直接丢弃该消息 // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 MsgProp MessageType = 2 // 包含了要复制的日志条目 // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息； // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。 // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票； // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。 // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。 // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。 // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， MsgVote MessageType = 5 // 投票响应； // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower MsgVoteResp MessageType = 6 // 请求安装一个快照消息； // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过"MsgSnap"消息请求快照。 MsgSnap MessageType = 7 // leader发送心跳； // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。 // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id MsgHeartbeat MessageType = 8 // 心跳响应； // leader收到后就知道有哪些follower响应了。 // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付； // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） MsgUnreachable MessageType = 10 // 表明快照安装消息的结果 // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?'><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/etcd/"><meta property="og:site_name" content="我的简单博客"><meta property="og:title" content="etcd"><meta property="og:description" content='etcd # raft # 介绍 # 由多个节点组成的集群维护着一个可复制状态机的协议。通过复制日志来保持状态机的同步。 可理解的共识算法
-状态机以消息为输入。消息可以是一个本地定时器更新，或一条网络消息。输出一个3元结构：[]Messages, []LogEntries, NextState，分别是消息列表、日志条目列表、下个状态。同样状态的状态机，在相同输入时总是输出相同结果。
-插曲 # 人、联系、共识
-人生下来，触摸着这个世界的人和物，做着或有趣或无聊的事，建立起或浅或深的联系。
-当两个人面对面时，就某个想法达成一致或不一致，非常容易。
-如果两个人不是面对面呢？
-如果不只两个人，同坐在祠堂里呢？
-如果不止两个人，还分散在不同地点呢？
-那么，为什么要达成共识呢？
-因为有些事必须达成共识才能执行，比如，两个人双向奔赴。
-如果彼此异心，一个向东，一个往南，事情就办不成了。
-所以，共识是大伙成事的前提。
-共识，除了就某件事所要达成的结果，也要考虑所使用的方法。
-有可能是步步为营，走一步算一步，也就是每走一步再就下一步达成共识。
-也有可能是，一次性就接下来的几步均达成共识，然后各自执行。
-message type # // For description of different message types, see: // https://pkg.go.dev/go.etcd.io/etcd/raft/v3#hdr-MessageType type MessageType int32 const ( // 选举时使用； // 如果节点是一个follower或candidate，它在选举超时前没有收到任何心跳，它就回传递MsgHup消息给它自己的Step方法，然后成为（或保持）一个candidate从而开启一个新的选举 MsgHup MessageType = 0 // 一个内部类型，它向leader发送一个类型为“MsgHeartbeat”的心跳信号 // 如果节点是一个leader，raft里的tick函数将会是“tickHeartbeat”，触发leader周期性地发送“MsgHeartbeat”消息给它的followers MsgBeat MessageType = 1 // 提议往它的日志条目里追加数据； // 这是一个特别的类型，由follower反推提议给leader（正常是leader提议，follower执行）； // 发给leader的话，leader调用“appendEntry”方法追加条目到它的日志里，然后调用“bcastAppend”方法发送这些条目给它的远端节点； // 发给candidate的话，它们直接丢弃该消息 // 发给follower的话，follower会将消息存储到它们的信箱里。会把发送者的id一起存储，然后转发给leader。 MsgProp MessageType = 2 // 包含了要复制的日志条目 // leader调用“bcastAppend”（里面调用“sendAppend”），发送“一会要被复制的日志”消息； // 当candidate收到消息后，在它的Step方法里，它马上回退为follower，因为这条消息表明已经存在一个有效leader了。 // candidate和follower均会返回一条“MsgAppResp”类型消息以作响应。 MsgApp MessageType = 3 // 调用“handlerAppendEntries”方法 MsgAppResp MessageType = 4 // 请求集群中的节点给自己投票； // 当节点是follower或candidate，并且它们的Step方法收到了“MsgHup”消息，节点调用“campaign”方法去提议自己成为一个leader。一旦“campaign”方法被调用，节点成为candidate，并发送“MsgVote”给集群中的远端节点请求投票。 // 当leader或candidate的Step方法收到该消息，并且消息的Term比它们的Term小，“MsgVote”将被拒绝。 // 当leader或candidate收到的消息的Term要更大时，它会回退为follower。 // 当follower收到该消息，仅当发送者的最后的term比“MsgVote”的term要大，或发送者的最后term等于“MsgVote”的term（但发送者的最后提交index大于等于follower的）， MsgVote MessageType = 5 // 投票响应； // 当candidate收到后，它会统计选票，如果大于majority（quorum），它成为leader并调用“bcastAppend”。如果candidate收到大量的否决票，它将回退到follower MsgVoteResp MessageType = 6 // 请求安装一个快照消息； // 当一个节点刚成为leader，或者leader收到了“MsgProp”消息，它调用“bcastAppend”方法（里面再调用“sendAppend”）方法到每个follower。在“sendAppend”方法里，如果一个leader获取term或条目失败了，leader通过"MsgSnap"消息请求快照。 MsgSnap MessageType = 7 // leader发送心跳； // 当candidate收到“MsgHeartbeat”，并且消息的term比candidate的大，candidate回退到follower并且更新它的提交index为这次心跳里的值。然后candidate发送消息到它的信箱。 // 当消息发送到follower的Step方法，并且消息的term比follower的大，follower更新它的leader id MsgHeartbeat MessageType = 8 // 心跳响应； // leader收到后就知道有哪些follower响应了。 // 只有当leader的最后提交index比follower的Match index大时，leader执行“sendAppend”方法 MsgHeartbeatResp MessageType = 9 // 表明请求没有被交付； // 当“MsgUnreachable”被传送到leader的Step方法，leader发现follower无法到达，很有可能“MsgApp”都丢失了。当follower的进度状态为复制时，leader设置它回probe（哨兵） MsgUnreachable MessageType = 10 // 表明快照安装消息的结果 // 当一个follower拒绝了“MsgSnap”，这显示快照请求失败了--因为网络原因；**leader认为follower成为哨兵了**?'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-20T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-20T00:00:00+00:00"><meta property="article:tag" content="Raft"><title>etcd | 我的简单博客</title>
-<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/en.search.min.5af6e111e8ba1d7ff592ddc8358eac8046d597e2453daedc2c1c2d8ea1672ffd.js integrity="sha256-WvbhEei6HX/1kt3INY6sgEbVl+JFPa7cLBwtjqFnL/0=" crossorigin=anonymous></script><script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+如果不止两个人，还分散在不同地点呢？"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-20T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-20T00:00:00+00:00"><meta property="article:tag" content="Raft"><title>etcd | 我的简单博客</title>
+<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/en.search.min.5acd99365357d15174026dd73fe8a1d8849f332ed4ad993444d0dff9872a638e.js integrity="sha256-Ws2ZNlNX0VF0Am3XP+ih2ISfMy7UrZk0RNDf+YcqY44=" crossorigin=anonymous></script><script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>我的简单博客</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-88902446d608163b7be46632cb6bef72 class=toggle>
 <label for=section-88902446d608163b7be46632cb6bef72 class="flex justify-between"><a role=button>2023</a></label><ul><li><input type=checkbox id=section-67c01fa78e6544e45d86cfb839555dd3 class=toggle>
 <label for=section-67c01fa78e6544e45d86cfb839555dd3 class="flex justify-between"><a role=button>12</a></label><ul><li><a href=https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/>dbeaver手动导入驱动</a></li><li><a href=https://donnol.github.io/posts/2023/12/do/>Do</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/>双标</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/>取与交</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/>情景</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/>暖床和泡浴缸</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/>未来</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/>规矩的订立和执行</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/>驱虎吞狼</a></li></ul></li><li><input type=checkbox id=section-e5e00708106809cefc1b0939618449f5 class=toggle>
