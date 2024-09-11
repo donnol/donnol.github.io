@@ -21,4 +21,16 @@
  &lt;img src="https://donnol.github.io/image/mqtt%e6%9e%b6%e6%9e%84%e5%9b%be.png" alt="架构图" />&lt;/p>
 &lt;p>多个&lt;code>mqtt&lt;/code>客户端连接到&lt;code>broker&lt;/code>(译为：中间商)，围绕&lt;code>topic&lt;/code>来实现发布/订阅操作，某些客户端向&lt;code>topic&lt;/code>发布消息，某些客户端订阅&lt;code>topic&lt;/code>上的消息，当&lt;code>broker&lt;/code>接收到某个&lt;code>topic&lt;/code>上的消息时，它会将消息转发到订阅了该&lt;code>topic&lt;/code>的客户端。&lt;/p>
 &lt;p>
- &lt;a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">mqtt 5.0&lt;/a>&lt;/p></description></item></channel></rss>
+ &lt;a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">mqtt 5.0&lt;/a>&lt;/p>
+&lt;h2 id="qos">
+ QoS
+ &lt;a class="anchor" href="#qos">#&lt;/a>
+&lt;/h2>
+&lt;p>Quality of Service&lt;/p>
+&lt;blockquote>
+&lt;p>control traffic and ensure the performance of critical applications with limited network capacity&lt;/p>
+&lt;p>控制交通，确保有限网络容量下的应用性能。&lt;/p>
+&lt;/blockquote>
+&lt;p>QoS（Quality of Service，服务质量）指一个网络能够利用各种基础技术，为指定的网络通信提供更好的服务能力，是网络的一种安全机制， 是用来&lt;strong>解决网络延迟和阻塞&lt;/strong>等问题的一种技术。QoS 的保证对于容量有限的网络来说是十分重要的，特别是对于流多媒体应用，例如 VoIP 和 IPTV 等，因为这些应用常常需要固定的传输率，对延时也比较敏感。&lt;/p>
+&lt;blockquote>
+&lt;p>当网络发生拥塞的时候，所有的数据流都有可能被丢弃；为满足用户对不同应用不同服务质量的要求，就需要&lt;strong>网络能根据用户的要求分配和调度资源&lt;/strong>，&lt;strong>对不同的数据流提供不同的服务质量&lt;/strong>：&lt;/p></description></item></channel></rss>

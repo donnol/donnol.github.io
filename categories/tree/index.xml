@@ -39,4 +39,22 @@
  &lt;a class="anchor" href="#%e6%93%8d%e4%bd%9c">#&lt;/a>
 &lt;/h3>
 &lt;blockquote>
-&lt;p>因为每一个红黑树也是一个特化的二叉查找树，因此红黑树上的只读操作与普通二叉查找树上的只读操作相同。然而，&lt;strong>在红黑树上进行插入操作和删除操作会导致不再符合红黑树的性质&lt;/strong>。&lt;strong>恢复&lt;/strong>红黑树的性质需要少量（O(log n)）的&lt;strong>颜色变更&lt;/strong>（实际是非常快速的）和&lt;strong>不超过三次树旋转&lt;/strong>（对于插入操作是两次）。虽然插入和删除很复杂，但操作时间仍可以保持为O(log n)次。&lt;/p></description></item></channel></rss>
+&lt;p>因为每一个红黑树也是一个特化的二叉查找树，因此红黑树上的只读操作与普通二叉查找树上的只读操作相同。然而，&lt;strong>在红黑树上进行插入操作和删除操作会导致不再符合红黑树的性质&lt;/strong>。&lt;strong>恢复&lt;/strong>红黑树的性质需要少量（O(log n)）的&lt;strong>颜色变更&lt;/strong>（实际是非常快速的）和&lt;strong>不超过三次树旋转&lt;/strong>（对于插入操作是两次）。虽然插入和删除很复杂，但操作时间仍可以保持为O(log n)次。&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>我们首先以二叉查找树的方法&lt;strong>增加节点并标记它为红色&lt;/strong>。（如果设为黑色，就会导致根到叶子的路径上有一条路上，多一个额外的黑节点，这个是很难调整的。但是设为红色节点后，可能会导致出现两个连续红色节点的冲突，那么可以通过**颜色调换（color flips）和
+ &lt;a href="https://zh.wikipedia.org/wiki/%E6%A0%91%E6%97%8B%E8%BD%AC">树旋转&lt;/a>**来调整。）&lt;/li>
+&lt;/ol>
+&lt;h4 id="树旋转">
+ 树旋转
+ &lt;a class="anchor" href="#%e6%a0%91%e6%97%8b%e8%bd%ac">#&lt;/a>
+&lt;/h4>
+&lt;p>对二叉树的一种操作，不影响元素的顺序，但会改变树的结构，将一个节点上移、一个节点下移。树旋转会改变树的形状，因此常被用来将较小的子树下移、较大的子树上移，从而降低树的高度、提升许多树操作的效率。&lt;/p>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/Tree_rotation.png" alt="树旋转" />&lt;/p>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/Tree_rotation_animation.gif" alt="树旋转动图" />&lt;/p>
+&lt;p>对一棵树进行旋转时，这棵树的根节点是被旋转的两棵子树的父节点，称为旋转时的根（英语：root）；如果节点在旋转后会成为新的父节点，则该节点为旋转时的转轴（英语：pivot）。&lt;/p>
+&lt;p>上图中，树的右旋操作以 Q 为根、P 为转轴，会将树顺时针旋转。相应的逆操作为左旋，会以 Q 为转轴，将树逆时针旋转。&lt;/p>
+&lt;p>理解树旋转过程的关键，在于理解其中不变的约束。&lt;strong>旋转操作不会导致叶节点顺序的改变&lt;/strong>（可以理解为旋转操作前后，树的中序遍历结果是一致的），旋转过程中也始终受二叉搜索树的主要性质约束：右子节点比父节点大、左子节点比父节点小。尤其需要注意的是，进行右旋转时，旋转前根的左节点的右节点（例如上图中以 Q 为根的 B 节点）会变成根的左节点，根本身则在旋转后会变成新的根的右节点，而在这一过程中，整棵树一直遵守着前面提到的几个约束。相反的左旋转操作亦然。&lt;/p>
+&lt;p>如果将根记为 Root、转轴记为 Pivot、子节点中与旋转方向相同的一侧记为 RS（旋转侧，英语：Rotation Side）、旋转对侧记为 OS（英语：Opposite Side），则上图中 Q 节点的 RS 为 C、OS 为 P，将其右旋转的伪代码为：&lt;/p></description></item></channel></rss>

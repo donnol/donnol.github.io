@@ -21,4 +21,104 @@
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>文件：&lt;/p></description></item></channel></rss>
+&lt;p>文件：&lt;/p>
+&lt;p>sds.h, sdsalloc.h, sds.c.&lt;/p>
+&lt;p>定义：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c++" data-lang="c++">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">char&lt;/span> &lt;span style="color:#f92672">*&lt;/span>sds;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>根据类型获取长度：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c++" data-lang="c++">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">inline&lt;/span> size_t &lt;span style="color:#a6e22e">sdslen&lt;/span>(&lt;span style="color:#66d9ef">const&lt;/span> sds s) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">unsigned&lt;/span> &lt;span style="color:#66d9ef">char&lt;/span> flags &lt;span style="color:#f92672">=&lt;/span> s[&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span>(flags&lt;span style="color:#f92672">&amp;amp;&lt;/span>SDS_TYPE_MASK) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_5:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> SDS_TYPE_5_LEN(flags);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_8:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> SDS_HDR(&lt;span style="color:#ae81ff">8&lt;/span>,s)&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_16:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> SDS_HDR(&lt;span style="color:#ae81ff">16&lt;/span>,s)&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_32:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> SDS_HDR(&lt;span style="color:#ae81ff">32&lt;/span>,s)&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_64:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> SDS_HDR(&lt;span style="color:#ae81ff">64&lt;/span>,s)&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>新建：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c++" data-lang="c++">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/* Create a new sds string with the content specified by the &amp;#39;init&amp;#39; pointer
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * and &amp;#39;initlen&amp;#39;.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * If NULL is used for &amp;#39;init&amp;#39; the string is initialized with zero bytes.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * If SDS_NOINIT is used, the buffer is left uninitialized;
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> *
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * The string is always null-termined (all the sds strings are, always) so
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * even if you create an sds string with:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> *
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * mystring = sdsnewlen(&amp;#34;abc&amp;#34;,3);
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> *
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * You can print the string with printf() as there is an implicit \0 at the
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * end of the string. However the string is binary safe and can contain
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * \0 characters in the middle, as the length is stored in the sds header. */&lt;/span> &lt;span style="color:#75715e">// sds的头部存储了它的长度
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>sds &lt;span style="color:#a6e22e">_sdsnewlen&lt;/span>(&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#f92672">*&lt;/span>init, size_t initlen, &lt;span style="color:#66d9ef">int&lt;/span> trymalloc) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#f92672">*&lt;/span>sh; &lt;span style="color:#75715e">// sds的header
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> sds s;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">char&lt;/span> type &lt;span style="color:#f92672">=&lt;/span> sdsReqType(initlen); &lt;span style="color:#75715e">// 根据size大小返回类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">/* Empty strings are usually created in order to append. Use type 8
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * since type 5 is not good at this. */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (type &lt;span style="color:#f92672">==&lt;/span> SDS_TYPE_5 &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> initlen &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>) type &lt;span style="color:#f92672">=&lt;/span> SDS_TYPE_8;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> hdrlen &lt;span style="color:#f92672">=&lt;/span> sdsHdrSize(type); &lt;span style="color:#75715e">// 根据类型返回header长度
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">unsigned&lt;/span> &lt;span style="color:#66d9ef">char&lt;/span> &lt;span style="color:#f92672">*&lt;/span>fp; &lt;span style="color:#75715e">/* flags pointer. */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> size_t usable; &lt;span style="color:#75715e">// 可用的内存大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> assert(initlen &lt;span style="color:#f92672">+&lt;/span> hdrlen &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> initlen); &lt;span style="color:#75715e">/* Catch size_t overflow */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh &lt;span style="color:#f92672">=&lt;/span> trymalloc&lt;span style="color:#f92672">?&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s_trymalloc_usable(hdrlen&lt;span style="color:#f92672">+&lt;/span>initlen&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#f92672">&amp;amp;&lt;/span>usable) &lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s_malloc_usable(hdrlen&lt;span style="color:#f92672">+&lt;/span>initlen&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#f92672">&amp;amp;&lt;/span>usable); &lt;span style="color:#75715e">// 三元运算符，根据trymalloc的值选择用哪个alloc函数，分配后，还会标志可用内存大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (sh &lt;span style="color:#f92672">==&lt;/span> NULL) &lt;span style="color:#66d9ef">return&lt;/span> NULL; &lt;span style="color:#75715e">// 分配失败返回NULL
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (init&lt;span style="color:#f92672">==&lt;/span>SDS_NOINIT)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> init &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#f92672">!&lt;/span>init)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> memset(sh, &lt;span style="color:#ae81ff">0&lt;/span>, hdrlen&lt;span style="color:#f92672">+&lt;/span>initlen&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#66d9ef">char&lt;/span>&lt;span style="color:#f92672">*&lt;/span>)sh&lt;span style="color:#f92672">+&lt;/span>hdrlen; &lt;span style="color:#75715e">// 将sh转为char*，赋值给最终字符串s
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> fp &lt;span style="color:#f92672">=&lt;/span> ((&lt;span style="color:#66d9ef">unsigned&lt;/span> &lt;span style="color:#66d9ef">char&lt;/span>&lt;span style="color:#f92672">*&lt;/span>)s)&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> usable &lt;span style="color:#f92672">=&lt;/span> usable&lt;span style="color:#f92672">-&lt;/span>hdrlen&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (usable &lt;span style="color:#f92672">&amp;gt;&lt;/span> sdsTypeMaxSize(type))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> usable &lt;span style="color:#f92672">=&lt;/span> sdsTypeMaxSize(type);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span>(type) { &lt;span style="color:#75715e">// 根据类型决定对s做不同的sds hdr操作
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_5: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>fp &lt;span style="color:#f92672">=&lt;/span> type &lt;span style="color:#f92672">|&lt;/span> (initlen &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> SDS_TYPE_BITS);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_8: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SDS_HDR_VAR(&lt;span style="color:#ae81ff">8&lt;/span>,s);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len &lt;span style="color:#f92672">=&lt;/span> initlen;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>alloc &lt;span style="color:#f92672">=&lt;/span> usable;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>fp &lt;span style="color:#f92672">=&lt;/span> type;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_16: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SDS_HDR_VAR(&lt;span style="color:#ae81ff">16&lt;/span>,s);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len &lt;span style="color:#f92672">=&lt;/span> initlen;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>alloc &lt;span style="color:#f92672">=&lt;/span> usable;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>fp &lt;span style="color:#f92672">=&lt;/span> type;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_32: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SDS_HDR_VAR(&lt;span style="color:#ae81ff">32&lt;/span>,s);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len &lt;span style="color:#f92672">=&lt;/span> initlen;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>alloc &lt;span style="color:#f92672">=&lt;/span> usable;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>fp &lt;span style="color:#f92672">=&lt;/span> type;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> SDS_TYPE_64: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SDS_HDR_VAR(&lt;span style="color:#ae81ff">64&lt;/span>,s);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>len &lt;span style="color:#f92672">=&lt;/span> initlen;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sh&lt;span style="color:#f92672">-&amp;gt;&lt;/span>alloc &lt;span style="color:#f92672">=&lt;/span> usable;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>fp &lt;span style="color:#f92672">=&lt;/span> type;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (initlen &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> init)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> memcpy(s, init, initlen); &lt;span style="color:#75715e">// 复制initlen的init内容到s
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> s[initlen] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;\0&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> s;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://segmentfault.com/a/1190000025130861#:~:text=SDS%20%28simple,dynamic%20string%29%E6%98%AFRedis%E6%8F%90%E4%BE%9B%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%B0%81%E8%A3%85%EF%BC%8C%E5%9C%A8redis%E4%B8%AD%E4%B9%9F%E6%98%AF%E5%AD%98%E5%9C%A8%E6%9C%80%E5%B9%BF%E6%B3%9B%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%8C%E5%AE%83%E4%B9%9F%E6%98%AF%E5%BE%88%E5%A4%9A%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%9F%BA%E7%A1%80%EF%BC%8C%E6%89%80%E4%BB%A5%E6%89%8D%E9%80%89%E6%8B%A9%E5%85%88%E4%BB%8B%E7%BB%8DSDS%E3%80%82">引用 1&lt;/a>&lt;/p></description></item></channel></rss>

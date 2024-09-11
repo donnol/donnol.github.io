@@ -30,7 +30,19 @@
  &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e%e5%91%a2">#&lt;/a>
 &lt;/h2>
 &lt;p>使用
- &lt;a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_dense-rank">&lt;code>dense_rank()&lt;/code>&lt;/a>间接计算：&lt;/p></description></item><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>&lt;p>&lt;code>Wezterm&lt;/code>极简配置文件&lt;/p>
+ &lt;a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_dense-rank">&lt;code>dense_rank()&lt;/code>&lt;/a>间接计算：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#66d9ef">distinct&lt;/span> apply_unit_id, dense_rank() over (partition &lt;span style="color:#66d9ef">by&lt;/span> apply_unit_id &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> project_id) 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">+&lt;/span> dense_rank() over (partition &lt;span style="color:#66d9ef">by&lt;/span> apply_unit_id &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> project_id &lt;span style="color:#66d9ef">desc&lt;/span>) 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">from&lt;/span> weia &lt;span style="color:#66d9ef">join&lt;/span> weiag &lt;span style="color:#66d9ef">on&lt;/span> weiag.apply_id &lt;span style="color:#f92672">=&lt;/span> weia.id 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dense_rank">
+ dense_rank()
+ &lt;a class="anchor" href="#dense_rank">#&lt;/a>
+&lt;/h2>
+&lt;blockquote>
+&lt;p>Returns the rank of the current row within its partition, without gaps.&lt;/p>
+&lt;p>&amp;ndash; 返回当前行在其分区内的排名，没有间隙。&lt;/p></description></item><item><title>Wezterm极简配置文件</title><link>https://donnol.github.io/posts/2023/10/wezterm/</link><pubDate>Tue, 17 Oct 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/10/wezterm/</guid><description>&lt;p>&lt;code>Wezterm&lt;/code>极简配置文件&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lua" data-lang="lua">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- Pull in the wezterm API&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">local&lt;/span> wezterm &lt;span style="color:#f92672">=&lt;/span> require &lt;span style="color:#e6db74">&amp;#39;wezterm&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -116,7 +128,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- and finally, return the configuration to wezterm&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> config
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>雪花id的时钟回退问题</title><link>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 27 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</guid><description>&lt;p>雪花id由64位二进制组成，转成字符串则长为19. 它依赖于系统时钟，如果出现时钟回退，会导致已经在用的id再次被生成。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>雪花id的时钟回退问题</title><link>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 27 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E9%9B%AA%E8%8A%B1id-%E6%97%B6%E9%92%9F%E5%9B%9E%E9%80%80%E9%97%AE%E9%A2%98/</guid><description>&lt;p>雪花id由64位二进制组成，转成字符串则长为19. 它依赖于系统时钟，如果出现时钟回退，会导致已经在用的id再次被生成。&lt;/p>
 &lt;p>怎么办呢？&lt;/p>
 &lt;ol start="0">
 &lt;li>
@@ -134,7 +146,9 @@
 &lt;p>//&lt;/p>
 &lt;p>// Operating systems provide both a “wall clock,” which is subject to&lt;/p>
 &lt;p>// changes for clock synchronization, and a “monotonic clock,” which is&lt;/p>
-&lt;p>// not. The general rule is that the wall clock is for telling time and&lt;/p></description></item><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>&lt;p>今天发现在windows上的vscode一直提示找不到go：&lt;code>go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go&lt;/code>。&lt;/p>
+&lt;p>// not. The general rule is that the wall clock is for telling time and&lt;/p>
+&lt;p>// the monotonic clock is for measuring time. Rather than split the API,&lt;/p>
+&lt;p>// in this package the Time returned by time.Now contains both a wall&lt;/p></description></item><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>&lt;p>今天发现在windows上的vscode一直提示找不到go：&lt;code>go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go&lt;/code>。&lt;/p>
 &lt;p>强制设置了go.goroot也不行，直到查看了GOENV文件（C:\Users\xxx\AppData\Roaming\go\env）之后，才发现里面有一行：GOROOT=c:\msys64\mingw64\lib\go，可能是当时在msys2安装go的时候加上的。&lt;/p>
 &lt;p>去掉它就恢复正常了。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go env
@@ -147,7 +161,8 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPRIVATE&lt;span style="color:#f92672">=&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPROXY&lt;span style="color:#f92672">=&lt;/span>https://goproxy.cn,https://goproxy.io,direct
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOROOT&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\P&lt;/span>rogram Files&lt;span style="color:#ae81ff">\G&lt;/span>o
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>&lt;p>不同系统之间通过网络对接&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>应该是这样的，如果用&lt;code>go env -w &lt;/code>来设置goroot，那么这个值就会保存到GOENV对应的文件里，如果是&lt;code>$env:GOROOT=xxx&lt;/code>的方式来设置则不会修改GOENV文件里的内容。这时候，如果vscode是优先从GOENV文件来获取GOROOT的话，就可能会导致与实际的GOROOT不一致。&lt;/p>
+&lt;p>所以，如果再遇到以上错误，除了&lt;code>echo $env:GOROOT&lt;/code> 看一下环境变量值之外，也要看一下&lt;code>GOENV&lt;/code>文件。&lt;/p></description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>&lt;p>不同系统之间通过网络对接&lt;/p>
 &lt;h2 id="数据库事件">
  数据库事件
  &lt;a class="anchor" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e4%ba%8b%e4%bb%b6">#&lt;/a>
@@ -180,7 +195,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">commit&lt;/span>;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Go Empty Struct</title><link>https://donnol.github.io/posts/2023/09/go_empty_struct/</link><pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_empty_struct/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可打开两个线程来验证上述事务执行，可以看到，当满足条件的记录有两条或以上时，当&lt;code>事务1&lt;/code>查到&lt;code>记录1&lt;/code>后，&lt;code>事务1&lt;/code>未提交时，&lt;code>事务2&lt;/code>不会拿到&lt;code>记录1&lt;/code>，而是会拿到&lt;code>记录2&lt;/code>. 也就实现了有锁则获取下一批数据的效果。&lt;/p></description></item><item><title>Go Empty Struct</title><link>https://donnol.github.io/posts/2023/09/go_empty_struct/</link><pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_empty_struct/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#e6db74">&amp;#34;fmt&amp;#34;&lt;/span>
@@ -208,4 +223,5 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 地址一样
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%p, %p&amp;#34;&lt;/span>, &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">0&lt;/span>], &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>]) &lt;span style="color:#75715e">// 0x54e3a0, 0x54e3a0
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://dave.cheney.net/2014/03/25/the-empty-struct">See also&lt;/a>&lt;/p></description></item></channel></rss>

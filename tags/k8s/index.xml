@@ -23,4 +23,15 @@
  &lt;a class="anchor" href="#k8s-%e9%9b%86%e7%be%a4%e6%90%ad%e5%bb%ba%e6%89%80%e9%9c%80%e8%b5%84%e6%ba%90">#&lt;/a>
 &lt;/h4>
 &lt;blockquote>
-&lt;p>One or more machines running one of:&lt;/p></description></item></channel></rss>
+&lt;p>One or more machines running one of:&lt;/p>
+&lt;blockquote>
+&lt;p>Ubuntu 16.04+&lt;/p>
+&lt;p>Debian 9+&lt;/p>
+&lt;p>CentOS 7+&lt;/p>
+&lt;p>Red Hat Enterprise Linux (RHEL) 7+&lt;/p>
+&lt;p>Fedora 25+&lt;/p>
+&lt;p>HypriotOS v1.0.1+&lt;/p>
+&lt;p>Flatcar Container Linux (tested with 2512.3.0)&lt;/p>
+&lt;/blockquote>
+&lt;p>2 GB or more of RAM per machine (any less will leave little room for your apps).&lt;/p>
+&lt;p>2 CPUs or more.&lt;/p></description></item></channel></rss>

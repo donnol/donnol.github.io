@@ -21,9 +21,114 @@
       
   
 
-文件："><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/redis_sds/"><meta property="og:site_name" content="我的简单博客"><meta property="og:title" content="redis sds"><meta property="og:description" content=" 简单动态字符串 # 结构：
-len alloc flag buf 长度(已使用空间大小) 分配(总共空间大小：buf 的大小减 1 – ‘\0’字符占用了 1) 标记(sdshdr 的类型) 真正存储字符串的地方 文件："><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-13T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-13T00:00:00+00:00"><meta property="article:tag" content="Sds"><title>redis sds | 我的简单博客</title>
-<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/en.search.min.70aa929571ce4233dadfa2dd71c79efb0d42baf565fbf8d804c47a3f31d57a37.js integrity="sha256-cKqSlXHOQjPa36Ldccee+w1CuvVl+/jYBMR6PzHVejc=" crossorigin=anonymous></script><script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+文件：
+sds.h, sdsalloc.h, sds.c.
+定义：
+typedef char *sds;
+根据类型获取长度：
+static inline size_t sdslen(const sds s) {
+    unsigned char flags = s[-1];
+    switch(flags&amp;SDS_TYPE_MASK) {
+        case SDS_TYPE_5:
+            return SDS_TYPE_5_LEN(flags);
+        case SDS_TYPE_8:
+            return SDS_HDR(8,s)->len;
+        case SDS_TYPE_16:
+            return SDS_HDR(16,s)->len;
+        case SDS_TYPE_32:
+            return SDS_HDR(32,s)->len;
+        case SDS_TYPE_64:
+            return SDS_HDR(64,s)->len;
+    }
+    return 0;
+}
+新建：
+/* Create a new sds string with the content specified by the 'init' pointer
+ * and 'initlen'.
+ * If NULL is used for 'init' the string is initialized with zero bytes.
+ * If SDS_NOINIT is used, the buffer is left uninitialized;
+ *
+ * The string is always null-termined (all the sds strings are, always) so
+ * even if you create an sds string with:
+ *
+ * mystring = sdsnewlen(&#34;abc&#34;,3);
+ *
+ * You can print the string with printf() as there is an implicit \0 at the
+ * end of the string. However the string is binary safe and can contain
+ * \0 characters in the middle, as the length is stored in the sds header. */ // sds的头部存储了它的长度
+sds _sdsnewlen(const void *init, size_t initlen, int trymalloc) {
+    void *sh; // sds的header
+    sds s;
+    char type = sdsReqType(initlen); // 根据size大小返回类型
+    /* Empty strings are usually created in order to append. Use type 8
+     * since type 5 is not good at this. */
+    if (type == SDS_TYPE_5 && initlen == 0) type = SDS_TYPE_8;
+    int hdrlen = sdsHdrSize(type); // 根据类型返回header长度
+    unsigned char *fp; /* flags pointer. */
+    size_t usable; // 可用的内存大小
+
+    assert(initlen + hdrlen + 1 > initlen); /* Catch size_t overflow */
+    sh = trymalloc?
+        s_trymalloc_usable(hdrlen+initlen+1, &amp;usable) :
+        s_malloc_usable(hdrlen+initlen+1, &amp;usable); // 三元运算符，根据trymalloc的值选择用哪个alloc函数，分配后，还会标志可用内存大小
+    if (sh == NULL) return NULL; // 分配失败返回NULL
+    if (init==SDS_NOINIT)
+        init = NULL;
+    else if (!init)
+        memset(sh, 0, hdrlen+initlen+1);
+    s = (char*)sh+hdrlen; // 将sh转为char*，赋值给最终字符串s
+    fp = ((unsigned char*)s)-1;
+    usable = usable-hdrlen-1;
+    if (usable > sdsTypeMaxSize(type))
+        usable = sdsTypeMaxSize(type);
+    switch(type) { // 根据类型决定对s做不同的sds hdr操作
+        case SDS_TYPE_5: {
+            *fp = type | (initlen << SDS_TYPE_BITS);
+            break;
+        }
+        case SDS_TYPE_8: {
+            SDS_HDR_VAR(8,s);
+            sh->len = initlen;
+            sh->alloc = usable;
+            *fp = type;
+            break;
+        }
+        case SDS_TYPE_16: {
+            SDS_HDR_VAR(16,s);
+            sh->len = initlen;
+            sh->alloc = usable;
+            *fp = type;
+            break;
+        }
+        case SDS_TYPE_32: {
+            SDS_HDR_VAR(32,s);
+            sh->len = initlen;
+            sh->alloc = usable;
+            *fp = type;
+            break;
+        }
+        case SDS_TYPE_64: {
+            SDS_HDR_VAR(64,s);
+            sh->len = initlen;
+            sh->alloc = usable;
+            *fp = type;
+            break;
+        }
+    }
+    if (initlen && init)
+        memcpy(s, init, initlen); // 复制initlen的init内容到s
+    s[initlen] = '\0';
+    return s;
+}
+
+  引用 1"><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/redis_sds/"><meta property="og:site_name" content="我的简单博客"><meta property="og:title" content="redis sds"><meta property="og:description" content=" 简单动态字符串 # 结构：
+len alloc flag buf 长度(已使用空间大小) 分配(总共空间大小：buf 的大小减 1 – ‘\0’字符占用了 1) 标记(sdshdr 的类型) 真正存储字符串的地方 文件：
+sds.h, sdsalloc.h, sds.c.
+定义：
+typedef char *sds; 根据类型获取长度：
+static inline size_t sdslen(const sds s) { unsigned char flags = s[-1]; switch(flags&amp;SDS_TYPE_MASK) { case SDS_TYPE_5: return SDS_TYPE_5_LEN(flags); case SDS_TYPE_8: return SDS_HDR(8,s)->len; case SDS_TYPE_16: return SDS_HDR(16,s)->len; case SDS_TYPE_32: return SDS_HDR(32,s)->len; case SDS_TYPE_64: return SDS_HDR(64,s)->len; } return 0; } 新建：
+/* Create a new sds string with the content specified by the 'init' pointer * and 'initlen'. * If NULL is used for 'init' the string is initialized with zero bytes. * If SDS_NOINIT is used, the buffer is left uninitialized; * * The string is always null-termined (all the sds strings are, always) so * even if you create an sds string with: * * mystring = sdsnewlen(&#34;abc&#34;,3); * * You can print the string with printf() as there is an implicit \0 at the * end of the string. However the string is binary safe and can contain * \0 characters in the middle, as the length is stored in the sds header. */ // sds的头部存储了它的长度 sds _sdsnewlen(const void *init, size_t initlen, int trymalloc) { void *sh; // sds的header sds s; char type = sdsReqType(initlen); // 根据size大小返回类型 /* Empty strings are usually created in order to append. Use type 8 * since type 5 is not good at this. */ if (type == SDS_TYPE_5 && initlen == 0) type = SDS_TYPE_8; int hdrlen = sdsHdrSize(type); // 根据类型返回header长度 unsigned char *fp; /* flags pointer. */ size_t usable; // 可用的内存大小 assert(initlen + hdrlen + 1 > initlen); /* Catch size_t overflow */ sh = trymalloc? s_trymalloc_usable(hdrlen+initlen+1, &amp;usable) : s_malloc_usable(hdrlen+initlen+1, &amp;usable); // 三元运算符，根据trymalloc的值选择用哪个alloc函数，分配后，还会标志可用内存大小 if (sh == NULL) return NULL; // 分配失败返回NULL if (init==SDS_NOINIT) init = NULL; else if (!init) memset(sh, 0, hdrlen+initlen+1); s = (char*)sh+hdrlen; // 将sh转为char*，赋值给最终字符串s fp = ((unsigned char*)s)-1; usable = usable-hdrlen-1; if (usable > sdsTypeMaxSize(type)) usable = sdsTypeMaxSize(type); switch(type) { // 根据类型决定对s做不同的sds hdr操作 case SDS_TYPE_5: { *fp = type | (initlen << SDS_TYPE_BITS); break; } case SDS_TYPE_8: { SDS_HDR_VAR(8,s); sh->len = initlen; sh->alloc = usable; *fp = type; break; } case SDS_TYPE_16: { SDS_HDR_VAR(16,s); sh->len = initlen; sh->alloc = usable; *fp = type; break; } case SDS_TYPE_32: { SDS_HDR_VAR(32,s); sh->len = initlen; sh->alloc = usable; *fp = type; break; } case SDS_TYPE_64: { SDS_HDR_VAR(64,s); sh->len = initlen; sh->alloc = usable; *fp = type; break; } } if (initlen && init) memcpy(s, init, initlen); // 复制initlen的init内容到s s[initlen] = '\0'; return s; } 引用 1"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-13T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-13T00:00:00+00:00"><meta property="article:tag" content="Sds"><title>redis sds | 我的简单博客</title>
+<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/en.search.min.914f152b2112cb3109c954272f265b80cf506f6a5725eb146e12f2766cf7bf7d.js integrity="sha256-kU8VKyESyzEJyVQnLyZbgM9Qb2pXJesUbhLydmz3v30=" crossorigin=anonymous></script><script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>我的简单博客</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-88902446d608163b7be46632cb6bef72 class=toggle>
 <label for=section-88902446d608163b7be46632cb6bef72 class="flex justify-between"><a role=button>2023</a></label><ul><li><input type=checkbox id=section-67c01fa78e6544e45d86cfb839555dd3 class=toggle>
 <label for=section-67c01fa78e6544e45d86cfb839555dd3 class="flex justify-between"><a role=button>12</a></label><ul><li><a href=https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/>dbeaver手动导入驱动</a></li><li><a href=https://donnol.github.io/posts/2023/12/do/>Do</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/>双标</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/>取与交</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/>情景</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/>暖床和泡浴缸</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/>未来</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/>规矩的订立和执行</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/>驱虎吞狼</a></li></ul></li><li><input type=checkbox id=section-e5e00708106809cefc1b0939618449f5 class=toggle>

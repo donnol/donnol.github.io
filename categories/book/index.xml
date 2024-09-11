@@ -22,4 +22,46 @@
 &lt;p>批处理: linux cron, golang timer&lt;/p>
 &lt;/blockquote>
 &lt;/blockquote>
-&lt;p>使用较小的通用组件创建了一个全新的、专用的数据系统。&lt;/p></description></item></channel></rss>
+&lt;p>使用较小的通用组件创建了一个全新的、专用的数据系统。&lt;/p>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/%e6%95%b0%e6%8d%ae%e5%af%86%e9%9b%86%e5%9e%8b%e5%ba%94%e7%94%a8%e4%b8%80%e8%88%ac%e6%b6%89%e5%8f%8a%e7%9a%84%e7%bb%84%e4%bb%b6.png" alt="组件图" />&lt;/p>
+&lt;h3 id="如何衡量一个系统的好坏">
+ 如何衡量一个系统的好坏
+ &lt;a class="anchor" href="#%e5%a6%82%e4%bd%95%e8%a1%a1%e9%87%8f%e4%b8%80%e4%b8%aa%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%a5%bd%e5%9d%8f">#&lt;/a>
+&lt;/h3>
+&lt;p>设计数据系统或服务时可能会遇到很多棘手的问题，例如：当系统出问题时，如何确保数据的正确性和完整性？当部分系统退化降级时，如何为客户提供始终如一的良好性能？当负载增加时，如何扩容应对？什么样的 API 才是好的 API？&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>可靠性（Reliability）&lt;/p>
+&lt;blockquote>
+&lt;p>系统&lt;strong>在困境（adversity）（硬件故障、软件故障、人为错误）中仍可正常工作&lt;/strong>（正确完成功能，并能达到期望的性能水准）。&lt;/p>
+&lt;p>&lt;strong>故障&lt;/strong>通常定义为系统的一部分状态偏离其标准，而&lt;strong>失效&lt;/strong>则是系统作为一个整体停止向用户提供服务。故障的概率不可能降到零，因此最好设计容错机制&lt;strong>以防因故障而导致失效&lt;/strong>。&lt;/p>
+&lt;p>硬件错误的解决：为了减少系统的故障率，第一反应通常都是增加单个硬件的冗余度，例如：磁盘可以组建 RAID，服务器可能有双路电源和热插拔 CPU，数据中心可能有电池和柴油发电机作为后备电源，某个组件挂掉时冗余组件可以立刻接管。&lt;/p>
+&lt;p>软件错误的解决：仔细考虑系统中的假设和交互；彻底的测试；进程隔离；允许进程崩溃并重启；测量、监控并分析生产环境中的系统行为。&lt;/p>
+&lt;p>人为错误的解决：&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>可扩展性（Scalability）&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>有合理的办法应对系统的增长&lt;/strong>（数据量、流量、复杂性）&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>可维护性（Maintainability）&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>许多不同的人（工程师、运维）在不同的生命周期，都能高效地在系统上工作&lt;/strong>（使系统保持现有行为，并适应新的应用场景）。&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;p>从人的角度看：可靠就是能共困苦，同富贵；可扩展就是学习能力强，心胸广阔；可维护就是对人对己无偏见、无特例。&lt;/p>
+&lt;h2 id="2pc两阶段提交">
+ 2PC（两阶段提交）
+ &lt;a class="anchor" href="#2pc%e4%b8%a4%e9%98%b6%e6%ae%b5%e6%8f%90%e4%ba%a4">#&lt;/a>
+&lt;/h2>
+&lt;p>2PC，two-phase commit，两阶段提交。&lt;/p>
+&lt;blockquote>
+&lt;p>一种用于实现跨多个节点的原子事务提交的算法，即确保所有节点提交或所有节点中止。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+ &lt;img src="https://donnol.github.io/image/2PC.png" alt="2PC" />&lt;/p></description></item></channel></rss>

@@ -241,4 +241,4 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">goready&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">// 因为我们已经释放了这些g所关联的chan，所以让这些g进入ready状态，准备运行 -- Mark gp ready to run.
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>src/runtime/type.go&lt;/code>:&lt;/p></description></item></channel></rss>

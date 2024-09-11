@@ -16,7 +16,9 @@
 &lt;p>//&lt;/p>
 &lt;p>// Operating systems provide both a “wall clock,” which is subject to&lt;/p>
 &lt;p>// changes for clock synchronization, and a “monotonic clock,” which is&lt;/p>
-&lt;p>// not. The general rule is that the wall clock is for telling time and&lt;/p></description></item><item><title>Go escape analysis</title><link>https://donnol.github.io/posts/2023/09/go_escape_analysis/</link><pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_escape_analysis/</guid><description>&lt;blockquote>
+&lt;p>// not. The general rule is that the wall clock is for telling time and&lt;/p>
+&lt;p>// the monotonic clock is for measuring time. Rather than split the API,&lt;/p>
+&lt;p>// in this package the Time returned by time.Now contains both a wall&lt;/p></description></item><item><title>Go escape analysis</title><link>https://donnol.github.io/posts/2023/09/go_escape_analysis/</link><pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_escape_analysis/</guid><description>&lt;blockquote>
 &lt;p>The meaning of &lt;code>escapes to the heap&lt;/code> is variables needs to &lt;code>be shared across the function stack frames&lt;/code> [between main() and Println()]
 &amp;hellip;&lt;/p>
 &lt;p>&amp;hellip;
@@ -39,7 +41,48 @@ So &lt;code>globally access variables&lt;/code> must be &lt;code>moved to heap&l
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">-- 其它
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> performance_schema.events_statements_current;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">show&lt;/span> processlist;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>&lt;p>今天发现在windows上的vscode一直提示找不到go：&lt;code>go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go&lt;/code>。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="查看锁使用情况">
+ 查看锁使用情况
+ &lt;a class="anchor" href="#%e6%9f%a5%e7%9c%8b%e9%94%81%e4%bd%bf%e7%94%a8%e6%83%85%e5%86%b5">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">SELECT&lt;/span> object_name, index_name, lock_type, lock_mode, lock_data &lt;span style="color:#66d9ef">FROM&lt;/span> performance_schema.data_locks;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="windows环境下死锁时重启数据库导致数据库出现启动后停止">
+ Windows环境下死锁时重启数据库导致数据库出现“启动后停止”
+ &lt;a class="anchor" href="#windows%e7%8e%af%e5%a2%83%e4%b8%8b%e6%ad%bb%e9%94%81%e6%97%b6%e9%87%8d%e5%90%af%e6%95%b0%e6%8d%ae%e5%ba%93%e5%af%bc%e8%87%b4%e6%95%b0%e6%8d%ae%e5%ba%93%e5%87%ba%e7%8e%b0%e5%90%af%e5%8a%a8%e5%90%8e%e5%81%9c%e6%ad%a2">#&lt;/a>
+&lt;/h2>
+&lt;p>后面重启服务器也不行，一直提示：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&amp;gt; net start mysql
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MYSQL服务正在启动
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MYSQL服务无法启动
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>服务没有报告任何错误。
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>请键入 MET HELPMSG &lt;span style="color:#ae81ff">3534&lt;/span> 以获得更多的帮助。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>解决办法：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>将data目录移走，再重新初始化数据库，此时可正常启动数据库；然后停止数据库，将旧data数据库里的数据库和索引文件复制回新的data目录里，再启动数据库。
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 重新初始化数据库&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mysqld --initialize-insecure --user&lt;span style="color:#f92672">=&lt;/span>mysql
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mysqld -install
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 停止和启动&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>net stop mysql
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>net start mysql
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://blog.csdn.net/weixin_46483006/article/details/136692632">参考&lt;/a>&lt;/p>
+&lt;p>其中需要复制的文件有这些：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>数据库目录&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#ib_16384_0.dblwr # Doublewrite Buffer (内存+磁盘), 新的DBLWR以及它如何帮助解决历史上MySQL性能问题&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#ib_16384_1.dblwr&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>auto.cnf &lt;span style="color:#75715e"># 记录mysql数据库实例的server_uuid，安装的时候初始化,master和slave的server_uuid不能一样&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ib_fubber_pool &lt;span style="color:#75715e"># 缓存池，存放部分最近的查询记录和索引等，可以通过show variables like &amp;#39;innodb%pool%&amp;#39;查&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ibdata1 &lt;span style="color:#75715e"># innodb表空间,如果采用innodb引擎，会默认10M大小&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mysql.ibd &lt;span style="color:#75715e"># innodb存储引擎的数据文件&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="双写">
+ 双写
+ &lt;a class="anchor" href="#%e5%8f%8c%e5%86%99">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://dev.mysql.com/doc/refman/8.4/en/innodb-doublewrite-buffer.html">official&lt;/a>&lt;/p></description></item><item><title>Vscode go cannot find GOROOT directory</title><link>https://donnol.github.io/posts/2023/09/goenv/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/goenv/</guid><description>&lt;p>今天发现在windows上的vscode一直提示找不到go：&lt;code>go: cannot find GOROOT directory: c:\msys64\mingw64\lib\go&lt;/code>。&lt;/p>
 &lt;p>强制设置了go.goroot也不行，直到查看了GOENV文件（C:\Users\xxx\AppData\Roaming\go\env）之后，才发现里面有一行：GOROOT=c:\msys64\mingw64\lib\go，可能是当时在msys2安装go的时候加上的。&lt;/p>
 &lt;p>去掉它就恢复正常了。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go env
@@ -52,7 +95,8 @@ So &lt;code>globally access variables&lt;/code> must be &lt;code>moved to heap&l
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPRIVATE&lt;span style="color:#f92672">=&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOPROXY&lt;span style="color:#f92672">=&lt;/span>https://goproxy.cn,https://goproxy.io,direct
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set GOROOT&lt;span style="color:#f92672">=&lt;/span>C:&lt;span style="color:#ae81ff">\P&lt;/span>rogram Files&lt;span style="color:#ae81ff">\G&lt;/span>o
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>&lt;p>不同系统之间通过网络对接&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>应该是这样的，如果用&lt;code>go env -w &lt;/code>来设置goroot，那么这个值就会保存到GOENV对应的文件里，如果是&lt;code>$env:GOROOT=xxx&lt;/code>的方式来设置则不会修改GOENV文件里的内容。这时候，如果vscode是优先从GOENV文件来获取GOROOT的话，就可能会导致与实际的GOROOT不一致。&lt;/p>
+&lt;p>所以，如果再遇到以上错误，除了&lt;code>echo $env:GOROOT&lt;/code> 看一下环境变量值之外，也要看一下&lt;code>GOENV&lt;/code>文件。&lt;/p></description></item><item><title>不同系统之间通过网络对接</title><link>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</link><pubDate>Wed, 13 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E7%B3%BB%E7%BB%9F%E9%97%B4%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92%E4%BB%A5%E5%AE%8C%E6%88%90%E4%BA%8B%E5%8A%A1/</guid><description>&lt;p>不同系统之间通过网络对接&lt;/p>
 &lt;h2 id="数据库事件">
  数据库事件
  &lt;a class="anchor" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e4%ba%8b%e4%bb%b6">#&lt;/a>
@@ -85,7 +129,7 @@ So &lt;code>globally access variables&lt;/code> must be &lt;code>moved to heap&l
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">from&lt;/span> w_event we &lt;span style="color:#66d9ef">where&lt;/span> status &lt;span style="color:#66d9ef">in&lt;/span> (&lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> id &lt;span style="color:#66d9ef">asc&lt;/span> &lt;span style="color:#66d9ef">limit&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#66d9ef">update&lt;/span> skip locked;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">commit&lt;/span>;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>do</title><link>https://donnol.github.io/posts/2023/09/your_life/</link><pubDate>Tue, 12 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/your_life/</guid><description>&lt;p>你在做的事情，是在重复已知的东西，还是在探索未知的东西。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可打开两个线程来验证上述事务执行，可以看到，当满足条件的记录有两条或以上时，当&lt;code>事务1&lt;/code>查到&lt;code>记录1&lt;/code>后，&lt;code>事务1&lt;/code>未提交时，&lt;code>事务2&lt;/code>不会拿到&lt;code>记录1&lt;/code>，而是会拿到&lt;code>记录2&lt;/code>. 也就实现了有锁则获取下一批数据的效果。&lt;/p></description></item><item><title>do</title><link>https://donnol.github.io/posts/2023/09/your_life/</link><pubDate>Tue, 12 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/your_life/</guid><description>&lt;p>你在做的事情，是在重复已知的东西，还是在探索未知的东西。&lt;/p>
 &lt;p>这决定了所能达到的高度。&lt;/p></description></item><item><title>Go Empty Struct</title><link>https://donnol.github.io/posts/2023/09/go_empty_struct/</link><pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/go_empty_struct/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> (
@@ -114,4 +158,5 @@ So &lt;code>globally access variables&lt;/code> must be &lt;code>moved to heap&l
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 地址一样
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%p, %p&amp;#34;&lt;/span>, &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">0&lt;/span>], &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">x&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>]) &lt;span style="color:#75715e">// 0x54e3a0, 0x54e3a0
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2023/09/%E4%B8%BA%E4%BA%86%E4%BB%96%E6%98%AF%E8%87%AA%E5%B7%B1%E8%BD%AF%E5%BC%B1%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%9F%E5%8F%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E4%B8%BA%E4%BA%86%E4%BB%96%E6%98%AF%E8%87%AA%E5%B7%B1%E8%BD%AF%E5%BC%B1%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%9F%E5%8F%A3/</guid><description>&lt;p>软弱如绵羊，却生造出老虎护幼崽的形象，只需一句“都是为了他”。&lt;/p></description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://dave.cheney.net/2014/03/25/the-empty-struct">See also&lt;/a>&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2023/09/%E4%B8%BA%E4%BA%86%E4%BB%96%E6%98%AF%E8%87%AA%E5%B7%B1%E8%BD%AF%E5%BC%B1%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%9F%E5%8F%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/09/%E4%B8%BA%E4%BA%86%E4%BB%96%E6%98%AF%E8%87%AA%E5%B7%B1%E8%BD%AF%E5%BC%B1%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%9F%E5%8F%A3/</guid><description>&lt;p>软弱如绵羊，却生造出老虎护幼崽的形象，只需一句“都是为了他”。&lt;/p></description></item></channel></rss>

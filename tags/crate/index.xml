@@ -32,4 +32,27 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>s.send(&lt;span style="color:#e6db74">&amp;#34;Hello, world!&amp;#34;&lt;/span>).unwrap();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>assert_eq!(r.recv(), Ok(&lt;span style="color:#e6db74">&amp;#34;Hello, world!&amp;#34;&lt;/span>));
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>unbounded(无限) channel&lt;/code>发送时不用等接收端就绪。&lt;/p>
+&lt;p>另外还有&lt;code>bounded channel&lt;/code>可在新建时指定容量，后续发送的消息数不能超过该数据 &amp;ndash; 除非中间有消息被取走了&lt;/p>
+&lt;p>当&lt;code>bounded channel&lt;/code>容量设为0时，发送前必须等接收端就绪，一般可用于线程间等待。&lt;/p>
+&lt;p>
+ &lt;a href="https://docs.rs/crossbeam/0.8.1/crossbeam/channel/index.html">更多介绍&lt;/a>&lt;/p>
+&lt;p>
+ &lt;a href="https://blog.csdn.net/u012067469/article/details/108544104">与标准库的&lt;code>sync::mpsc&lt;/code>对比&lt;/a>&lt;/p>
+&lt;h3 id="epoch">
+ epoch
+ &lt;a class="anchor" href="#epoch">#&lt;/a>
+&lt;/h3>
+&lt;p>
+ &lt;a href="https://rustmagazine.github.io/rust_magazine_2021/chapter_8/rust-lockfree-part2.html">Pin 做了什么？&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>crossbeam在实现无锁并发结构时，采用了基于代的内存回收方式1，这种算法的内存管理开销和数据对象的数量无关，只和线程的数量相关，因此在 以上模型中可以表现出更好的一致性和可预测性。不过Rust中的所有权系统已经保证了内存安全，那为什么还需要做额外的内存回收呢？这个问题的关键点 就在要实现&lt;strong>无锁并发&lt;/strong>结构。如果使用标准库中的Arc自然就不会有内存回收的问题，但对Arc进行读写是需要锁的。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+ &lt;a href="https://xiaopengli89.github.io/posts/crossbeam-channel/">crossbeam-channel文章&lt;/a>&lt;/p>
+&lt;h2 id="digest">
+ digest
+ &lt;a class="anchor" href="#digest">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://docs.rs/digest/latest/digest/">This crate provides traits which describe functionality of cryptographic hash functions and Message Authentication algorithms.&lt;/a>&lt;/p></description></item></channel></rss>

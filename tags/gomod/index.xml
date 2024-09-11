@@ -10,4 +10,6 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等&lt;code>go 1.18&lt;/code>的&lt;code>workspace&lt;/code>模式推出之后，应该就不需要配置这个了。&lt;/p></description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等&lt;code>go 1.18&lt;/code>的&lt;code>workspace&lt;/code>模式推出之后，应该就不需要配置这个了。&lt;/p>
+&lt;p>
+ &lt;a href="https://stackoverflow.com/questions/59732657/how-do-i-properly-use-go-modules-in-vscode">参考&lt;/a>&lt;/p></description></item></channel></rss>

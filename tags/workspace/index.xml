@@ -18,7 +18,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>go work</title><link>https://donnol.github.io/posts/2022/02/go_work/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_work/</guid><description>&lt;p>go1.18将要推出&lt;code>workspace&lt;/code>模式，此举是为了方便在本地开发多个不同&lt;code>module&lt;/code>时的依赖管理。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>go work</title><link>https://donnol.github.io/posts/2022/02/go_work/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_work/</guid><description>&lt;p>go1.18将要推出&lt;code>workspace&lt;/code>模式，此举是为了方便在本地开发多个不同&lt;code>module&lt;/code>时的依赖管理。&lt;/p>
 &lt;p>命令说明：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go help work
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Go workspace provides access to operations on workspaces.
@@ -83,4 +83,4 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use add modules to workspace file
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Use &lt;span style="color:#e6db74">&amp;#34;go help work &amp;lt;command&amp;gt;&amp;#34;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> more information about a command.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用&lt;code>use&lt;/code>指令指定包含在&lt;code>workspace&lt;/code>里的&lt;code>module&lt;/code>集。&lt;code>use&lt;/code>指令后紧接着的是包含了模块的&lt;code>go.mod&lt;/code>文件的目录&amp;ndash;相对&lt;code>go.work&lt;/code>的目录。&lt;/p></description></item></channel></rss>

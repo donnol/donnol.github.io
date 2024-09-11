@@ -9,4 +9,16 @@
  &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e%e5%91%a2">#&lt;/a>
 &lt;/h2>
 &lt;p>使用
- &lt;a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_dense-rank">&lt;code>dense_rank()&lt;/code>&lt;/a>间接计算：&lt;/p></description></item></channel></rss>
+ &lt;a href="https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_dense-rank">&lt;code>dense_rank()&lt;/code>&lt;/a>间接计算：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">select&lt;/span> &lt;span style="color:#66d9ef">distinct&lt;/span> apply_unit_id, dense_rank() over (partition &lt;span style="color:#66d9ef">by&lt;/span> apply_unit_id &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> project_id) 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">+&lt;/span> dense_rank() over (partition &lt;span style="color:#66d9ef">by&lt;/span> apply_unit_id &lt;span style="color:#66d9ef">order&lt;/span> &lt;span style="color:#66d9ef">by&lt;/span> project_id &lt;span style="color:#66d9ef">desc&lt;/span>) 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">from&lt;/span> weia &lt;span style="color:#66d9ef">join&lt;/span> weiag &lt;span style="color:#66d9ef">on&lt;/span> weiag.apply_id &lt;span style="color:#f92672">=&lt;/span> weia.id 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dense_rank">
+ dense_rank()
+ &lt;a class="anchor" href="#dense_rank">#&lt;/a>
+&lt;/h2>
+&lt;blockquote>
+&lt;p>Returns the rank of the current row within its partition, without gaps.&lt;/p>
+&lt;p>&amp;ndash; 返回当前行在其分区内的排名，没有间隙。&lt;/p></description></item></channel></rss>

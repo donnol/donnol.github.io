@@ -18,4 +18,18 @@
 &lt;p>主题命名规则：&lt;/p>
 &lt;p>基本字符：a to z, A to Z and 0 to 9 (区分大小写，不能包含空白字符).&lt;/p>
 &lt;p>特殊字符: &lt;code>.&lt;/code> (分割符，分割不同部分，每部分视为一个token)； * 和 &amp;gt; (通配符，*表示匹配一个token，&amp;gt;表示匹配一或多个token).&lt;/p>
-&lt;p>保留主题名称: 以 $ 开头的用在系统内部 (如：$SYS, $JS, $KV &amp;hellip;)&lt;/p></description></item></channel></rss>
+&lt;p>保留主题名称: 以 $ 开头的用在系统内部 (如：$SYS, $JS, $KV &amp;hellip;)&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="发布-订阅">
+ 发布-订阅
+ &lt;a class="anchor" href="#%e5%8f%91%e5%b8%83-%e8%ae%a2%e9%98%85">#&lt;/a>
+&lt;/h3>
+&lt;p>Core NATS: 一个主题，存在一个发布者，多个订阅者。&lt;/p>
+&lt;p>消息会&lt;code>复制&lt;/code>到多个订阅者。&lt;/p>
+&lt;h3 id="请求-响应">
+ 请求-响应
+ &lt;a class="anchor" href="#%e8%af%b7%e6%b1%82-%e5%93%8d%e5%ba%94">#&lt;/a>
+&lt;/h3>
+&lt;blockquote>
+&lt;p>A request is sent, and the application either waits on the response with a certain timeout, or receives a response asynchronously.&lt;/p>
+&lt;p>&amp;ndash; 请求发出后，应用要不等待响应超时，要不就异步收到一个响应。&lt;/p></description></item></channel></rss>

@@ -21,7 +21,8 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</guid><description>&lt;h1 id="vscode选中所有匹配项">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>当文件扩展名为&lt;code>tpl&lt;/code>, &lt;code>tmpl&lt;/code>时，均会视为是符合&lt;code>Go&lt;/code>的&lt;code>template&lt;/code>文件。&lt;/p>
+&lt;p>在编辑器里会有变量的高亮和智能提示。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/vscode%E9%80%89%E4%B8%AD%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E9%A1%B9/</guid><description>&lt;h1 id="vscode选中所有匹配项">
  vscode选中所有匹配项
  &lt;a class="anchor" href="#vscode%e9%80%89%e4%b8%ad%e6%89%80%e6%9c%89%e5%8c%b9%e9%85%8d%e9%a1%b9">#&lt;/a>
 &lt;/h1>
@@ -46,7 +47,77 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>network&lt;span style="color:#f92672">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>generateResolvConf &lt;span style="color:#f92672">=&lt;/span> false &lt;span style="color:#75715e"># 关闭自动生成resolv.conf&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</guid><description>&lt;h1 id="刺破的过程">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="更新resolvconf">
+ 更新resolv.conf
+ &lt;a class="anchor" href="#%e6%9b%b4%e6%96%b0resolvconf">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ cat Script/generateResolvConf.sh 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/sh&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#39;nameserver 192.168.8.44&amp;#39;&lt;/span> &amp;gt; /etc/resolv.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>以&lt;code>systemd service&lt;/code>在开机时执行脚本：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ cat /etc/systemd/system/generateResolvConf.service
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Unit&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Description&lt;span style="color:#f92672">=&lt;/span>Run generateResolvConf.sh to set dns of wsl2 at Startup
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Service&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ExecStart&lt;span style="color:#f92672">=&lt;/span>/home/jd/Script/generateResolvConf.sh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>Install&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WantedBy&lt;span style="color:#f92672">=&lt;/span>default.target
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="更新wslhost">
+ 更新wslhost
+ &lt;a class="anchor" href="#%e6%9b%b4%e6%96%b0wslhost">#&lt;/a>
+&lt;/h2>
+&lt;p>wsl启动时，注册虚拟机ip到主机hosts：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ cat Script/wsl2host.sh 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>HOSTS_FILE_WIN&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;/mnt/c/Windows/System32/drivers/etc/hosts&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TEMP_DIR_PATH&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;~/tmp/dns&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TEMP_FILE_PATH&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>TEMP_DIR_PATH&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#39;/dns_back&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># inetIp=`ifconfig eth0 | grep -o &amp;#34;inet [0-9]*\.[0-9]*\.[0-9]*\.[0-9]* netmask&amp;#34; | cut -f 2 -d &amp;#34; &amp;#34;` # 获取本机ip&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inetIp&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>ip a | grep eth0 | grep -o &lt;span style="color:#e6db74">&amp;#34;inet [0-9]*\.[0-9]*\.[0-9]*\.[0-9]*&amp;#34;&lt;/span> | cut -f &lt;span style="color:#ae81ff">2&lt;/span> -d &lt;span style="color:#e6db74">&amp;#34; &amp;#34;&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hnetIp&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>ip route show | grep -i default | awk &lt;span style="color:#e6db74">&amp;#39;{ print $3}&amp;#39;&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nu&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>cat -n &lt;span style="color:#e6db74">${&lt;/span>HOSTS_FILE_WIN&lt;span style="color:#e6db74">}&lt;/span> | grep localwsl2 | awk &lt;span style="color:#e6db74">&amp;#39;{print $1}&amp;#39;&lt;/span>&lt;span style="color:#e6db74">`&lt;/span> &lt;span style="color:#75715e"># 获取已设置dns行号&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dnsIp&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">`&lt;/span>cat &lt;span style="color:#e6db74">${&lt;/span>HOSTS_FILE_WIN&lt;span style="color:#e6db74">}&lt;/span> | grep -o &lt;span style="color:#e6db74">&amp;#34;[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* localwsl2 #&amp;#34;&lt;/span> | cut -f &lt;span style="color:#ae81ff">1&lt;/span> -d &lt;span style="color:#e6db74">&amp;#34; &amp;#34;&lt;/span>&lt;span style="color:#e6db74">`&lt;/span> &lt;span style="color:#75715e"># 获取已设置dns ip &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;wsl&amp;#39;s ip is: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>inetIp&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;wsl host&amp;#39;s ip is: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>hnetIp&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;win&amp;#39;s dns line number is: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>nu&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;win&amp;#39;s dnsIp is: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>dnsIp&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> -z &lt;span style="color:#e6db74">${&lt;/span>inetIp&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#39;inet ip is null, please check the command&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>set -e
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>nu&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#75715e"># 若已设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> -z &lt;span style="color:#e6db74">${&lt;/span>dnsIp&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">||&lt;/span> &lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>inetIp&lt;span style="color:#e6db74">}&lt;/span> !&lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>dnsIp&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#75715e"># 已设置dns不正确&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo reset
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> ! -e &lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;will mkdir &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>TEMP_DIR_PATH&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> and file &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mkdir -p &lt;span style="color:#e6db74">${&lt;/span>TEMP_DIR_PATH&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> touch &lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cp -f &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>HOSTS_FILE_WIN&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sed -i &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>nu&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">d&amp;#34;&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#75715e"># 删除对应行&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>inetIp&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> localwsl2 #wsl2 dns config&amp;#34;&lt;/span> &amp;gt;&amp;gt; &lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#75715e"># 重新设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cat &lt;span style="color:#e6db74">${&lt;/span>TEMP_FILE_PATH&lt;span style="color:#e6db74">}&lt;/span> &amp;gt; &lt;span style="color:#e6db74">${&lt;/span>HOSTS_FILE_WIN&lt;span style="color:#e6db74">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo set success!!!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#75715e"># 未设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;will append localwsl2 ip:host to windows hosts&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>inetIp&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> localwsl2 #wsl2 dns config&amp;#34;&lt;/span> &amp;gt;&amp;gt; &lt;span style="color:#e6db74">${&lt;/span>HOSTS_FILE_WIN&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#75715e"># 直接设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>hnetIp&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> winhost #wsl2 dns config&amp;#34;&lt;/span> &amp;gt;&amp;gt; &lt;span style="color:#e6db74">${&lt;/span>HOSTS_FILE_WIN&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#75715e"># 直接设置， ip route show | grep -i default | awk &amp;#39;{ print $3}&amp;#39; [拿到主机地址](https://learn.microsoft.com/en-us/windows/wsl/networking)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;finish append localwsl2 ip:host to windows hosts&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>以&lt;code>systemd service&lt;/code>在开机时执行&lt;code>wsl2host.sh&lt;/code>脚本：&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E5%88%BA%E7%A0%B4/</guid><description>&lt;h1 id="刺破的过程">
  刺破的过程
  &lt;a class="anchor" href="#%e5%88%ba%e7%a0%b4%e7%9a%84%e8%bf%87%e7%a8%8b">#&lt;/a>
 &lt;/h1>
@@ -80,7 +151,10 @@
 &lt;li>&lt;code>PUT /user&lt;/code>&lt;/li>
 &lt;li>&lt;code>DELETE /user&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;p>在多人协作开发过程中，先定义接口，达到并行开发的目的。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</guid><description>&lt;h1 id="算数">
+&lt;p>在多人协作开发过程中，先定义接口，达到并行开发的目的。&lt;/p>
+&lt;p>存在单人单服务的开发模式，也存在单人单模块的开发模式。&lt;/p>
+&lt;p>存在多人单服务的开发模式，也存在多人单模块的开发模式。&lt;/p>
+&lt;p>更存在存在多人多服务的开发模式，也存在多人多模块的开发模式。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/01/%E7%AE%97%E6%95%B0/</guid><description>&lt;h1 id="算数">
  算数
  &lt;a class="anchor" href="#%e7%ae%97%e6%95%b0">#&lt;/a>
 &lt;/h1>
@@ -173,7 +247,8 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">p&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>) &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">4&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">factorial&lt;/span>(&lt;span style="color:#ae81ff">4&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	println(&lt;span style="color:#e6db74">&amp;#34;10个取4个的组合&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">p&lt;/span>) &lt;span style="color:#75715e">// 10个取4个的组合 120960
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>&lt;h1 id="物极必反">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://go.dev/play/p/hSlQcjcS7RW">执行&lt;/a>&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/02/%E7%89%A9%E6%9E%81%E5%BF%85%E5%8F%8D/</guid><description>&lt;h1 id="物极必反">
  物极必反
  &lt;a class="anchor" href="#%e7%89%a9%e6%9e%81%e5%bf%85%e5%8f%8d">#&lt;/a>
 &lt;/h1>
@@ -207,7 +282,24 @@
  录屏
  &lt;a class="anchor" href="#%e5%bd%95%e5%b1%8f">#&lt;/a>
 &lt;/h2>
-&lt;p>windows: &lt;code>ffmpeg -f gdigrab -framerate 20 -i desktop C:\Users\Pictures\out.avi&lt;/code>&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/match/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/match/</guid><description>&lt;h1 id="match">
+&lt;p>windows: &lt;code>ffmpeg -f gdigrab -framerate 20 -i desktop C:\Users\Pictures\out.avi&lt;/code>&lt;/p>
+&lt;h2 id="分割">
+ 分割
+ &lt;a class="anchor" href="#%e5%88%86%e5%89%b2">#&lt;/a>
+&lt;/h2>
+&lt;p>&lt;code>ffmpeg -i C:\Users\Pictures\output.mp4 -f segment -segment_time 60 -segment_format mpegts -segment_list C:\Users\Pictures\video_name.m3u8 -c copy -bsf:v h264_mp4toannexb -map 0 C:\Users\Pictures\course-%04d.ts&lt;/code>&lt;/p>
+&lt;p>将视频每60秒分割为一个&lt;code>ts&lt;/code>文件。其中&lt;code>video_name.m3u8&lt;/code>文件为ts清单，播放器会根据它按序播放&lt;code>ts&lt;/code>文件：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-m3u8" data-lang="m3u8">#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-ALLOW-CACHE:YES
+#EXT-X-TARGETDURATION:63
+#EXTINF:62.600000,
+course-0000.ts
+#EXTINF:1.200000,
+course-0001.ts
+#EXT-X-ENDLIST
+&lt;/code>&lt;/pre>&lt;p>为什么要这样分割呢？主要是为了提高并发。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/03/match/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/03/match/</guid><description>&lt;h1 id="match">
  Match
  &lt;a class="anchor" href="#match">#&lt;/a>
 &lt;/h1>
@@ -585,7 +677,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span>[&lt;span style="color:#a6e22e">n&lt;/span>]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</guid><description>&lt;p>怎样可谓之好时代，&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>解决一系列小问题，直到解决一个大问题。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%A5%BD%E6%97%B6%E4%BB%A3/</guid><description>&lt;p>怎样可谓之好时代，&lt;/p>
 &lt;p>好时代是怎么来，又怎么去的呢？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%B0%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%B0%B1/</guid><description>&lt;p>想看就看，想吹就吹，想喷就喷，想做就想。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E5%BB%BA%E8%AE%BE%E8%BF%98%E6%98%AF%E7%A0%B4%E5%9D%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E5%BB%BA%E8%AE%BE%E8%BF%98%E6%98%AF%E7%A0%B4%E5%9D%8F/</guid><description>&lt;p>搞建设能来钱，搞破坏也可以。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%94%B6%E5%85%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%94%B6%E5%85%A5/</guid><description>&lt;p>挣也好，亏也好，必须要有收入；&lt;/p>
 &lt;p>没收入就什么都没了。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/04/%E6%97%A0%E7%A9%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/04/%E6%97%A0%E7%A9%B7/</guid><description>&lt;p>都要自杀了，为什么不敢干它？&lt;/p>
 &lt;p>都要在70岁时去打螺丝了，为什么不敢干它？&lt;/p>
@@ -694,7 +786,8 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">r&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">SumTree&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#a6e22e">r&lt;/span>, &lt;span style="color:#a6e22e">SumTreeSeq&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">All&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</guid><description>&lt;p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://go.googlesource.com/go/&amp;#43;/refs/changes/41/510541/7/src/cmd/compile/internal/rangefunc/rewrite.go">range over func的defer说明&lt;/a>&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/05/%E5%8D%B7%E7%A7%AF/</guid><description>&lt;p>
  &lt;a href="https://www.zhihu.com/question/22298352/answer/1071892762">如何通俗易懂地解释卷积？ - 1335的回答&lt;/a>&lt;/p>
 &lt;ol>
 &lt;li>
@@ -744,7 +837,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</guid><description>&lt;p>分工明确，各司其职；&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>即可为该项目配置使用&lt;code>go1.22.2&lt;/code>版本。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%B7%A5%E5%8E%82%E5%92%8C%E4%BD%9C%E5%9D%8A/</guid><description>&lt;p>分工明确，各司其职；&lt;/p>
 &lt;p>混乱重叠，前后不一。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E5%BC%AF%E9%81%93%E8%B6%85%E8%BD%A6%E5%92%8C%E4%BC%BA%E6%9C%BA%E8%B6%85%E8%B6%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E5%BC%AF%E9%81%93%E8%B6%85%E8%BD%A6%E5%92%8C%E4%BC%BA%E6%9C%BA%E8%B6%85%E8%B6%8A/</guid><description>&lt;p>一个是急得焦躁，一个是稳中求变。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1-%E5%AE%9E%E7%8E%B0%E5%88%86%E5%9D%97/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%8E%A5%E5%8F%A3%E6%8A%BD%E8%B1%A1-%E5%AE%9E%E7%8E%B0%E5%88%86%E5%9D%97/</guid><description>&lt;p>接口抽象&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Animal&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Eat&lt;/span>()
@@ -777,7 +870,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// after
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</guid><description>&lt;p>数据：data&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%95%B0%E6%8D%AE%E5%92%8C%E7%BD%91%E7%BB%9C/</guid><description>&lt;p>数据：data&lt;/p>
 &lt;p>网络：net&lt;/p>
 &lt;p>展示：view&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9C%BA%E5%88%B6%E5%92%8C%E7%AD%96%E7%95%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9C%BA%E5%88%B6%E5%92%8C%E7%AD%96%E7%95%A5/</guid><description>&lt;p>机制：如何做？&lt;/p>
 &lt;p>策略：做什么，何时做？&lt;/p>
@@ -818,7 +911,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">mechanism&lt;/span>) &lt;span style="color:#a6e22e">Before&lt;/span>() {}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">mechanism&lt;/span>) &lt;span style="color:#a6e22e">Run&lt;/span>() {}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">m&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">mechanism&lt;/span>) &lt;span style="color:#a6e22e">After&lt;/span>() {}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</guid><description>&lt;p>是非不分、奖罚不明、权责不等。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</guid><description>&lt;p>一方水土养育一方人，&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%9D%83%E8%B4%A3/</guid><description>&lt;p>是非不分、奖罚不明、权责不等。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E6%B0%B4%E5%9C%9F%E4%B8%8E%E4%BA%BA/</guid><description>&lt;p>一方水土养育一方人，&lt;/p>
 &lt;p>一方人制造一方水土。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/06/%E8%87%B4%E6%95%AC%E5%92%8C%E8%BF%BD%E9%9A%8F/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/06/%E8%87%B4%E6%95%AC%E5%92%8C%E8%BF%BD%E9%9A%8F/</guid><description>&lt;p>说一两句好听的话，做一两件认可的事。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E4%B8%93%E5%88%B6%E5%92%8C%E7%A7%91%E5%AD%A6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E4%B8%93%E5%88%B6%E5%92%8C%E7%A7%91%E5%AD%A6/</guid><description>&lt;p>专制时有科学，科学时有专制吗？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/07/%E5%80%BC%E4%B8%8E%E4%B8%8D%E5%80%BC/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/07/%E5%80%BC%E4%B8%8E%E4%B8%8D%E5%80%BC/</guid><description>&lt;p>值还是不值&lt;/p>
 &lt;p>认为值就奋不顾身；认为不值就静观其变。&lt;/p>
 &lt;p>营造值的氛围，加大值的得益，赚取值的利润。&lt;/p>
@@ -865,7 +958,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">v&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#a6e22e">e&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">check&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> { panic(&lt;span style="color:#a6e22e">err&lt;/span>) } &lt;span style="color:#75715e">// panic
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</guid><description>&lt;p>半真半假糊弄学，&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>整下来，跟&lt;code>if err != nil { ... }&lt;/code>也差不多。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%8D%8A%E7%9C%9F%E5%8D%8A%E5%81%87/</guid><description>&lt;p>半真半假糊弄学，&lt;/p>
 &lt;p>伪造作假交差学。&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%9B%BD%E5%AE%B6%E4%BC%9A%E5%87%BA%E6%89%8B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%9B%BD%E5%AE%B6%E4%BC%9A%E5%87%BA%E6%89%8B/</guid><description>&lt;p>潜台词是：继续当个忍者吧！&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E5%A5%89%E7%8C%AE%E7%89%BA%E7%89%B2%E5%BF%8D%E8%80%90%E4%BB%A3%E4%BB%B7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E5%A5%89%E7%8C%AE%E7%89%BA%E7%89%B2%E5%BF%8D%E8%80%90%E4%BB%A3%E4%BB%B7/</guid><description>&lt;p>奉献一下，牺牲一下，忍耐一下，&lt;/p>
 &lt;p>谁的代价？&lt;/p></description></item><item><title/><link>https://donnol.github.io/posts/2024/08/%E6%A8%A1%E5%9D%97%E5%8C%96-%E4%BE%9D%E8%B5%96/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2024/08/%E6%A8%A1%E5%9D%97%E5%8C%96-%E4%BE%9D%E8%B5%96/</guid><description>&lt;p>&lt;code>模块化&lt;/code>使得&lt;code>复用&lt;/code>更容易，也会带来&lt;code>依赖&lt;/code>的问题。&lt;/p>
 &lt;ul>

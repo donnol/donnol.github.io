@@ -19,4 +19,12 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">echo&lt;/span> service &amp;#39;&lt;span style="color:#ae81ff">%%&lt;/span>i&amp;#39; started.
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">pause&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>restart.ps1&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$Username &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Name&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$Password &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Password&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$pass &lt;span style="color:#f92672">=&lt;/span> ConvertTo-SecureString -AsPlainText $Password -Force
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$Cred &lt;span style="color:#f92672">=&lt;/span> New-Object System.Management.Automation.PSCredential -ArgumentList $Username,$pass
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Invoke-Command -ComputerName &lt;span style="color:#f92672">[&lt;/span>Remote-IP&lt;span style="color:#f92672">]&lt;/span> -ScriptBlock &lt;span style="color:#f92672">{&lt;/span> Get-Service WinRM &lt;span style="color:#f92672">}&lt;/span> -credential $Cred
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Invoke-Command -ComputerName &lt;span style="color:#f92672">[&lt;/span>Remote-IP&lt;span style="color:#f92672">]&lt;/span> -credential $Cred -ScriptBlock &lt;span style="color:#f92672">{&lt;/span> E:&lt;span style="color:#ae81ff">\w&lt;/span>in-dms4&lt;span style="color:#ae81ff">\r&lt;/span>estart.bat &lt;span style="color:#f92672">}&lt;/span> &lt;span style="color:#75715e"># 此处指定上述bat文件在远程机器上的决对路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Read-Host -Prompt &lt;span style="color:#e6db74">&amp;#34;Press Enter to exit&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>完成后，只要在本机打开映射的文件夹，使用&lt;code>PowerShell&lt;/code>执行&lt;code>restart.ps1&lt;/code>脚本，即可快速重启指定服务。&lt;/p></description></item></channel></rss>

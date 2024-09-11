@@ -27,7 +27,15 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">echo&lt;/span> service &amp;#39;&lt;span style="color:#ae81ff">%%&lt;/span>i&amp;#39; started.
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">pause&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>错误的定义和返回</title><link>https://donnol.github.io/posts/2023/07/error/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/error/</guid><description>&lt;p>错误的定义和返回&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>restart.ps1&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$Username &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Name&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$Password &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Password&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$pass &lt;span style="color:#f92672">=&lt;/span> ConvertTo-SecureString -AsPlainText $Password -Force
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$Cred &lt;span style="color:#f92672">=&lt;/span> New-Object System.Management.Automation.PSCredential -ArgumentList $Username,$pass
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Invoke-Command -ComputerName &lt;span style="color:#f92672">[&lt;/span>Remote-IP&lt;span style="color:#f92672">]&lt;/span> -ScriptBlock &lt;span style="color:#f92672">{&lt;/span> Get-Service WinRM &lt;span style="color:#f92672">}&lt;/span> -credential $Cred
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Invoke-Command -ComputerName &lt;span style="color:#f92672">[&lt;/span>Remote-IP&lt;span style="color:#f92672">]&lt;/span> -credential $Cred -ScriptBlock &lt;span style="color:#f92672">{&lt;/span> E:&lt;span style="color:#ae81ff">\w&lt;/span>in-dms4&lt;span style="color:#ae81ff">\r&lt;/span>estart.bat &lt;span style="color:#f92672">}&lt;/span> &lt;span style="color:#75715e"># 此处指定上述bat文件在远程机器上的决对路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Read-Host -Prompt &lt;span style="color:#e6db74">&amp;#34;Press Enter to exit&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>完成后，只要在本机打开映射的文件夹，使用&lt;code>PowerShell&lt;/code>执行&lt;code>restart.ps1&lt;/code>脚本，即可快速重启指定服务。&lt;/p></description></item><item><title>错误的定义和返回</title><link>https://donnol.github.io/posts/2023/07/error/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/error/</guid><description>&lt;p>错误的定义和返回&lt;/p>
 &lt;h3 id="错误的定义">
  错误的定义
  &lt;a class="anchor" href="#%e9%94%99%e8%af%af%e7%9a%84%e5%ae%9a%e4%b9%89">#&lt;/a>
@@ -153,7 +161,12 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:706 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Notify discovery manager stopped&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>tls_config.go:195 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>web msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;TLS is disabled.&amp;#34;&lt;/span> http2&lt;span style="color:#f92672">=&lt;/span>false
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:916 level&lt;span style="color:#f92672">=&lt;/span>error err&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;opening storage failed: get segment range: segments are not sequential&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>Compare and Order</title><link>https://donnol.github.io/posts/2023/07/compare_order/</link><pubDate>Wed, 05 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/compare_order/</guid><description>&lt;p>比，争。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="answer">
+ Answer
+ &lt;a class="anchor" href="#answer">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>rm -rf /var/lib/prometheus/metrics2/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Path is from &lt;code>prometheus -h | grep '--storage.tsdb.path'&lt;/code>.&lt;/p></description></item><item><title>Compare and Order</title><link>https://donnol.github.io/posts/2023/07/compare_order/</link><pubDate>Wed, 05 Jul 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/07/compare_order/</guid><description>&lt;p>比，争。&lt;/p>
 &lt;p>比较，争先。&lt;/p>
 &lt;p>拿他与她比，让他与她争。&lt;/p>
 &lt;p>做黄雀，做渔翁。&lt;/p>

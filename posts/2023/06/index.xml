@@ -11,7 +11,18 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt;&amp;gt;&amp;gt; clf.predict&lt;span style="color:#f92672">(&lt;/span>data&lt;span style="color:#f92672">[&lt;/span>:2, :&lt;span style="color:#f92672">])&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt;&amp;gt;&amp;gt; clf.predict_proba&lt;span style="color:#f92672">(&lt;/span>data&lt;span style="color:#f92672">[&lt;/span>:2, :&lt;span style="color:#f92672">])&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt;&amp;gt;&amp;gt; clf.score&lt;span style="color:#f92672">(&lt;/span>data, y&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>windows route</title><link>https://donnol.github.io/posts/2023/06/route/</link><pubDate>Tue, 13 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/route/</guid><description>&lt;h2 id="windows通过route命令配置路由">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="查找操作记录">
+ 查找操作记录
+ &lt;a class="anchor" href="#%e6%9f%a5%e6%89%be%e6%93%8d%e4%bd%9c%e8%ae%b0%e5%bd%95">#&lt;/a>
+&lt;/h3>
+&lt;p>&lt;code>cat ~/.python_history&lt;/code>.&lt;/p>
+&lt;h2 id="模型策略优化算法">
+ 模型、策略、优化算法
+ &lt;a class="anchor" href="#%e6%a8%a1%e5%9e%8b%e7%ad%96%e7%95%a5%e4%bc%98%e5%8c%96%e7%ae%97%e6%b3%95">#&lt;/a>
+&lt;/h2>
+&lt;p>模型是输入输出函数：Y = F(X).&lt;/p>
+&lt;p>策略是拟合过程的损失函数：L(Y, F(X)), 可以是均方误差、对数损失函数、交叉熵损失函数。&lt;/p>
+&lt;p>优化算法：确定模型和损失函数后，可以加速计算的方法，比如：随机梯度下降法、牛顿法、拟牛顿法。&lt;/p></description></item><item><title>windows route</title><link>https://donnol.github.io/posts/2023/06/route/</link><pubDate>Tue, 13 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/route/</guid><description>&lt;h2 id="windows通过route命令配置路由">
  &lt;code>Windows&lt;/code>通过&lt;code>route&lt;/code>命令配置路由
  &lt;a class="anchor" href="#windows%e9%80%9a%e8%bf%87route%e5%91%bd%e4%bb%a4%e9%85%8d%e7%bd%ae%e8%b7%af%e7%94%b1">#&lt;/a>
 &lt;/h2>
@@ -34,7 +45,11 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 255.255.255.0为子网掩码&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 3*8(255即是8位二进制)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ip route add 192.168.0.0/255.255.255.0 dev eth0
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description>&lt;h2 id="wsl2版本">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="子网掩码">
+ 子网掩码
+ &lt;a class="anchor" href="#%e5%ad%90%e7%bd%91%e6%8e%a9%e7%a0%81">#&lt;/a>
+&lt;/h2>
+&lt;p>&lt;code>ip&lt;/code>地址包含了网络地址和主机地址两部分，怎么区分呢？&lt;/p></description></item><item><title>wsl2初始化Mysql数据库速度非常慢</title><link>https://donnol.github.io/posts/2023/06/wsl2/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2023/06/wsl2/</guid><description>&lt;h2 id="wsl2版本">
  wsl2版本
  &lt;a class="anchor" href="#wsl2%e7%89%88%e6%9c%ac">#&lt;/a>
 &lt;/h2>
@@ -57,4 +72,45 @@
  怎么办？
  &lt;a class="anchor" href="#%e6%80%8e%e4%b9%88%e5%8a%9e">#&lt;/a>
 &lt;/h2>
-&lt;p>改为通过网络访问本机的数据库。&lt;/p></description></item></channel></rss>
+&lt;p>改为通过网络访问本机的数据库。&lt;/p>
+&lt;h2 id="端口">
+ 端口
+ &lt;a class="anchor" href="#%e7%ab%af%e5%8f%a3">#&lt;/a>
+&lt;/h2>
+&lt;p>
+ &lt;a href="https://zhuanlan.zhihu.com/p/425312804">一文中&lt;/a>提到：&lt;/p>
+&lt;blockquote>
+&lt;p>根据我的观察, 如果Windows本地启动了指定端口, 这时WSL2中虽然可以使用相同的端口, 但是localhost:port 将指向Windows的服务, WSL的服务将会被覆盖!&lt;/p>
+&lt;p>当然了, 如果我们配置了端口转发, 转发的IP是WSL的地址, 而不是localhost, 那么WSL将会覆盖Windows的服务!&lt;/p>
+&lt;/blockquote>
+&lt;p>而我的观察是，&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>我发现本地起了数据库服务之后，在wsl2里起数据库服务（mysql服务，端口都是3306）的情况下，是不会报端口重复绑定错误的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>但是如果我在wsl2里先起一个服务，绑定端口14222后，再在主机起相同服务，想绑定相同端口时，则会报错端口已被绑定。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果我是先在主机起上述服务，然后再在wsl2起该服务，则能正常启动。那在主机访问&lt;code>localhost:[port]&lt;/code>时会访问到哪个呢？此时访问到的是主机的服务。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>所以端口是否占用会不会还跟&lt;strong>服务起的顺序&lt;/strong>有关呢？&lt;/p>
+&lt;p>暂时未看到有确切的描述。&lt;/p>
+&lt;p>但是，经过上面的实验，可以认为：&lt;/p>
+&lt;pre>&lt;code>先在主机起服务，再在wsl2起服务绑定相同端口时，服务可正常启动；在主机访问`localhost:[port]`时访问的是主机的服务；在wsl2里访问的则是wsl2的服务，除非手动指定主机IP。
+
+而如果先在wsl2里起了服务，再在主机起服务（绑定相同端口: 14222），则会报错端口已被绑定。
+
+但是，如果在wsl2里先起的mysql服务，再在主机起，则不会报错，所以还跟端口值有关？
+&lt;/code>&lt;/pre>
+&lt;h3 id="最新发现">
+ 最新发现
+ &lt;a class="anchor" href="#%e6%9c%80%e6%96%b0%e5%8f%91%e7%8e%b0">#&lt;/a>
+&lt;/h3>
+&lt;p>如何通过局域网访问WSL2中的服务？&lt;/p>
+&lt;p>假设局域网上有两台主机A和B。主机A安装了WSL2、开启了Redis服务，端口为6379。现在主机B如何才能访问主机A上WSL2的Redis服务呢?&lt;/p>
+&lt;ol>
+&lt;li>配置端口转发&lt;/li>
+&lt;/ol>
+&lt;p>1). 以管理员权限打开PS，输入命令：&lt;/p></description></item></channel></rss>

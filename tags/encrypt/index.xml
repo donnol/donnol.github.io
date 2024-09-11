@@ -16,4 +16,11 @@
  dockerfile COPY before mkdir will get a &lt;code>no such file or directory&lt;/code> error
  &lt;a class="anchor" href="#dockerfile-copy-before-mkdir-will-get-a-no-such-file-or-directory-error">#&lt;/a>
 &lt;/h2>
-&lt;p>&lt;del>error:&lt;/del>&lt;/p></description></item></channel></rss>
+&lt;p>&lt;del>error:&lt;/del>&lt;/p>
+&lt;p>&lt;del>```dockerfile&lt;/del>
+&lt;del># &amp;hellip;&lt;/del>&lt;/p>
+&lt;p>&lt;del>RUN mkdir -p /abc&lt;/del>&lt;/p>
+&lt;p>&lt;del>COPY &amp;ndash;from=builder /opt/efg /abc/efg&lt;/del>
+&lt;del>```&lt;/del>&lt;/p>
+&lt;p>&lt;del>没有指定创建&lt;code>/abc/efg&lt;/code>目录，会导致后续想读取该目录内容时报错：&lt;code>no such file or directory&lt;/code>&lt;/del>&lt;/p>
+&lt;p>&lt;del>success:&lt;/del>&lt;/p></description></item></channel></rss>

@@ -241,7 +241,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">goready&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">// 因为我们已经释放了这些g所关联的chan，所以让这些g进入ready状态，准备运行 -- Mark gp ready to run.
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>wasm运行时wasmtime</title><link>https://donnol.github.io/posts/2022/01/wasmtime/</link><pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/wasmtime/</guid><description>&lt;h2 id="源码">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>src/runtime/type.go&lt;/code>:&lt;/p></description></item><item><title>wasm运行时wasmtime</title><link>https://donnol.github.io/posts/2022/01/wasmtime/</link><pubDate>Fri, 28 Jan 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/01/wasmtime/</guid><description>&lt;h2 id="源码">
  源码
  &lt;a class="anchor" href="#%e6%ba%90%e7%a0%81">#&lt;/a>
 &lt;/h2>
@@ -264,4 +264,34 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">///
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">/// This trait is sealed and cannot be implemented for types outside of
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">/// `anyhow`.
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这是一个为其它类型（&lt;code>anyhow::Result&lt;/code>）引入&lt;code>context&lt;/code>方法的特征啊，多么伟大，在&lt;code>anyhow&lt;/code>包外面的类型就不要想着去实现它了，你们高攀不起的。&lt;/p>
+&lt;p>再看&lt;code>anyhow::Context&lt;/code>的定义：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rust" data-lang="rust">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// lib.rs:598
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">pub&lt;/span> &lt;span style="color:#66d9ef">trait&lt;/span> Context&lt;span style="color:#f92672">&amp;lt;&lt;/span>T, E&lt;span style="color:#f92672">&amp;gt;&lt;/span>: &lt;span style="color:#a6e22e">context&lt;/span>::private::Sealed { &lt;span style="color:#75715e">// 继承了Sealed，那它又是怎么样的、做什么的呢？
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#e6db74">/// Wrap the error value with additional context. -- 给error值包装上下文信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&lt;/span> &lt;span style="color:#66d9ef">fn&lt;/span> &lt;span style="color:#a6e22e">context&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>C&lt;span style="color:#f92672">&amp;gt;&lt;/span>(self, context: &lt;span style="color:#a6e22e">C&lt;/span>) -&amp;gt; Result&lt;span style="color:#f92672">&amp;lt;&lt;/span>T, Error&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">where&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> C: &lt;span style="color:#a6e22e">Display&lt;/span> &lt;span style="color:#f92672">+&lt;/span> Send &lt;span style="color:#f92672">+&lt;/span> Sync &lt;span style="color:#f92672">+&lt;/span> &amp;#39;static; &lt;span style="color:#75715e">// 能展示，并发安全，全局可见的类型值
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">/// Wrap the error value with additional context that is evaluated lazily
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&lt;/span> &lt;span style="color:#e6db74">/// only once an error does occur. -- 通过传入一个FnOnce的函数来延迟获取上下文信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&lt;/span> &lt;span style="color:#66d9ef">fn&lt;/span> &lt;span style="color:#a6e22e">with_context&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>C, F&lt;span style="color:#f92672">&amp;gt;&lt;/span>(self, f: &lt;span style="color:#a6e22e">F&lt;/span>) -&amp;gt; Result&lt;span style="color:#f92672">&amp;lt;&lt;/span>T, Error&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">where&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> C: &lt;span style="color:#a6e22e">Display&lt;/span> &lt;span style="color:#f92672">+&lt;/span> Send &lt;span style="color:#f92672">+&lt;/span> Sync &lt;span style="color:#f92672">+&lt;/span> &amp;#39;static,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> F: FnOnce() -&amp;gt; &lt;span style="color:#a6e22e">C&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// context.rs:170
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">pub&lt;/span>(&lt;span style="color:#66d9ef">crate&lt;/span>) &lt;span style="color:#66d9ef">mod&lt;/span> private { &lt;span style="color:#75715e">// pub(crate)表明这个mod只能在本crate里被使用
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">use&lt;/span> &lt;span style="color:#66d9ef">super&lt;/span>::&lt;span style="color:#f92672">*&lt;/span>; &lt;span style="color:#75715e">// 使用父mod的东西
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">pub&lt;/span> &lt;span style="color:#66d9ef">trait&lt;/span> Sealed {} &lt;span style="color:#75715e">// 特征里没有方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">impl&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>T, E&lt;span style="color:#f92672">&amp;gt;&lt;/span> Sealed &lt;span style="color:#66d9ef">for&lt;/span> Result&lt;span style="color:#f92672">&amp;lt;&lt;/span>T, E&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#66d9ef">where&lt;/span> E: &lt;span style="color:#a6e22e">ext&lt;/span>::StdError {} &lt;span style="color:#75715e">// 为Result实现Sealed
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">impl&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>T&lt;span style="color:#f92672">&amp;gt;&lt;/span> Sealed &lt;span style="color:#66d9ef">for&lt;/span> Option&lt;span style="color:#f92672">&amp;lt;&lt;/span>T&lt;span style="color:#f92672">&amp;gt;&lt;/span> {} &lt;span style="color:#75715e">// 为Option实现Sealed
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="主要逻辑">
+ 主要逻辑
+ &lt;a class="anchor" href="#%e4%b8%bb%e8%a6%81%e9%80%bb%e8%be%91">#&lt;/a>
+&lt;/h3>
+&lt;p>做了哪些事情呢？&lt;/p></description></item></channel></rss>

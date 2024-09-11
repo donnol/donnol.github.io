@@ -63,4 +63,4 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use add modules to workspace file
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Use &lt;span style="color:#e6db74">&amp;#34;go help work &amp;lt;command&amp;gt;&amp;#34;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> more information about a command.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用&lt;code>use&lt;/code>指令指定包含在&lt;code>workspace&lt;/code>里的&lt;code>module&lt;/code>集。&lt;code>use&lt;/code>指令后紧接着的是包含了模块的&lt;code>go.mod&lt;/code>文件的目录&amp;ndash;相对&lt;code>go.work&lt;/code>的目录。&lt;/p></description></item></channel></rss>

@@ -19,4 +19,9 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:706 level&lt;span style="color:#f92672">=&lt;/span>info msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Notify discovery manager stopped&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>tls_config.go:195 level&lt;span style="color:#f92672">=&lt;/span>info component&lt;span style="color:#f92672">=&lt;/span>web msg&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;TLS is disabled.&amp;#34;&lt;/span> http2&lt;span style="color:#f92672">=&lt;/span>false
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ts&lt;span style="color:#f92672">=&lt;/span>2023-07-06T01:34:43.872Z caller&lt;span style="color:#f92672">=&lt;/span>main.go:916 level&lt;span style="color:#f92672">=&lt;/span>error err&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;opening storage failed: get segment range: segments are not sequential&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="answer">
+ Answer
+ &lt;a class="anchor" href="#answer">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>rm -rf /var/lib/prometheus/metrics2/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Path is from &lt;code>prometheus -h | grep '--storage.tsdb.path'&lt;/code>.&lt;/p></description></item></channel></rss>

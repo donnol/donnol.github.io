@@ -248,7 +248,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">goready&lt;/span>(&lt;span style="color:#a6e22e">gp&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">// 因为我们已经释放了这些g所关联的chan，所以让这些g进入ready状态，准备运行 -- Mark gp ready to run.
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>	}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>go work</title><link>https://donnol.github.io/posts/2022/02/go_work/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_work/</guid><description>&lt;p>go1.18将要推出&lt;code>workspace&lt;/code>模式，此举是为了方便在本地开发多个不同&lt;code>module&lt;/code>时的依赖管理。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>src/runtime/type.go&lt;/code>:&lt;/p></description></item><item><title>go work</title><link>https://donnol.github.io/posts/2022/02/go_work/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/go_work/</guid><description>&lt;p>go1.18将要推出&lt;code>workspace&lt;/code>模式，此举是为了方便在本地开发多个不同&lt;code>module&lt;/code>时的依赖管理。&lt;/p>
 &lt;p>命令说明：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ go help work
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Go workspace provides access to operations on workspaces.
@@ -313,7 +313,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> use add modules to workspace file
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Use &lt;span style="color:#e6db74">&amp;#34;go help work &amp;lt;command&amp;gt;&amp;#34;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> more information about a command.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item><item><title>杂念</title><link>https://donnol.github.io/posts/2022/02/distractions/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/distractions/</guid><description>&lt;h2 id="情绪绑定">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用&lt;code>use&lt;/code>指令指定包含在&lt;code>workspace&lt;/code>里的&lt;code>module&lt;/code>集。&lt;code>use&lt;/code>指令后紧接着的是包含了模块的&lt;code>go.mod&lt;/code>文件的目录&amp;ndash;相对&lt;code>go.work&lt;/code>的目录。&lt;/p></description></item><item><title>杂念</title><link>https://donnol.github.io/posts/2022/02/distractions/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2022/02/distractions/</guid><description>&lt;h2 id="情绪绑定">
  情绪绑定
  &lt;a class="anchor" href="#%e6%83%85%e7%bb%aa%e7%bb%91%e5%ae%9a">#&lt;/a>
 &lt;/h2>

@@ -26,4 +26,14 @@
 &lt;pre tabindex="0">&lt;code>x = a
 y = x*b
 z = y*c
-&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;p>第 1 次.&lt;/p>
+&lt;pre tabindex="0">&lt;code>x1 = (x-a1)
+y1 = (y-y*a1/x)
+z1 = (z-z*a1/x)
+t1 = z*a1/x
+&lt;/code>&lt;/pre>&lt;p>第 2 次.&lt;/p>
+&lt;pre tabindex="0">&lt;code>x2 = (x1-a2)
+y2 = (y1-y1*a2/x1)
+z2 = (z1-z1*a2/x1)
+t2 = z1*a2/x1
+&lt;/code>&lt;/pre>&lt;p>第 3 次.&lt;/p></description></item></channel></rss>

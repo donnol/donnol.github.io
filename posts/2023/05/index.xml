@@ -50,4 +50,4 @@ bind_port=6446 # 主机监听端口
 destinations = 172.17.39.239:3306 # 目标机器，也就是实际执行查询的数据库服务所在机器的地址
 mode = read-write
 connect_timeout = 10
-&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;p>启动：&lt;code>mysqlrouter -c D:\Data\mysqlrouter\etc\mysqlrouter.conf&lt;/code>&lt;/p></description></item></channel></rss>

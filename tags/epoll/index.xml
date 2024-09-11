@@ -20,4 +20,11 @@
  how
  &lt;a class="anchor" href="#how">#&lt;/a>
 &lt;/h2>
-&lt;p>epoll 通过使用红黑树(RB-tree)搜索被监控的文件描述符(file descriptor)。&lt;/p></description></item></channel></rss>
+&lt;p>epoll 通过使用红黑树(RB-tree)搜索被监控的文件描述符(file descriptor)。&lt;/p>
+&lt;p>在 epoll 实例上注册事件时，epoll 会将该事件添加到 epoll 实例的红黑树上并注册一个回调函数，当事件发生时会将事件添加到就绪链表中。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">epoll_create&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> size);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在内核中创建epoll实例并返回一个epoll文件描述符。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">epoll_ctl&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> epfd, &lt;span style="color:#66d9ef">int&lt;/span> op, &lt;span style="color:#66d9ef">int&lt;/span> fd, &lt;span style="color:#66d9ef">struct&lt;/span> epoll_event &lt;span style="color:#f92672">*&lt;/span>event);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>向 epfd 对应的内核epoll 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 EPOLL_CTL_ADD, EPOLL_CTL_MOD, EPOLL_CTL_DEL 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 EPOLLET flag，那么监听该事件的方式是边缘触发。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">epoll_wait&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> epfd, &lt;span style="color:#66d9ef">struct&lt;/span> epoll_event &lt;span style="color:#f92672">*&lt;/span>events, &lt;span style="color:#66d9ef">int&lt;/span> maxevents, &lt;span style="color:#66d9ef">int&lt;/span> timeout);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。&lt;/p></description></item></channel></rss>

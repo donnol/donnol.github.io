@@ -11,4 +11,15 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt;&amp;gt;&amp;gt; clf.predict&lt;span style="color:#f92672">(&lt;/span>data&lt;span style="color:#f92672">[&lt;/span>:2, :&lt;span style="color:#f92672">])&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt;&amp;gt;&amp;gt; clf.predict_proba&lt;span style="color:#f92672">(&lt;/span>data&lt;span style="color:#f92672">[&lt;/span>:2, :&lt;span style="color:#f92672">])&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt;&amp;gt;&amp;gt; clf.score&lt;span style="color:#f92672">(&lt;/span>data, y&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="查找操作记录">
+ 查找操作记录
+ &lt;a class="anchor" href="#%e6%9f%a5%e6%89%be%e6%93%8d%e4%bd%9c%e8%ae%b0%e5%bd%95">#&lt;/a>
+&lt;/h3>
+&lt;p>&lt;code>cat ~/.python_history&lt;/code>.&lt;/p>
+&lt;h2 id="模型策略优化算法">
+ 模型、策略、优化算法
+ &lt;a class="anchor" href="#%e6%a8%a1%e5%9e%8b%e7%ad%96%e7%95%a5%e4%bc%98%e5%8c%96%e7%ae%97%e6%b3%95">#&lt;/a>
+&lt;/h2>
+&lt;p>模型是输入输出函数：Y = F(X).&lt;/p>
+&lt;p>策略是拟合过程的损失函数：L(Y, F(X)), 可以是均方误差、对数损失函数、交叉熵损失函数。&lt;/p>
+&lt;p>优化算法：确定模型和损失函数后，可以加速计算的方法，比如：随机梯度下降法、牛顿法、拟牛顿法。&lt;/p></description></item></channel></rss>

@@ -23,14 +23,49 @@ github action是GitHub推出的持续集成/持续部署工具，只需要在项
   #
 
 
-  这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件"><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/"><meta property="og:site_name" content="我的简单博客"><meta property="og:title" content="github action deploy hugo blog"><meta property="og:description" content=" why # 为了将视线保持在文章上，减少构建和发布的时间占用。
+  这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件
+name: blog # 做什么都好，别忘了先起个平凡（kuxuan）的名字
+
+on: # 指定触发动作
+  push: # 动作是：git push
+    branches:
+      - main # 指定分支： main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest # 基于ubuntu
+    steps:
+    - uses: actions/checkout@v2 # 切换分支：git checkout
+      with:
+        submodules: recursive  # Fetch Hugo themes (true OR recursive)
+        fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+    - name: Setup Hugo # 博客所用的打包和部署工具
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: latest
+
+    - name: Build # 打包
+      run: hugo --minify --baseURL=https://donnol.github.io # 指定base url，确保构建出来的内容里的超链接都在它里面
+
+    - name: Deploy # 部署
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }} # 这个key非常关键，一言两语很难讲清楚
+        external_repository: donnol/donnol.github.io # 我的github page所在的仓库
+        PUBLISH_BRANCH: main
+        PUBLISH_DIR: ./public # 将本仓库的public目录下的内容提交到github page仓库
+        commit_message: ${{ github.event.head_commit.message }} # 提交信息
+以铜为镜，可以正衣冠；以人为镜，可以明得失；
+  以史为镜，可以知兴替。"><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://donnol.github.io/posts/2021/12/github_action_deploy_hugo_blog/"><meta property="og:site_name" content="我的简单博客"><meta property="og:title" content="github action deploy hugo blog"><meta property="og:description" content=" why # 为了将视线保持在文章上，减少构建和发布的时间占用。
 what # github action是GitHub推出的持续集成/持续部署工具，只需要在项目中添加workflow.yml配置文件，在其中配置好任务、工作、步骤等，即可在指定动作发生时自动触发编排好的动作。换言之，如果我们在我们的博客仓库里配置了自动将内容打包和发布的workflow.yml，那我们就可以把精力集中在文章的编写，然后轻轻地提交推送，即可完成博客地打包和发布，very easy and smooth。
 how # 在github准备一个blog仓库，用于存放原始信息；再准备一个github page仓库，用于存放打包数据。
 其中github page仓库已开启page，可以通过github page设置的域名访问。
 我的blog仓库
 我的github page仓库
-workflow # 这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-02T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-02T00:00:00+00:00"><meta property="article:tag" content="Deploy"><title>github action deploy hugo blog | 我的简单博客</title>
-<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/en.search.min.70aa929571ce4233dadfa2dd71c79efb0d42baf565fbf8d804c47a3f31d57a37.js integrity="sha256-cKqSlXHOQjPa36Ldccee+w1CuvVl+/jYBMR6PzHVejc=" crossorigin=anonymous></script><script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+workflow # 这是我结合网络各位英豪所总结出来的一个workflow.yml配置文件
+name: blog # 做什么都好，别忘了先起个平凡（kuxuan）的名字 on: # 指定触发动作 push: # 动作是：git push branches: - main # 指定分支： main jobs: build-deploy: runs-on: ubuntu-latest # 基于ubuntu steps: - uses: actions/checkout@v2 # 切换分支：git checkout with: submodules: recursive # Fetch Hugo themes (true OR recursive) fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod - name: Setup Hugo # 博客所用的打包和部署工具 uses: peaceiris/actions-hugo@v2 with: hugo-version: latest - name: Build # 打包 run: hugo --minify --baseURL=https://donnol.github.io # 指定base url，确保构建出来的内容里的超链接都在它里面 - name: Deploy # 部署 uses: peaceiris/actions-gh-pages@v3 with: deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }} # 这个key非常关键，一言两语很难讲清楚 external_repository: donnol/donnol.github.io # 我的github page所在的仓库 PUBLISH_BRANCH: main PUBLISH_DIR: ./public # 将本仓库的public目录下的内容提交到github page仓库 commit_message: ${{ github.event.head_commit.message }} # 提交信息 以铜为镜，可以正衣冠；以人为镜，可以明得失； 以史为镜，可以知兴替。"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-12-02T00:00:00+00:00"><meta property="article:modified_time" content="2021-12-02T00:00:00+00:00"><meta property="article:tag" content="Deploy"><title>github action deploy hugo blog | 我的简单博客</title>
+<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/en.search.min.914f152b2112cb3109c954272f265b80cf506f6a5725eb146e12f2766cf7bf7d.js integrity="sha256-kU8VKyESyzEJyVQnLyZbgM9Qb2pXJesUbhLydmz3v30=" crossorigin=anonymous></script><script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PNRWGCH4KN"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-PNRWGCH4KN")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>我的简单博客</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-88902446d608163b7be46632cb6bef72 class=toggle>
 <label for=section-88902446d608163b7be46632cb6bef72 class="flex justify-between"><a role=button>2023</a></label><ul><li><input type=checkbox id=section-67c01fa78e6544e45d86cfb839555dd3 class=toggle>
 <label for=section-67c01fa78e6544e45d86cfb839555dd3 class="flex justify-between"><a role=button>12</a></label><ul><li><a href=https://donnol.github.io/posts/2023/12/dbeaver%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5%E9%A9%B1%E5%8A%A8/>dbeaver手动导入驱动</a></li><li><a href=https://donnol.github.io/posts/2023/12/do/>Do</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E5%8F%8C%E6%A0%87/>双标</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E5%8F%96%E4%B8%8E%E4%BA%A4/>取与交</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%83%85%E6%99%AF/>情景</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%9A%96%E5%BA%8A%E5%92%8C%E6%B3%A1%E6%B5%B4%E7%BC%B8/>暖床和泡浴缸</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E6%9C%AA%E6%9D%A5/>未来</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E8%A7%84%E7%9F%A9%E7%9A%84%E8%AE%A2%E7%AB%8B%E5%92%8C%E6%89%A7%E8%A1%8C/>规矩的订立和执行</a></li><li><a href=https://donnol.github.io/posts/2023/12/%E9%A9%B1%E8%99%8E%E5%90%9E%E7%8B%BC/>驱虎吞狼</a></li></ul></li><li><input type=checkbox id=section-e5e00708106809cefc1b0939618449f5 class=toggle>

@@ -16,7 +16,14 @@
  dockerfile COPY before mkdir will get a &lt;code>no such file or directory&lt;/code> error
  &lt;a class="anchor" href="#dockerfile-copy-before-mkdir-will-get-a-no-such-file-or-directory-error">#&lt;/a>
 &lt;/h2>
-&lt;p>&lt;del>error:&lt;/del>&lt;/p></description></item><item><title>docker compose使用extra host让容器访问主机服务</title><link>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</guid><description>&lt;p>
+&lt;p>&lt;del>error:&lt;/del>&lt;/p>
+&lt;p>&lt;del>```dockerfile&lt;/del>
+&lt;del># &amp;hellip;&lt;/del>&lt;/p>
+&lt;p>&lt;del>RUN mkdir -p /abc&lt;/del>&lt;/p>
+&lt;p>&lt;del>COPY &amp;ndash;from=builder /opt/efg /abc/efg&lt;/del>
+&lt;del>```&lt;/del>&lt;/p>
+&lt;p>&lt;del>没有指定创建&lt;code>/abc/efg&lt;/code>目录，会导致后续想读取该目录内容时报错：&lt;code>no such file or directory&lt;/code>&lt;/del>&lt;/p>
+&lt;p>&lt;del>success:&lt;/del>&lt;/p></description></item><item><title>docker compose使用extra host让容器访问主机服务</title><link>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</link><pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate><guid>https://donnol.github.io/posts/2021/12/docker_compose_extra_host/</guid><description>&lt;p>
  &lt;a href="https://donnol.github.io/posts/2021/12/docker_compose_extra_host/">首发于：简单博客&lt;/a>&lt;/p>
 &lt;h2 id="docker-compose-如何访问主机服务">
  docker compose 如何访问主机服务
@@ -34,4 +41,23 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ff02::2 ip6-allrouters
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>172.17.0.1 host.docker.internal &lt;span style="color:#75715e"># --add-host的作用就是添加了这行到/etc/hosts&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>172.17.0.3 cb0565ceea26
-&lt;/span>&lt;/span>&lt;/code>&lt;/pr</description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://github.com/moby/moby/pull/40007">相关提交&lt;/a>&lt;/p>
+&lt;p>这个 add-host 的意思是告诉容器，容器对域名 host.docker.internal 的访问都将转发到 host-gateway 去。&lt;/p>
+&lt;p>也就是容器内部访问这个域名 host.docker.internal 时，就会访问到对应的主机上的 host-gateway 地址。&lt;/p>
+&lt;p>从而达到容器访问主机上服务的效果。&lt;/p>
+&lt;p>那么，这个 add-host 怎么用在 compose 上呢？&lt;/p>
+&lt;p>
+ &lt;a href="https://github.com/docker/cli/issues/1293">在 build 里使用 extra_hosts&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;2.3&amp;#34;&lt;/span> &lt;span style="color:#75715e"># 因为某个bug的存在，只能用version2，不能用version3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">tmp&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">build&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">context&lt;/span>: &lt;span style="color:#ae81ff">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">extra_hosts&lt;/span>: &lt;span style="color:#75715e"># 配置extra_hosts&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;host:IP&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">command&lt;/span>: -&lt;span style="color:#ae81ff">kIL https://host&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">tty&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">stdin_open&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+ &lt;a href="https://www.huaweicloud.com/articles/d8c4873d55e2485840070b65765860b9.html">docker compose 配置中文说明&lt;/a>&lt;/p></description></item></channel></rss>
